@@ -39,6 +39,7 @@ class TextBlock extends StatelessWidget {
                 Text('Selectable text'),
                 SelectionContainer.disabled(child: Text('Non-selectable text')),
                 Text('Selectable text'),
+                ...(lines.map((line) => line.split(' ').map(word => Word(word: word) as Widget)),
               ],
             ),
           ),
@@ -46,4 +47,42 @@ class TextBlock extends StatelessWidget {
       ),
     );
   }
+}
+
+const lines = [
+  "Deja que te cuente una historia sobre un pollito.",
+  "Su nombre es Pollito Tito.",
+  "Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.",
+];
+
+class Word extends StatelessWidget {
+  const Word({super.key, required this.word});
+  final String word;
+  @override
+  Widget build(BuildContext context) {
+    return Column(children: [Text(word), Underline()]);
+  }
+}
+
+class Underline extends CustomPaint {
+  const Underline({super.key});
+  @override
+  CustomPainter? get painter => Line();
+}
+
+class Line extends CustomPainter {
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Offset.zero & size;
+    const RadialGradient gradient = RadialGradient(
+      center: Alignment(0.7, -0.6),
+      radius: 0.2,
+      colors: <Color>[Color(0xFFFFFF00), Color(0xFF0099FF)],
+      stops: <double>[0.4, 1.0],
+    );
+    canvas.drawRect(rect, Paint()..shader = gradient.createShader(rect));
+  }
+
+  @override
+  bool shouldRepaint(Line oldDelegate) => false;
 }
