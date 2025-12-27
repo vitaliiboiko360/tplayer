@@ -39,7 +39,10 @@ class TextBlock extends StatelessWidget {
                 Text('Selectable text'),
                 SelectionContainer.disabled(child: Text('Non-selectable text')),
                 Text('Selectable text'),
-                ...(lines.map((line) => line.split(' ').map(word => Word(word: word) as Widget)),
+                ...(lines
+                    .map((line) => (line.split(' ')).map((w) => Word(word: w)))
+                    .expand((e) => e)
+                    .toList()),
               ],
             ),
           ),
