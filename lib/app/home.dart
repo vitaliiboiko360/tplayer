@@ -28,25 +28,36 @@ class TextBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          const Text('You have pushed the button this many times:'),
-          SelectionArea(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text('Selectable text'),
-                SelectionContainer.disabled(child: Text('Non-selectable text')),
-                Text('Selectable text'),
-                ...(lines
-                    .map((line) => (line.split(' ')).map((w) => Word(word: w)))
-                    .expand((e) => e)
-                    .toList()),
-              ],
+      child: SizedBox(
+        width: 400,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            const Text('You have pushed the button this many times:'),
+            SelectionArea(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  Text('Selectable text'),
+                  SelectionContainer.disabled(
+                    child: Text('Non-selectable text'),
+                  ),
+                  Text('Selectable text'),
+                  ...lines.map(
+                    (line) => Wrap(
+                      spacing: 0,
+                      runSpacing: 0,
+                      children: [
+                        ...line.split(' ').map((w) => Word(word: '$w ')),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
