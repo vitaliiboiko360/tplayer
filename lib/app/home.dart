@@ -45,12 +45,15 @@ class TextBlock extends StatelessWidget {
                   ),
                   Text('Selectable text'),
                   ...lines.map(
-                    (line) => Wrap(
-                      spacing: 0,
-                      runSpacing: 0,
-                      children: [
-                        ...line.split(' ').map((w) => Word(word: '$w ')),
-                      ],
+                    (line) => GestureDetector(
+                      onTap: () => print('line clicked'),
+                      child: Wrap(
+                        spacing: 0,
+                        runSpacing: 0,
+                        children: [
+                          ...line.split(' ').map((w) => Word(word: '$w ')),
+                        ],
+                      ),
                     ),
                   ),
                 ],
