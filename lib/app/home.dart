@@ -38,6 +38,7 @@ class TextBlock extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
+                spacing: 3,
                 children: <Widget>[
                   Text('Selectable text'),
                   SelectionContainer.disabled(
@@ -56,16 +57,35 @@ class TextBlock extends StatelessWidget {
 }
 
 class TextLine extends StatelessWidget {
-  const TextLine({super.key, required this.line});
+  TextLine({super.key, required this.line});
   final String line;
+  List<Word> word = [];
+
+  onClick() {
+    for (var i = 0; i < word.length; i++) {
+      word[i].start();
+    }
+  }
+
   @override
   Widget build(Object context) {
+    word = [];
     return GestureDetector(
-      onTap: () => print('line clicked'),
+      onTap: onClick,
       child: Wrap(
         spacing: 0,
         runSpacing: 0,
-        children: [...line.split(' ').map((w) => Word(word: '$w '))],
+        children: [
+          ...line.split(' ').map((w) {
+            var widget = Word(word: '$w ');
+            // var controller = AnimationController(
+            //   duration: Duration(seconds: 3),
+            //   vsync: widget.wordState,
+            // );
+            word.add(widget);
+            return widget;
+          }),
+        ],
       ),
     );
   }
@@ -77,15 +97,38 @@ const lines = [
   "Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.",
 ];
 
-class Word extends StatelessWidget {
-  const Word({super.key, required this.word});
+// ignore: must_be_immutable
+class Word extends StatefulWidget {
+  Word({super.key, required this.word});
   final String word;
+  WordState wordState = WordState();
+  void start() => wordState.controller.animateTo(1);
+
+  @override
+  State<StatefulWidget> createState() {
+    // ignore: no_logic_in_create_state
+    return wordState;
+  }
+}
+
+class WordState extends State<Word> with TickerProviderStateMixin {
+  late final AnimationController controller = AnimationController(
+    duration: const Duration(seconds: 3),
+    vsync: this,
+  );
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return IntrinsicWidth(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [Text(word), Underline()],
+        children: [Text(widget.word), Underline()],
       ),
     );
   }
