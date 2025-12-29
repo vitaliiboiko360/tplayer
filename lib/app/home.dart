@@ -44,23 +44,28 @@ class TextBlock extends StatelessWidget {
                     child: Text('Non-selectable text'),
                   ),
                   Text('Selectable text'),
-                  ...lines.map(
-                    (line) => GestureDetector(
-                      onTap: () => print('line clicked'),
-                      child: Wrap(
-                        spacing: 0,
-                        runSpacing: 0,
-                        children: [
-                          ...line.split(' ').map((w) => Word(word: '$w ')),
-                        ],
-                      ),
-                    ),
-                  ),
+                  ...lines.map((line) => TextLine(line: line)),
                 ],
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class TextLine extends StatelessWidget {
+  const TextLine({super.key, required this.line});
+  final String line;
+  @override
+  Widget build(Object context) {
+    return GestureDetector(
+      onTap: () => print('line clicked'),
+      child: Wrap(
+        spacing: 0,
+        runSpacing: 0,
+        children: [...line.split(' ').map((w) => Word(word: '$w '))],
       ),
     );
   }
