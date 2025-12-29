@@ -82,7 +82,12 @@ class Word extends StatelessWidget {
   final String word;
   @override
   Widget build(BuildContext context) {
-    return Column(children: [Text(word), Underline()]);
+    return IntrinsicWidth(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [Text(word), Underline()],
+      ),
+    );
   }
 }
 
@@ -95,7 +100,7 @@ class Underline extends CustomPaint {
 class Line extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & size;
+    final Rect rect = Offset.zero & Size(size.width, 2);
     const RadialGradient gradient = RadialGradient(
       center: Alignment(0.7, -0.6),
       radius: 0.2,
