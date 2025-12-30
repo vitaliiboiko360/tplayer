@@ -68,11 +68,15 @@ class TextLine extends StatelessWidget {
         word[i].onComplete(() => word[i + 1].start());
       } else {
         word[i].onComplete(() {
-          for (var i = 0; i < word.length; i++) {
-            word[i].wordState.controller.reset();
-          }
+          resetAnimation();
         });
       }
+    }
+  }
+
+  resetAnimation() {
+    for (var i = 0; i < word.length; i++) {
+      word[i].wordState.controller.reset();
     }
   }
 
