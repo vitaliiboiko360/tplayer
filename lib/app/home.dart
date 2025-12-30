@@ -102,7 +102,14 @@ class Word extends StatefulWidget {
   Word({super.key, required this.word});
   final String word;
   WordState wordState = WordState();
-  void start() => wordState.controller.animateTo(1);
+  void start() {
+    wordState.controller.animateTo(3);
+    wordState.controller.addStatusListener((AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        wordState.controller.reset();
+      }
+    });
+  }
 
   @override
   State<StatefulWidget> createState() {
@@ -128,22 +135,40 @@ class WordState extends State<Word> with TickerProviderStateMixin {
     return IntrinsicWidth(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [Text(widget.word), Underline()],
+        children: [
+          Text(widget.word),
+          Underline(listenable: controller),
+        ],
       ),
     );
   }
 }
 
-class Underline extends CustomPaint {
-  const Underline({super.key});
+class Underline extends AnimatedWidget {
+  Underline({required super.listenable});
+
+  Animation<double> get _progress => listenable as Animation<double>;
+
   @override
-  CustomPainter? get painter => Line();
+  Widget build(BuildContext context) {
+    return LinePaint(width: _progress.value);
+  }
+}
+
+// ignore: must_be_immutable
+class LinePaint extends CustomPaint {
+  LinePaint({super.key, required this.width});
+  double width = 0.0;
+  @override
+  CustomPainter? get painter => Line(width);
 }
 
 class Line extends CustomPainter {
+  Line(this.width);
+  double width = 0.0;
   @override
   void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & Size(size.width, 2);
+    final Rect rect = Offset.zero & Size(size.width * width, 2);
     const RadialGradient gradient = RadialGradient(
       center: Alignment(0.7, -0.6),
       radius: 0.2,
