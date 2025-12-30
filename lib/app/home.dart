@@ -62,8 +62,17 @@ class TextLine extends StatelessWidget {
   List<Word> word = [];
 
   onClick() {
+    word[0].start();
     for (var i = 0; i < word.length; i++) {
-      word[i].start();
+      if (i + 1 < word.length) {
+        word[i].onComplete(() => word[i + 1].start());
+      } else {
+        word[i].onComplete(() {
+          for (var i = 0; i < word.length; i++) {
+            word[i].wordState.controller.reset();
+          }
+        });
+      }
     }
   }
 
@@ -104,12 +113,14 @@ class Word extends StatefulWidget {
   WordState wordState = WordState();
   void start() {
     wordState.controller.animateTo(1);
-    // wordState.controller.addStatusListener((AnimationStatus status) {
-    //   if (status == AnimationStatus.completed) {
-    //     wordState.controller.reset();
-    //   }
-    // });
   }
+
+  void onComplete(Function onComplete) =>
+      wordState.controller.addStatusListener((AnimationStatus status) {
+        if (status == AnimationStatus.completed) {
+          onComplete();
+        }
+      });
 
   @override
   State<StatefulWidget> createState() {
@@ -120,14 +131,14 @@ class Word extends StatefulWidget {
 
 class WordState extends State<Word> with TickerProviderStateMixin {
   late final AnimationController controller = AnimationController(
-    duration: const Duration(seconds: 3),
+    duration: Duration(milliseconds: (100 * widget.word.length)),
     vsync: this,
   );
   late final Animation<double> animation =
       Tween<double>(begin: 0.0, end: 1.0).animate(controller)
         ..addStatusListener((AnimationStatus status) {
           if (status == AnimationStatus.completed) {
-            controller.reset();
+            // controller.reset();
           }
         });
 
