@@ -103,12 +103,12 @@ class Word extends StatefulWidget {
   final String word;
   WordState wordState = WordState();
   void start() {
-    wordState.controller.animateTo(3);
-    wordState.controller.addStatusListener((AnimationStatus status) {
-      if (status == AnimationStatus.completed) {
-        wordState.controller.reset();
-      }
-    });
+    wordState.controller.animateTo(1);
+    // wordState.controller.addStatusListener((AnimationStatus status) {
+    //   if (status == AnimationStatus.completed) {
+    //     wordState.controller.reset();
+    //   }
+    // });
   }
 
   @override
@@ -123,6 +123,13 @@ class WordState extends State<Word> with TickerProviderStateMixin {
     duration: const Duration(seconds: 3),
     vsync: this,
   );
+  late final Animation<double> animation =
+      Tween<double>(begin: 0.0, end: 1.0).animate(controller)
+        ..addStatusListener((AnimationStatus status) {
+          if (status == AnimationStatus.completed) {
+            controller.reset();
+          }
+        });
 
   @override
   void dispose() {
@@ -137,38 +144,38 @@ class WordState extends State<Word> with TickerProviderStateMixin {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Text(widget.word),
-          Underline(listenable: controller),
+          LinePaint(animation: animation),
         ],
       ),
     );
   }
 }
 
-class Underline extends AnimatedWidget {
-  Underline({required super.listenable});
+// class Underline extends AnimatedWidget {
+//   Underline({required super.listenable});
 
-  Animation<double> get _progress => listenable as Animation<double>;
+//   Animation<double> get _progress => listenable as Animation<double>;
 
-  @override
-  Widget build(BuildContext context) {
-    return LinePaint(width: _progress.value);
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return LinePaint(width: _progress.value);
+//   }
+// }
 
-// ignore: must_be_immutable
 class LinePaint extends CustomPaint {
-  LinePaint({super.key, required this.width});
-  double width = 0.0;
+  const LinePaint({super.key, required this.animation});
+  final Animation<double> animation;
   @override
-  CustomPainter? get painter => Line(width);
+  CustomPainter? get painter => Line(animation: animation);
 }
 
 class Line extends CustomPainter {
-  Line(this.width);
+  Line({required this.animation}) : super(repaint: animation);
+  final Animation<double> animation;
   double width = 0.0;
   @override
   void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & Size(size.width * width, 2);
+    final Rect rect = Offset.zero & Size(size.width * animation.value, 2);
     const RadialGradient gradient = RadialGradient(
       center: Alignment(0.7, -0.6),
       radius: 0.2,
