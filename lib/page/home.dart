@@ -44,11 +44,13 @@ class ContainerCatalog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.all(0.0), // Space outside the container
-      padding: EdgeInsets.all(15.0), // Space inside the container
-      // Color must be inside decoration if decoration is used
-      decoration: BoxDecoration(color: Colors.lightBlue[100]),
+    return Center(
+      child: Container(
+        margin: EdgeInsets.all(0.0), // Space outside the container
+        width: 400,
+        padding: EdgeInsets.all(15.0), // Space inside the container
+        decoration: BoxDecoration(color: Colors.lightBlue[100]),
+      ),
     );
   }
 }
