@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,6 +18,12 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         centerTitle: true,
         title: Text(widget.title),
+        actions: [
+          ElevatedButton(
+            onPressed: () => context.go('/details'),
+            child: const Text('Go to the Details screen'),
+          ),
+        ],
       ),
       body: TextBlock(),
     );
@@ -91,10 +98,6 @@ class TextLine extends StatelessWidget {
         children: [
           ...line.split(' ').map((w) {
             var widget = Word(word: '$w ');
-            // var controller = AnimationController(
-            //   duration: Duration(seconds: 3),
-            //   vsync: widget.wordState,
-            // );
             word.add(widget);
             return widget;
           }),
@@ -135,7 +138,7 @@ class Word extends StatefulWidget {
 
 class WordState extends State<Word> with TickerProviderStateMixin {
   late final AnimationController controller = AnimationController(
-    duration: Duration(milliseconds: (100 * widget.word.length)),
+    duration: Duration(milliseconds: (60 * widget.word.length)),
     vsync: this,
   );
   late final Animation<double> animation =
@@ -165,17 +168,6 @@ class WordState extends State<Word> with TickerProviderStateMixin {
     );
   }
 }
-
-// class Underline extends AnimatedWidget {
-//   Underline({required super.listenable});
-
-//   Animation<double> get _progress => listenable as Animation<double>;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return LinePaint(width: _progress.value);
-//   }
-// }
 
 class LinePaint extends CustomPaint {
   const LinePaint({super.key, required this.animation});
