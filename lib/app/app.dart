@@ -7,11 +7,38 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp.router(routerConfig: _router);
+    return MaterialApp.router(
+      routerConfig: _router,
+      debugShowCheckedModeBanner: false,
+    );
   }
 }
 
 final GoRouter _router = GoRouter(
+  errorBuilder: (BuildContext context, GoRouterState state) {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      _router.go('/');
+    });
+    return MaterialApp(
+      title: 'Text Player',
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 168, 168, 168),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            fontSize: 20.0,
+            color: Colors.black,
+            fontWeight: FontWeight.normal,
+          ),
+          // You can define other styles like headlineLarge, etc.
+        ),
+      ),
+      home: const HomePage(),
+    );
+  },
+  initialLocation: '/',
   routes: <RouteBase>[
     GoRoute(
       path: '/',
