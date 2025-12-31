@@ -1,0 +1,11 @@
+services:
+  web:
+    image: nginx
+    volumes:
+      - ./build/web:/var/www/web
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - '8080:80'
+    environment:
+      - NGINX_HOST=language-shadowing-learn.com
+      - NGINX_PORT=80
