@@ -55,7 +55,7 @@ class ContainerCatalog extends StatelessWidget {
         height: remainedHeight,
         padding: EdgeInsets.all(15.0), // Space inside the container
         decoration: BoxDecoration(color: Colors.lightBlue[100]),
-        child: InnerCatalog4(),
+        child: InnerCatalog6(),
       ),
     );
   }
@@ -195,6 +195,101 @@ class InnerCatalog4 extends StatelessWidget {
           ],
         ),
       ],
+    );
+  }
+}
+
+class InnerCatalog5 extends StatelessWidget {
+  InnerCatalog5({super.key});
+
+  void _handlePageViewChanged(int currentPageIndex) {
+    print('$_currentPageIndex');
+  }
+
+  late PageController _pageViewController = PageController();
+  int _currentPageIndex = 0;
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.bodyMedium!,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: IntrinsicHeight(
+                child: Column(
+                  children: <Widget>[
+                    Container(
+                      // A fixed-height child.
+                      color: const Color(0xffeeee00), // Yellow
+                      height: 120.0,
+                      alignment: Alignment.center,
+                      child: const Text('Fixed Height Content'),
+                    ),
+                    Expanded(
+                      // A flexible child that will grow to fit the viewport but
+                      // still be at least as big as necessary to fit its contents.
+                      child: Container(
+                        color: const Color(0xffee0000), // Red
+                        height: 120.0,
+                        alignment: Alignment.center,
+                        child: const Text('Flexible Content'),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
+class InnerCatalog6 extends StatelessWidget {
+  const InnerCatalog6({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.bodyMedium!,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: <Widget>[
+                  Container(
+                    // A fixed-height child.
+                    color: const Color(0xffeeee00), // Yellow
+                    height: 120.0,
+                    alignment: Alignment.center,
+                    child: const Text('Fixed Height Content'),
+                  ),
+                  Container(
+                    // Another fixed-height child.
+                    color: const Color(0xff008000), // Green
+                    height: 120.0,
+                    alignment: Alignment.center,
+                    child: const Text('Fixed Height Content'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
