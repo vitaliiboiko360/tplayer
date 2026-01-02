@@ -74,16 +74,20 @@ final List<int> colorCodes = List<int>.generate(
 
 class InnerCatalog extends StatelessWidget {
   const InnerCatalog({super.key});
+  final double appBarHeight = kToolbarHeight;
 
   @override
   Widget build(BuildContext context) {
-    double containerHeight = MediaQuery.sizeOf(context).height - 56;
-    int itemCount = (containerHeight / 116).toInt();
+    double containerHeight =
+        MediaQuery.sizeOf(context).height - appBarHeight - 100;
+    int itemCount = (containerHeight / 116).truncate();
     return ListView.builder(
+      shrinkWrap: false,
       padding: const EdgeInsets.all(8),
       itemCount: itemCount,
       controller: ScrollController(),
       itemBuilder: (BuildContext context, int index) {
+        if (index >= entries.length) return const SizedBox.shrink();
         return Padding(
           padding: EdgeInsetsGeometry.directional(
             start: 0,
@@ -172,9 +176,24 @@ class InnerCatalog4 extends StatelessWidget {
       onPageChanged: _handlePageViewChanged,
       scrollDirection: Axis.vertical,
       children: <Widget>[
-        Center(child: Text('First Page', style: TextStyle(fontSize: 25))),
-        Center(child: Text('Second Page', style: TextStyle(fontSize: 25))),
-        Center(child: Text('Third Page', style: TextStyle(fontSize: 25))),
+        Column(
+          children: [
+            Text('First Page', style: TextStyle(fontSize: 25)),
+            InnerCatalog(),
+          ],
+        ),
+        Column(
+          children: [
+            Text('Second Page', style: TextStyle(fontSize: 25)),
+            InnerCatalog(),
+          ],
+        ),
+        Column(
+          children: [
+            Text('Third Page', style: TextStyle(fontSize: 25)),
+            InnerCatalog(),
+          ],
+        ),
       ],
     );
   }
