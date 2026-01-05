@@ -52,10 +52,10 @@ class ContainerCatalog extends StatelessWidget {
       child: Container(
         margin: EdgeInsets.all(0.0), // Space outside the container
         width: 500,
-        height: remainedHeight,
+        // height: remainedHeight,
         padding: EdgeInsets.all(15.0), // Space inside the container
         decoration: BoxDecoration(color: Colors.lightBlue[100]),
-        child: InnerCatalog6(),
+        child: InnerCatalog4(),
       ),
     );
   }
@@ -102,6 +102,60 @@ class InnerCatalog extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class InnerCataloConstrained extends StatelessWidget {
+  const InnerCataloConstrained({super.key});
+  final double appBarHeight = kToolbarHeight;
+
+  @override
+  Widget build(BuildContext context) {
+    // double containerHeight =
+    //     MediaQuery.sizeOf(context).height - appBarHeight - 100;
+    // int itemCount = (containerHeight / 116).truncate();
+
+    return DefaultTextStyle(
+      style: Theme.of(context).textTheme.bodyMedium!,
+      child: LayoutBuilder(
+        builder: (BuildContext context, BoxConstraints viewportConstraints) {
+          return SingleChildScrollView(
+            child: ConstrainedBox(
+              constraints: BoxConstraints(
+                minHeight: viewportConstraints.maxHeight,
+              ),
+              child: SizedBox(width: 400, height: 400),
+              // SizedBox.shrink(),
+
+              //  IntrinsicHeight(
+              //   child: ListView.builder(
+              //     shrinkWrap: false,
+              //     padding: const EdgeInsets.all(8),
+              //     itemCount: 10,
+              //     controller: ScrollController(),
+              //     itemBuilder: (BuildContext context, int index) {
+              //       if (index >= entries.length) return const SizedBox.shrink();
+              //       return Padding(
+              //         padding: EdgeInsetsGeometry.directional(
+              //           start: 0,
+              //           top: 10,
+              //           bottom: 10,
+              //           end: 0,
+              //         ),
+              //         child: Container(
+              //           height: 100,
+              //           color: Colors.amber[colorCodes[index]],
+              //           child: Center(child: Text('Entry ${entries[index]}')),
+              //         ),
+              //       );
+              //     },
+              //   ),
+              // ),
+            ),
+          );
+        },
+      ),
     );
   }
 }
@@ -176,24 +230,9 @@ class InnerCatalog4 extends StatelessWidget {
       onPageChanged: _handlePageViewChanged,
       scrollDirection: Axis.vertical,
       children: <Widget>[
-        Column(
-          children: [
-            Text('First Page', style: TextStyle(fontSize: 25)),
-            InnerCatalog(),
-          ],
-        ),
-        Column(
-          children: [
-            Text('Second Page', style: TextStyle(fontSize: 25)),
-            InnerCatalog(),
-          ],
-        ),
-        Column(
-          children: [
-            Text('Third Page', style: TextStyle(fontSize: 25)),
-            InnerCatalog(),
-          ],
-        ),
+        Column(children: [Text('First Page', style: TextStyle(fontSize: 25))]),
+        Column(children: [Text('Second Page', style: TextStyle(fontSize: 25))]),
+        Column(children: [Text('Third Page', style: TextStyle(fontSize: 25))]),
       ],
     );
   }
