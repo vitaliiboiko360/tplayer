@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:flutter/rendering.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -47,7 +46,7 @@ class ContainerCatalog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    double remainedHeight = MediaQuery.sizeOf(context).height - 56;
+    // double remainedHeight = MediaQuery.sizeOf(context).height - 56;
     return Center(
       child: Container(
         margin: EdgeInsets.all(0.0), // Space outside the container

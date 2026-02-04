@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tplayer/app/details_screen.dart';
-import 'package:tplayer/page/home.dart';
+import 'package:tplayer/home/home.dart';
 
 final GoRouter router = GoRouter(
   errorBuilder: (BuildContext context, GoRouterState state) {
