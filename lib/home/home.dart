@@ -15,17 +15,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        centerTitle: true,
-        title: Text(widget.title),
-        actions: [
-          ElevatedButton(
-            onPressed: () => context.go('/details'),
-            child: const Text('Go to the Details screen'),
-          ),
-        ],
-      ),
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+      //   centerTitle: true,
+      //   title: Text(widget.title),
+      //   actions: [
+      //     ElevatedButton(
+      //       onPressed: () => context.go('/details'),
+      //       child: const Text('Go to the Details screen'),
+      //     ),
+      //   ],
+      // ),
       body: Catalog(),
       floatingActionButton: Text('$screenHeight'),
     );
