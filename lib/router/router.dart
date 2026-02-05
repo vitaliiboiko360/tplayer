@@ -9,7 +9,7 @@ final GoRouter router = GoRouter(
       router.go('/');
     });
     return MaterialApp(
-      title: 'Text Player',
+      title: 'ERROR BUILDER',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
@@ -18,7 +18,7 @@ final GoRouter router = GoRouter(
         textTheme: const TextTheme(
           bodyMedium: TextStyle(
             fontSize: 20.0,
-            color: Colors.black,
+            color: Color(0xFFEF9A9A),
             fontWeight: FontWeight.normal,
           ),
           // You can define other styles like headlineLarge, etc.
@@ -32,23 +32,9 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return MaterialApp(
-          title: 'Text Player',
-          debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(
-              seedColor: const Color.fromARGB(255, 168, 168, 168),
-            ),
-            textTheme: const TextTheme(
-              bodyMedium: TextStyle(
-                fontSize: 20.0,
-                color: Colors.black,
-                fontWeight: FontWeight.normal,
-              ),
-              // You can define other styles like headlineLarge, etc.
-            ),
-          ),
-          home: const HomePage(),
+        return Scaffold(
+          appBar: AppBar(title: Text('Text Player')),
+          body: const HomePage(),
         );
       },
       routes: <RouteBase>[

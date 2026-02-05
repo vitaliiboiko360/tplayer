@@ -12,6 +12,19 @@ class App extends StatelessWidget {
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: const Color.fromARGB(255, 168, 168, 168),
+        ),
+        textTheme: const TextTheme(
+          bodyMedium: TextStyle(
+            fontSize: 20.0,
+            color: Colors.black,
+            fontWeight: FontWeight.normal,
+          ),
+          // You can define other styles like headlineLarge, etc.
+        ),
+      ),
     );
   }
 }
