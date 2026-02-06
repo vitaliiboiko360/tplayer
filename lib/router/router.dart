@@ -5,20 +5,20 @@ import 'package:tplayer/home/home.dart';
 
 final GoRouter router = GoRouter(
   errorBuilder: (BuildContext context, GoRouterState state) {
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      router.go('/');
-    });
+    // WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+    //   router.go('/');
+    // });
     return MaterialApp(
       title: 'ERROR BUILDER',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
-          seedColor: const Color.fromARGB(255, 168, 168, 168),
+          seedColor: const Color.fromARGB(255, 243, 5, 5),
         ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(
             fontSize: 20.0,
-            color: Color(0xFFEF9A9A),
+            color: Color.fromARGB(255, 245, 11, 11),
             fontWeight: FontWeight.normal,
           ),
           // You can define other styles like headlineLarge, etc.
@@ -33,7 +33,7 @@ final GoRouter router = GoRouter(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
         return Scaffold(
-          appBar: AppBar(title: Text('Text Player')),
+          appBar: AppBar(title: Text('Text Player Route /'), centerTitle: true),
           body: const HomePage(),
         );
       },
