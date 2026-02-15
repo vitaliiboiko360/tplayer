@@ -98,19 +98,19 @@ class InnerCatalog extends StatelessWidget {
 class Slider extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container(child: SlideChanger());
+    return Container(child: SlideHolder());
   }
 }
 
-class SlideChanger extends StatefulWidget {
-  const SlideChanger({super.key});
+class SlideHolder extends StatefulWidget {
+  const SlideHolder({super.key});
 
   @override
-  State<SlideChanger> createState() => _AnimatedSwitcherExampleState();
+  State<SlideHolder> createState() => _SlideHolderState();
 }
 
-class _AnimatedSwitcherExampleState extends State<SlideChanger> {
-  int _count = 0;
+class _SlideHolderState extends State<SlideHolder> {
+  int _index = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -118,31 +118,80 @@ class _AnimatedSwitcherExampleState extends State<SlideChanger> {
       color: Colors.white,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
+        children: [
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return ScaleTransition(scale: animation, child: child);
             },
-            child: Text(
-              '$_count',
-              // This key causes the AnimatedSwitcher to interpret this as a "new"
-              // child each time the count changes, so that it will begin its animation
-              // when the count changes.
-              key: ValueKey<int>(_count),
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            child: IndexedStack(index: _index, children: slides),
           ),
-          ElevatedButton(
-            child: const Text('Increment'),
-            onPressed: () {
-              setState(() {
-                _count += 1;
-              });
-            },
+          const SizedBox(height: 30),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _index = (_index - 1) % slides.length;
+                  });
+                },
+                child: const Icon(Icons.chevron_left, key: Key('gesture1')),
+              ),
+              const SizedBox(width: 20),
+              GestureDetector(
+                onTap: () {
+                  setState(() {
+                    _index = (_index + 1) % slides.length;
+                  });
+                },
+                child: const Icon(Icons.chevron_right, key: Key('gesture2')),
+              ),
+            ],
           ),
         ],
       ),
     );
   }
 }
+
+class DecorationColors {
+  final Color color;
+  final Color border;
+
+  DecorationColors(this.color, this.border);
+}
+
+List<DecorationColors> colors = [
+  DecorationColors(
+    Color.fromARGB(255, 239, 248, 255),
+    Color.fromARGB(255, 54, 60, 244),
+  ),
+  DecorationColors(
+    Color.fromARGB(255, 254, 239, 255),
+    Color.fromARGB(255, 143, 54, 244),
+  ),
+  DecorationColors(
+    Color.fromARGB(255, 240, 255, 239),
+    Color.fromARGB(255, 54, 244, 155),
+  ),
+];
+
+class Slide extends StatelessWidget {
+  Slide(this.decorationColors);
+  final DecorationColors decorationColors;
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: decorationColors.color,
+        border: Border.all(color: decorationColors.border),
+        borderRadius: const BorderRadius.all(Radius.circular(10)),
+      ),
+      padding: const EdgeInsets.all(16.0),
+      child: Text(''),
+    );
+  }
+}
+
+var slides = List.generate(colors.length, (index) => Slide(colors[index]));
