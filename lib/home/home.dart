@@ -15,7 +15,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      body: Catalog(),
+      body: Slider(),
       floatingActionButton: Text('$screenHeight'),
     );
   }
@@ -122,9 +122,22 @@ class _SlideHolderState extends State<SlideHolder> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             transitionBuilder: (Widget child, Animation<double> animation) {
-              return ScaleTransition(scale: animation, child: child);
+              return SlideTransition(
+                position:
+                    Tween<Offset>(
+                      begin: const Offset(0.5, 0.0),
+                      end: const Offset(0.0, 0.0),
+                    ).animate(
+                      CurvedAnimation(parent: animation, curve: Curves.easeIn),
+                    ),
+                child: child,
+              );
             },
-            child: IndexedStack(index: _index, children: slides),
+            child: IndexedStack(
+              key: ValueKey<int>(_index),
+              index: _index,
+              children: slides,
+            ),
           ),
           const SizedBox(height: 30),
           Row(
@@ -183,6 +196,8 @@ class Slide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      width: 300,
+      height: 200,
       decoration: BoxDecoration(
         color: decorationColors.color,
         border: Border.all(color: decorationColors.border),
