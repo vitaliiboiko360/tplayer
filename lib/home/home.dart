@@ -122,15 +122,21 @@ class _SlideHolderState extends State<SlideHolder> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 500),
             transitionBuilder: (Widget child, Animation<double> animation) {
-              return SlideTransition(
-                position:
-                    Tween<Offset>(
-                      begin: const Offset(0.5, 0.0),
-                      end: const Offset(0.0, 0.0),
-                    ).animate(
-                      CurvedAnimation(parent: animation, curve: Curves.easeIn),
-                    ),
-                child: child,
+              return FadeTransition(
+                opacity: animation,
+                child: SlideTransition(
+                  position:
+                      Tween<Offset>(
+                        begin: const Offset(0.25, 0.0),
+                        end: const Offset(0.0, 0.0),
+                      ).animate(
+                        CurvedAnimation(
+                          parent: animation,
+                          curve: Curves.easeIn,
+                        ),
+                      ),
+                  child: child,
+                ),
               );
             },
             child: IndexedStack(
