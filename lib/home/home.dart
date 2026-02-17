@@ -181,24 +181,28 @@ class _SlideHolderState extends State<SlideHolder> {
                   key: Key('gesture1'),
                   color: _index == 0
                       ? const Color.fromARGB(150, 158, 158, 158)
-                      : Colors.black,
+                      : const Color.fromARGB(255, 83, 83, 83),
                 ),
               ),
               const SizedBox(width: 5),
               Row(
-                spacing: 3,
+                spacing: 0,
                 children: List.generate(
                   slides.length,
-                  (i) => Transform.scale(
-                    scale: 0.4,
-                    child: GestureDetector(
-                      onTap: () => setIndex(i),
-                      child: Icon(
-                        Icons.fiber_manual_record,
-                        key: Key('circle$i'),
-                        color: _index == i
-                            ? const Color.fromARGB(225, 0, 0, 0)
-                            : const Color.fromARGB(150, 158, 158, 158),
+                  (i) => GestureDetector(
+                    onTap: () => setIndex(i),
+                    behavior: HitTestBehavior.opaque,
+                    child: Padding(
+                      padding: EdgeInsetsGeometry.all(3),
+                      child: Transform.scale(
+                        scale: 0.4,
+                        child: Icon(
+                          Icons.fiber_manual_record,
+                          key: Key('circle$i'),
+                          color: _index == i
+                              ? const Color.fromARGB(255, 83, 83, 83)
+                              : const Color.fromARGB(150, 158, 158, 158),
+                        ),
                       ),
                     ),
                   ),
@@ -212,7 +216,7 @@ class _SlideHolderState extends State<SlideHolder> {
                   key: Key('gesture2'),
                   color: _index == slides.length - 1
                       ? const Color.fromARGB(150, 158, 158, 158)
-                      : Colors.black,
+                      : Color.fromARGB(255, 83, 83, 83),
                 ),
               ),
             ],
@@ -242,6 +246,18 @@ List<DecorationColors> colors = [
   DecorationColors(
     Color.fromARGB(255, 240, 255, 239),
     Color.fromARGB(255, 54, 244, 155),
+  ),
+  DecorationColors(
+    Color.fromARGB(255, 250, 239, 255),
+    Color.fromARGB(255, 171, 54, 244),
+  ),
+  DecorationColors(
+    Color.fromARGB(255, 255, 254, 239),
+    Color.fromARGB(255, 244, 231, 54),
+  ),
+  DecorationColors(
+    Color.fromARGB(255, 255, 243, 239),
+    Color.fromARGB(255, 244, 146, 54),
   ),
 ];
 
