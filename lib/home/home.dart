@@ -111,6 +111,31 @@ class SlideHolder extends StatefulWidget {
 
 class _SlideHolderState extends State<SlideHolder> {
   int _index = 0;
+  int _previousIndex = -1;
+  bool _isLeftDisabled = true;
+  bool _isRighDisabled = true;
+
+  void decrementIndex() {
+    if (_index == 0) return;
+    setState(() {
+      _previousIndex = _index;
+      _index = (_index - 1) % slides.length;
+    });
+  }
+
+  void incrementIndex() {
+    if (_index == slides.length - 1) return;
+    setState(() {
+      _previousIndex = _index;
+      _index = (_index + 1) % slides.length;
+    });
+  }
+
+  void setIndex(int i) => setState(() {
+    _index = i;
+  });
+
+  bool isRightToLeft() => _previousIndex < _index;
 
   @override
   Widget build(BuildContext context) {
@@ -120,14 +145,14 @@ class _SlideHolderState extends State<SlideHolder> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 500),
+            duration: const Duration(milliseconds: 250),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return FadeTransition(
                 opacity: animation,
                 child: SlideTransition(
                   position:
                       Tween<Offset>(
-                        begin: const Offset(0.25, 0.0),
+                        begin: Offset(isRightToLeft() ? 0.15 : -0.15, 0.0),
                         end: const Offset(0.0, 0.0),
                       ).animate(
                         CurvedAnimation(
@@ -150,21 +175,45 @@ class _SlideHolderState extends State<SlideHolder> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _index = (_index - 1) % slides.length;
-                  });
-                },
-                child: const Icon(Icons.chevron_left, key: Key('gesture1')),
+                onTap: decrementIndex,
+                child: Icon(
+                  Icons.chevron_left,
+                  key: Key('gesture1'),
+                  color: _index == 0
+                      ? const Color.fromARGB(150, 158, 158, 158)
+                      : Colors.black,
+                ),
               ),
-              const SizedBox(width: 20),
+              const SizedBox(width: 5),
+              Row(
+                spacing: 3,
+                children: List.generate(
+                  slides.length,
+                  (i) => Transform.scale(
+                    scale: 0.4,
+                    child: GestureDetector(
+                      onTap: () => setIndex(i),
+                      child: Icon(
+                        Icons.fiber_manual_record,
+                        key: Key('circle$i'),
+                        color: _index == i
+                            ? const Color.fromARGB(225, 0, 0, 0)
+                            : const Color.fromARGB(150, 158, 158, 158),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 5),
               GestureDetector(
-                onTap: () {
-                  setState(() {
-                    _index = (_index + 1) % slides.length;
-                  });
-                },
-                child: const Icon(Icons.chevron_right, key: Key('gesture2')),
+                onTap: incrementIndex,
+                child: Icon(
+                  Icons.chevron_right,
+                  key: Key('gesture2'),
+                  color: _index == slides.length - 1
+                      ? const Color.fromARGB(150, 158, 158, 158)
+                      : Colors.black,
+                ),
               ),
             ],
           ),
