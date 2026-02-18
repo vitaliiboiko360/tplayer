@@ -112,8 +112,6 @@ class SlideHolder extends StatefulWidget {
 class _SlideHolderState extends State<SlideHolder> {
   int _index = 0;
   int _previousIndex = -1;
-  bool _isLeftDisabled = true;
-  bool _isRighDisabled = true;
 
   void decrementIndex() {
     if (_index == 0) return;
@@ -142,7 +140,8 @@ class _SlideHolderState extends State<SlideHolder> {
     return ColoredBox(
       color: Colors.white,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 250),
