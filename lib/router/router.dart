@@ -32,10 +32,7 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: '/',
       builder: (BuildContext context, GoRouterState state) {
-        return Scaffold(
-          appBar: AppBar(title: Text('Text Player Route /'), centerTitle: true),
-          body: const HomePage(),
-        );
+        return HomePage();
       },
       routes: <RouteBase>[
         GoRoute(
