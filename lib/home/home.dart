@@ -17,8 +17,15 @@ class _HomePageState extends State<HomePage> {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
       // appBar: AppBar(title: Image.asset('img/logo.png'), centerTitle: true),
-      body: Column(
-        children: [LogoHolder(), SizedBox(height: 10), HomeSlider()],
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            LogoHolder(),
+            SizedBox(height: 10),
+            HomeSlider(),
+          ],
+        ),
       ),
       floatingActionButton: Text('$screenHeight'),
     );
