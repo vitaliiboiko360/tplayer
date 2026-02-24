@@ -16,8 +16,10 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
-      appBar: AppBar(title: Text('Text Player Route /'), centerTitle: true),
-      body: Column(children: [HomeSlider()]),
+      // appBar: AppBar(title: Image.asset('img/logo.png'), centerTitle: true),
+      body: Column(
+        children: [LogoHolder(), SizedBox(height: 10), HomeSlider()],
+      ),
       floatingActionButton: Text('$screenHeight'),
     );
   }
@@ -26,6 +28,6 @@ class _HomePageState extends State<HomePage> {
 class LogoHolder extends StatelessWidget {
   @override
   Widget build(Object context) {
-    return SizedBox.expand();
+    return Image.asset('img/logo.png', width: 120, height: 120);
   }
 }
