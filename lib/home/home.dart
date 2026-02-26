@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tplayer/home/home_slider.dart';
+import 'package:tplayer/logo/logo_holder.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -29,12 +30,5 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: Text('$screenHeight'),
     );
-  }
-}
-
-class LogoHolder extends StatelessWidget {
-  @override
-  Widget build(Object context) {
-    return Image.asset('img/logo.png', width: 120, height: 120);
   }
 }
