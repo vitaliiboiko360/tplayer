@@ -25,10 +25,18 @@ class _HomePageState extends State<HomePage> {
             LogoHolder(),
             SizedBox(height: 10),
             HomeSlider(),
+            HomeButtons(),
           ],
         ),
       ),
       floatingActionButton: Text('$screenHeight'),
     );
+  }
+}
+
+class HomeButtons extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox.expand();
   }
 }
