@@ -37,6 +37,6 @@ class _HomePageState extends State<HomePage> {
 class HomeButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox.expand();
+    return SizedBox.shrink();
   }
 }
