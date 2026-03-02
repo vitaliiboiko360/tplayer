@@ -37,6 +37,24 @@ class _HomePageState extends State<HomePage> {
 class HomeButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox.shrink();
+    return Column(children: [SizedBox(height: 10), OneLineButton()]);
+  }
+}
+
+class OneLineButton extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        gradient: RadialGradient(
+          center: Alignment(-0.5, -0.6),
+          radius: 0.15,
+          colors: <Color>[Color(0xFFEEEEEE), Color(0xFF111133)],
+          stops: <double>[0.9, 1.0],
+        ),
+      ),
+      child: SizedBox(width: 260, height: 200),
+    );
   }
 }
