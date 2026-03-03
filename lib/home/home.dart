@@ -37,24 +37,40 @@ class _HomePageState extends State<HomePage> {
 class HomeButtons extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(children: [SizedBox(height: 10), OneLineButton()]);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [SizedBox(height: 30), OneLineButton()],
+    );
   }
 }
 
 class OneLineButton extends StatelessWidget {
   @override
   Widget build(Object context) {
-    return DecoratedBox(
+    return Container(
+      width: 220,
+      height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
+        shape: BoxShape.rectangle,
         gradient: RadialGradient(
-          center: Alignment(-0.5, -0.6),
-          radius: 0.15,
-          colors: <Color>[Color(0xFFEEEEEE), Color(0xFF111133)],
-          stops: <double>[0.9, 1.0],
+          center: Alignment(-0.6, -0.6),
+          radius: 2.0,
+          colors: <Color>[
+            Color(0xFFEEEEEE),
+            Color.fromARGB(255, 158, 194, 204),
+          ],
+          stops: <double>[0.1, 1.0],
         ),
       ),
-      child: SizedBox(width: 260, height: 200),
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: Padding(
+          padding: EdgeInsetsGeometry.only(left: 20, bottom: 10),
+          child: Text('One Line'),
+        ),
+      ),
     );
   }
 }
