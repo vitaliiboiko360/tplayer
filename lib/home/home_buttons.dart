@@ -7,7 +7,12 @@ class HomeButtons extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.start,
-      children: [SizedBox(height: 30), OneLineButton()],
+      children: [
+        SizedBox(height: 30),
+        OneLineButton(),
+        SizedBox(height: 15),
+        ShortStoriesButton(),
+      ],
     );
   }
 }
@@ -25,7 +30,7 @@ class OneLineButton extends StatelessWidget {
           center: Alignment(-0.6, -0.6),
           radius: 2.0,
           colors: <Color>[
-            Color(0xFFEEEEEE),
+            Color.fromARGB(255, 238, 238, 238),
             Color.fromARGB(255, 158, 194, 204),
           ],
           stops: <double>[0.1, 1.0],
@@ -35,7 +40,37 @@ class OneLineButton extends StatelessWidget {
         alignment: Alignment.bottomLeft,
         child: Padding(
           padding: EdgeInsetsGeometry.only(left: 20, bottom: 10),
-          child: Text('One Line'),
+          child: Text('One Lines'),
+        ),
+      ),
+    );
+  }
+}
+
+class ShortStoriesButton extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return Container(
+      width: 220,
+      height: 180,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(20)),
+        shape: BoxShape.rectangle,
+        gradient: RadialGradient(
+          center: Alignment(-0.6, 0.6),
+          radius: 2.0,
+          colors: <Color>[
+            Color.fromARGB(255, 238, 238, 238),
+            Color.fromARGB(255, 158, 171, 204),
+          ],
+          stops: <double>[0.1, 1.0],
+        ),
+      ),
+      child: Align(
+        alignment: Alignment.bottomLeft,
+        child: Padding(
+          padding: EdgeInsetsGeometry.only(left: 20, bottom: 10),
+          child: Text('Short Stories'),
         ),
       ),
     );
