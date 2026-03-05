@@ -35,6 +35,14 @@ class OneLineButton extends StatelessWidget {
           ],
           stops: <double>[0.1, 1.0],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(96), // Shadow color and opacity
+            offset: Offset(3, 3), // X and Y displacement
+            blurRadius: 7, // How soft the edges are
+            spreadRadius: 1, // How much the shadow expands
+          ),
+        ],
       ),
       child: Align(
         alignment: Alignment.bottomLeft,
@@ -72,6 +80,14 @@ class ShortStoriesButton extends StatelessWidget {
           ],
           stops: <double>[0.1, 1.0],
         ),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withAlpha(96), // Shadow color and opacity
+            offset: Offset(3, 3), // X and Y displacement
+            blurRadius: 7, // How soft the edges are
+            spreadRadius: 1, // How much the shadow expands
+          ),
+        ],
       ),
       child: Align(
         alignment: Alignment.bottomLeft,
