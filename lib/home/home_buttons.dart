@@ -25,6 +25,10 @@ class OneLineButton extends StatelessWidget {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: BoxBorder.all(
+          color: Color.fromARGB(255, 66, 80, 83).withAlpha(64),
+          width: 1,
+        ),
         shape: BoxShape.rectangle,
         gradient: RadialGradient(
           center: Alignment(-0.6, -0.6),
@@ -48,13 +52,27 @@ class OneLineButton extends StatelessWidget {
         alignment: Alignment.bottomLeft,
         child: Padding(
           padding: EdgeInsetsGeometry.only(left: 20, bottom: 15),
-          child: Text(
-            'One Lines',
-            style: TextStyle(
-              color: Color.fromARGB(255, 36, 44, 46),
-              letterSpacing: 1.5,
-              fontWeight: FontWeight.w600,
-            ),
+          child: Row(
+            children: [
+              Text(
+                'One Lines',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 66, 80, 83),
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Text(' '),
+              Icon(Icons.star, size: 10),
+              Text(
+                'Recomended',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 66, 80, 83),
+                  fontSize: 12,
+                  fontWeight: FontWeight.w400,
+                ),
+              ),
+            ],
           ),
         ),
       ),
@@ -70,6 +88,10 @@ class ShortStoriesButton extends StatelessWidget {
       height: 180,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(20)),
+        border: BoxBorder.all(
+          color: Color.fromARGB(255, 66, 80, 83).withAlpha(64),
+          width: 1,
+        ),
         shape: BoxShape.rectangle,
         gradient: RadialGradient(
           center: Alignment(-0.6, 0.6),
