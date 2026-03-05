@@ -39,8 +39,15 @@ class OneLineButton extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomLeft,
         child: Padding(
-          padding: EdgeInsetsGeometry.only(left: 20, bottom: 10),
-          child: Text('One Lines'),
+          padding: EdgeInsetsGeometry.only(left: 20, bottom: 15),
+          child: Text(
+            'One Lines',
+            style: TextStyle(
+              color: Color.fromARGB(255, 36, 44, 46),
+              letterSpacing: 1.5,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
         ),
       ),
     );
@@ -69,7 +76,7 @@ class ShortStoriesButton extends StatelessWidget {
       child: Align(
         alignment: Alignment.bottomLeft,
         child: Padding(
-          padding: EdgeInsetsGeometry.only(left: 20, bottom: 10),
+          padding: EdgeInsetsGeometry.only(left: 20, bottom: 15),
           child: Text('Short Stories'),
         ),
       ),
