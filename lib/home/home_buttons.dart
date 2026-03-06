@@ -52,7 +52,9 @@ class OneLineButton extends StatelessWidget {
         alignment: Alignment.bottomLeft,
         child: Padding(
           padding: EdgeInsetsGeometry.only(left: 20, bottom: 15),
-          child: Row(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
                 'One Lines',
@@ -62,15 +64,18 @@ class OneLineButton extends StatelessWidget {
                   fontWeight: FontWeight.w600,
                 ),
               ),
-              Text(' '),
-              Icon(Icons.star, size: 10),
-              Text(
-                'Recomended',
-                style: TextStyle(
-                  color: Color.fromARGB(255, 66, 80, 83),
-                  fontSize: 12,
-                  fontWeight: FontWeight.w400,
-                ),
+              Row(
+                children: [
+                  Icon(Icons.star, size: 10),
+                  Text(
+                    'Recomended',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 66, 80, 83),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -115,7 +120,33 @@ class ShortStoriesButton extends StatelessWidget {
         alignment: Alignment.bottomLeft,
         child: Padding(
           padding: EdgeInsetsGeometry.only(left: 20, bottom: 15),
-          child: Text('Short Stories'),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Short Stories',
+                style: TextStyle(
+                  color: Color.fromARGB(255, 69, 74, 87),
+                  letterSpacing: 1.5,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              Row(
+                children: [
+                  Icon(Icons.diamond, size: 10),
+                  Text(
+                    'For Advanced',
+                    style: TextStyle(
+                      color: Color.fromARGB(255, 69, 74, 87),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
