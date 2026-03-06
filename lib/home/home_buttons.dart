@@ -136,7 +136,7 @@ class ShortStoriesButton extends StatelessWidget {
                 children: [
                   Icon(Icons.diamond, size: 10),
                   Text(
-                    'For Advanced',
+                    'For Advanced Learner',
                     style: TextStyle(
                       color: Color.fromARGB(255, 69, 74, 87),
                       fontSize: 13,
