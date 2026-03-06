@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:tplayer/home/home_buttons.dart';
 import 'package:tplayer/home/home_slider.dart';
 import 'package:tplayer/logo/logo_holder.dart';
