@@ -18,17 +18,21 @@ class _OneLinePageState extends State<OneLinePage> {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(height: 10),
-            LogoHolder(),
-            SizedBox(height: 10),
-            HomeSlider(),
-            HomeButtons(),
-          ],
-        ),
+        child: Column(children: [SizedBox(height: 400), PlayerControls()]),
       ),
       floatingActionButton: Text('$screenHeight'),
+    );
+  }
+}
+
+class PlayerControls extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        SizedBox(height: 20),
+        Container(child: Row(children: [])),
+      ],
     );
   }
 }
