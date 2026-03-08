@@ -31,8 +31,37 @@ class PlayerControls extends StatelessWidget {
     return Column(
       children: [
         SizedBox(height: 20),
-        Container(child: Row(children: [])),
+        Container(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [PlayPause()],
+          ),
+        ),
       ],
+    );
+  }
+}
+
+class PlayPause extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 100,
+      height: 100,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, 0),
+            radius: 0.15,
+            colors: <Color>[
+              Color(0xFFEEEEEE),
+              Color.fromARGB(255, 163, 163, 207),
+            ],
+            stops: <double>[0.0, 1.0],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(50)),
+        ),
+      ),
     );
   }
 }
