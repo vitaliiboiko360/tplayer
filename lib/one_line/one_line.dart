@@ -61,6 +61,7 @@ class PlayPause extends StatelessWidget {
           ),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
+        child: Icon(Icons.play_arrow, size: 22),
       ),
     );
   }
