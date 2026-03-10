@@ -18,7 +18,8 @@ class _OneLinePageState extends State<OneLinePage> {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return Scaffold(
       body: SingleChildScrollView(
-        child: Column(children: [SizedBox(height: 400), PlayerControls()]),
+        // SizedBox(height: 400)
+        child: Column(children: [Placeholder(), PlayerControls()]),
       ),
       floatingActionButton: Text('$screenHeight'),
     );
@@ -61,7 +62,27 @@ class PlayPause extends StatelessWidget {
           ),
           borderRadius: BorderRadius.all(Radius.circular(50)),
         ),
-        child: Icon(Icons.play_arrow, size: 22),
+        child: Icon(Icons.play_arrow, size: 50),
+      ),
+    );
+  }
+}
+
+class Placeholder extends StatelessWidget {
+  BorderSide borderSide = BorderSide(
+    color: Colors.blue, // Specify your desired color
+    width: 1.0, // Specify your desired width
+  );
+
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 350,
+      height: 400,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(left: borderSide, right: borderSide),
+        ),
       ),
     );
   }
