@@ -55,14 +55,22 @@ class PlayPause extends StatelessWidget {
             center: Alignment(0, 0),
             radius: 0.15,
             colors: <Color>[
-              Color(0xFFEEEEEE),
-              Color.fromARGB(255, 163, 163, 207),
+              Color.fromARGB(255, 191, 196, 213),
+              Color.fromARGB(255, 185, 185, 217),
             ],
             stops: <double>[0.0, 1.0],
           ),
           borderRadius: BorderRadius.all(Radius.circular(50)),
+          border: BoxBorder.all(
+            color: const Color.fromARGB(255, 91, 93, 109),
+            width: 1,
+          ),
         ),
-        child: Icon(Icons.play_arrow, size: 50),
+        child: Icon(
+          Icons.play_arrow,
+          size: 50,
+          color: Color.fromARGB(255, 76, 80, 107),
+        ),
       ),
     );
   }
