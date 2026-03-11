@@ -35,7 +35,8 @@ class PlayerControls extends StatelessWidget {
         Container(
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: [PlayPause()],
+            spacing: 10,
+            children: [Backward(), PlayPause(), Forward()],
           ),
         ),
       ],
@@ -67,7 +68,7 @@ class PlayPause extends StatelessWidget {
           ),
         ),
         child: Icon(
-          Icons.play_arrow,
+          Icons.play_arrow_rounded,
           size: 50,
           color: Color.fromARGB(255, 76, 80, 107),
         ),
@@ -113,6 +114,72 @@ class TextBlock extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class Forward extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 50,
+      height: 40,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, 0),
+            radius: 0.15,
+            colors: <Color>[
+              Color.fromARGB(255, 191, 196, 213),
+              Color.fromARGB(255, 185, 185, 217),
+            ],
+            stops: <double>[0.0, 1.0],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: BoxBorder.all(
+            color: const Color.fromARGB(255, 91, 93, 109),
+            width: 1,
+          ),
+        ),
+        child: Icon(
+          Icons.fast_forward_rounded,
+          size: 20,
+          color: Color.fromARGB(255, 76, 80, 107),
+        ),
+      ),
+    );
+  }
+}
+
+class Backward extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 50,
+      height: 40,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, 0),
+            radius: 0.15,
+            colors: <Color>[
+              Color.fromARGB(255, 191, 196, 213),
+              Color.fromARGB(255, 185, 185, 217),
+            ],
+            stops: <double>[0.0, 1.0],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: BoxBorder.all(
+            color: const Color.fromARGB(255, 91, 93, 109),
+            width: 1,
+          ),
+        ),
+        child: Icon(
+          Icons.fast_rewind_rounded,
+          size: 20,
+          color: Color.fromARGB(255, 76, 80, 107),
+        ),
+      ),
     );
   }
 }
