@@ -19,7 +19,7 @@ class _OneLinePageState extends State<OneLinePage> {
     return Scaffold(
       body: SingleChildScrollView(
         // SizedBox(height: 400)
-        child: Column(children: [Placeholder(), PlayerControls()]),
+        child: Column(children: [TextBlock(), PlayerControls()]),
       ),
       floatingActionButton: Text('$screenHeight'),
     );
@@ -76,7 +76,7 @@ class PlayPause extends StatelessWidget {
   }
 }
 
-class Placeholder extends StatelessWidget {
+class TextBlock extends StatelessWidget {
   BorderSide borderSide = BorderSide(
     color: Colors.blue, // Specify your desired color
     width: 1.0, // Specify your desired width
@@ -84,14 +84,35 @@ class Placeholder extends StatelessWidget {
 
   @override
   Widget build(Object context) {
-    return SizedBox(
-      width: 350,
-      height: 400,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          border: Border(left: borderSide, right: borderSide),
+    return Stack(
+      children: [
+        SizedBox(
+          width: 350,
+          height: 400,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(left: borderSide, right: borderSide),
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsetsGeometry.directional(start: 15, end: 10),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          '\t\t\tDeja que te cuente una historia sobre un pollito. Su nombre es Pollito Tito. Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.',
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
