@@ -48,8 +48,8 @@ class PlayPause extends StatelessWidget {
   @override
   Widget build(Object context) {
     return SizedBox(
-      width: 100,
-      height: 100,
+      width: 80,
+      height: 80,
       child: DecoratedBox(
         decoration: BoxDecoration(
           gradient: RadialGradient(
@@ -61,7 +61,7 @@ class PlayPause extends StatelessWidget {
             ],
             stops: <double>[0.0, 1.0],
           ),
-          borderRadius: BorderRadius.all(Radius.circular(50)),
+          borderRadius: BorderRadius.all(Radius.circular(40)),
           border: BoxBorder.all(
             color: const Color.fromARGB(255, 91, 93, 109),
             width: 1,
