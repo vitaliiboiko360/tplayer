@@ -183,3 +183,61 @@ class Backward extends StatelessWidget {
     );
   }
 }
+
+class PlaybackSpeed extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 50,
+      height: 40,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          // gradient: RadialGradient(
+          //   center: Alignment(0, 0),
+          //   radius: 0.15,
+          //   colors: <Color>[
+          //     Color.fromARGB(255, 191, 196, 213),
+          //     Color.fromARGB(255, 185, 185, 217),
+          //   ],
+          //   stops: <double>[0.0, 1.0],
+          // ),
+          // borderRadius: BorderRadius.all(Radius.circular(40)),
+          // border: BoxBorder.all(
+          //   color: const Color.fromARGB(255, 91, 93, 109),
+          //   width: 1,
+          // ),
+        ),
+        child: Text('0.85x', style: TextStyle(fontSize: 14)),
+      ),
+    );
+  }
+}
+
+class ShowDetails extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 50,
+      height: 40,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, 0),
+            radius: 0.15,
+            colors: <Color>[
+              Color.fromARGB(255, 191, 196, 213),
+              Color.fromARGB(255, 185, 185, 217),
+            ],
+            stops: <double>[0.0, 1.0],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(40)),
+          border: BoxBorder.all(
+            color: const Color.fromARGB(255, 234, 236, 247),
+            width: 1,
+          ),
+        ),
+        child: Text('0.8x'),
+      ),
+    );
+  }
+}
