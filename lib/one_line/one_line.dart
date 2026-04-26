@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:tplayer/home/home_buttons.dart';
 import 'package:tplayer/home/home_slider.dart';
@@ -19,9 +21,11 @@ class _OneLinePageState extends State<OneLinePage> {
     double screenWidth = MediaQuery.sizeOf(context).width;
 
     return Scaffold(
-      body: OnePageLayoutParent(
-        // SizedBox(height: 400)
-        // child: Column(children: [TextBlock(), PlayerControls()]),
+      body: SingleChildScrollView(
+        child: OnePageLayoutParent(
+          // SizedBox(height: 400)
+          // child: Column(children: [TextBlock(), PlayerControls()]),
+        ),
       ),
       floatingActionButton: Text('$screenWidth x $screenHeight'),
     );
@@ -35,12 +39,10 @@ class OnePageLayoutParent extends StatelessWidget {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return CustomSingleChildLayout(
       delegate: OnePageLayoutChild(screenWidth, screenHeight),
-      child: SingleChildScrollView(
-        child: SizedBox(
-          width: 350,
-          height: 500,
-          child: Column(children: [TextBlock(), PlayerControls()]),
-        ),
+      child: SizedBox(
+        width: 350,
+        height: 500,
+        child: Column(children: [TextBlock(), PlayerControls()]),
       ),
     );
   }
@@ -50,6 +52,11 @@ class OnePageLayoutChild extends SingleChildLayoutDelegate {
   OnePageLayoutChild(this.width, this.height);
   double width;
   double height;
+
+  @override
+  Size getSize(BoxConstraints constraints) {
+    return Size(width, max(height, 500));
+  }
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
