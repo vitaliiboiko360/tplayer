@@ -16,12 +16,14 @@ class _OneLinePageState extends State<OneLinePage> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
+    double screenWidth = MediaQuery.sizeOf(context).width;
+
     return Scaffold(
       body: SingleChildScrollView(
         // SizedBox(height: 400)
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
-      floatingActionButton: Text('$screenHeight'),
+      floatingActionButton: Text('$screenWidth x $screenHeight'),
     );
   }
 }

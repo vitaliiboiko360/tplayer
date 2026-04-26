@@ -16,6 +16,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
+    double screenWidth = MediaQuery.sizeOf(context).width;
     return Scaffold(
       // appBar: AppBar(title: Image.asset('img/logo.png'), centerTitle: true),
       body: SingleChildScrollView(
@@ -29,7 +30,7 @@ class _HomePageState extends State<HomePage> {
           ],
         ),
       ),
-      floatingActionButton: Text('$screenHeight'),
+      floatingActionButton: Text('$screenWidth x $screenHeight'),
     );
   }
 }
