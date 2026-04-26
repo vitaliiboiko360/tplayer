@@ -19,12 +19,46 @@ class _OneLinePageState extends State<OneLinePage> {
     double screenWidth = MediaQuery.sizeOf(context).width;
 
     return Scaffold(
-      body: SingleChildScrollView(
+      body: OnePageLayoutParent(
         // SizedBox(height: 400)
-        child: Column(children: [TextBlock(), PlayerControls()]),
+        // child: Column(children: [TextBlock(), PlayerControls()]),
       ),
       floatingActionButton: Text('$screenWidth x $screenHeight'),
     );
+  }
+}
+
+class OnePageLayoutParent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    double screenWidth = MediaQuery.sizeOf(context).width;
+    double screenHeight = MediaQuery.sizeOf(context).height;
+    return CustomSingleChildLayout(
+      delegate: OnePageLayoutChild(screenWidth, screenHeight),
+      child: SingleChildScrollView(
+        child: SizedBox(
+          width: 350,
+          height: 500,
+          child: Column(children: [TextBlock(), PlayerControls()]),
+        ),
+      ),
+    );
+  }
+}
+
+class OnePageLayoutChild extends SingleChildLayoutDelegate {
+  OnePageLayoutChild(this.width, this.height);
+  double width;
+  double height;
+
+  @override
+  Offset getPositionForChild(Size size, Size childSize) {
+    return Offset((width / 2) - 175, (height / 2) - 250);
+  }
+
+  @override
+  bool shouldRelayout(covariant SingleChildLayoutDelegate oldDelegate) {
+    return true;
   }
 }
 
