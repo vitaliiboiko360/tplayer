@@ -1,136 +1,18 @@
 import 'package:flutter/material.dart';
 
-/// A collection of stylish, animated button widgets.
-/// Usage:
-///   TestButton(label: 'Get Started', onTap: () {})
-///   TestButton.outline(label: 'Learn More', onTap: () {})
-///   TestButton.ghost(label: 'Cancel', onTap: () {})
-///   TestButton.danger(label: 'Delete', onTap: () {})
+enum _ButtonVariant { primary, outline, outline2, ghost, danger }
 
-void main() => runApp(const ButtonShowcaseApp());
-
-// ─────────────────────────────────────────────
-// SHOWCASE APP
-// ─────────────────────────────────────────────
-class ButtonShowcaseApp extends StatelessWidget {
-  const ButtonShowcaseApp({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Stylish Buttons',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        scaffoldBackgroundColor: const Color(0xFF0D0D0F),
-      ),
-      home: const ButtonShowcasePage(),
-    );
-  }
-}
-
-class ButtonShowcasePage extends StatelessWidget {
-  const ButtonShowcasePage({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 48),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Text(
-                'Button\nComponents',
-                style: TextStyle(
-                  fontFamily: 'serif',
-                  fontSize: 42,
-                  fontWeight: FontWeight.w300,
-                  color: Color(0xFFF5F5F0),
-                  height: 1.1,
-                  letterSpacing: -1,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Tap each to feel the interaction.',
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Color(0xFF777780),
-                  letterSpacing: 0.3,
-                ),
-              ),
-              const SizedBox(height: 56),
-
-              // Primary
-              TestButton(
-                label: 'Get Started',
-                icon: Icons.arrow_forward_rounded,
-                onTap: () {},
-              ),
-              const SizedBox(height: 16),
-
-              // Outline
-              TestButton.outline(
-                label: 'Learn More',
-                icon: Icons.info_outline_rounded,
-                onTap: () {},
-              ),
-              const SizedBox(height: 16),
-
-              // Ghost
-              TestButton.ghost(label: 'Maybe Later', onTap: () {}),
-              const SizedBox(height: 16),
-
-              // Danger
-              TestButton.danger(
-                label: 'Delete Account',
-                icon: Icons.delete_outline_rounded,
-                onTap: () {},
-              ),
-              const SizedBox(height: 16),
-
-              // Loading state
-              TestButton(label: 'Processing...', isLoading: true, onTap: () {}),
-              const SizedBox(height: 16),
-
-              // Disabled
-              TestButton(label: 'Unavailable', isDisabled: true, onTap: () {}),
-
-              const Spacer(),
-              Center(
-                child: Text(
-                  'TestButton — Flutter Widget',
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: const Color(0xFF777780).withValues(alpha: 0.5),
-                    letterSpacing: 1.2,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-// ─────────────────────────────────────────────
-// STYLISH BUTTON WIDGET
-// ─────────────────────────────────────────────
-
-enum _ButtonVariant { primary, outline, ghost, danger }
-
+// ignore: must_be_immutable
 class TestButton extends StatefulWidget {
-  final String label;
+  String label;
   final IconData? icon;
+  Widget? child;
   final VoidCallback? onTap;
   final bool isLoading;
   final bool isDisabled;
   final _ButtonVariant _variant;
 
-  const TestButton({
+  TestButton({
     super.key,
     required this.label,
     this.icon,
@@ -139,7 +21,7 @@ class TestButton extends StatefulWidget {
     this.isDisabled = false,
   }) : _variant = _ButtonVariant.primary;
 
-  const TestButton.outline({
+  TestButton.outline({
     super.key,
     required this.label,
     this.icon,
@@ -148,7 +30,17 @@ class TestButton extends StatefulWidget {
     this.isDisabled = false,
   }) : _variant = _ButtonVariant.outline;
 
-  const TestButton.ghost({
+  TestButton.outline2({
+    super.key,
+    required this.child,
+    this.icon,
+    this.onTap,
+    this.isLoading = false,
+    this.isDisabled = false,
+  }) : _variant = _ButtonVariant.outline2,
+       label = '';
+
+  TestButton.ghost({
     super.key,
     required this.label,
     this.icon,
@@ -157,7 +49,7 @@ class TestButton extends StatefulWidget {
     this.isDisabled = false,
   }) : _variant = _ButtonVariant.ghost;
 
-  const TestButton.danger({
+  TestButton.danger({
     super.key,
     required this.label,
     this.icon,
@@ -186,11 +78,25 @@ class _TestButtonState extends State<TestButton>
       case _ButtonVariant.primary:
         return const Color(0xFFE8E0FF);
       case _ButtonVariant.outline:
+      case _ButtonVariant.outline2:
+        return const Color(0xFFE8E0FF);
       case _ButtonVariant.ghost:
         return Colors.transparent;
       case _ButtonVariant.danger:
-        return const Color(0xFFFF3B30).withOpacity(0.12);
+        return const Color(0xFFFF3B30).withValues(alpha: 0.12);
     }
+  }
+
+  RadialGradient get _radGrad {
+    return RadialGradient(
+      center: Alignment(0, 0),
+      radius: 0.15,
+      colors: <Color>[
+        Color.fromARGB(255, 191, 196, 213),
+        Color.fromARGB(255, 185, 185, 217),
+      ],
+      stops: <double>[0.0, 1.0],
+    );
   }
 
   Color get _fg {
@@ -198,7 +104,9 @@ class _TestButtonState extends State<TestButton>
       case _ButtonVariant.primary:
         return const Color(0xFF0D0D0F);
       case _ButtonVariant.outline:
-        return const Color(0xFFE8E0FF);
+      case _ButtonVariant.outline2:
+        return const Color(0xFF0D0D0F);
+      // return const Color(0xFFE8E0FF);
       case _ButtonVariant.ghost:
         return const Color(0xFF9D9DAA);
       case _ButtonVariant.danger:
@@ -209,7 +117,11 @@ class _TestButtonState extends State<TestButton>
   Border? get _border {
     switch (widget._variant) {
       case _ButtonVariant.outline:
-        return Border.all(color: const Color(0xFF3A3A4A), width: 1.5);
+      case _ButtonVariant.outline2:
+        return Border.all(
+          color: const Color.fromARGB(255, 91, 93, 109),
+          width: 1,
+        );
       case _ButtonVariant.danger:
         return Border.all(
           color: const Color(0xFFFF3B30).withValues(alpha: 0.35),
@@ -291,28 +203,33 @@ class _TestButtonState extends State<TestButton>
               duration: const Duration(milliseconds: 200),
               child: Container(
                 width: double.infinity,
-                height: 56,
+                // height: 56,
                 decoration: BoxDecoration(
-                  color: _bg,
+                  // color: _bg,
                   borderRadius: _radius,
                   border: _border,
-                  boxShadow: [
-                    // Ambient shadow
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.25),
-                      blurRadius: 12,
-                      offset: const Offset(0, 4),
-                    ),
-                    // Glow on press
-                    if (_glowColor != Colors.transparent)
-                      BoxShadow(
-                        color: _glowColor.withValues(
-                          alpha: _glowColor.a * _glowAnim.value,
-                        ),
-                        blurRadius: 20,
-                        spreadRadius: 2,
-                      ),
-                  ],
+                  gradient: widget._variant == _ButtonVariant.outline2
+                      ? null
+                      : _radGrad,
+                  boxShadow: widget._variant == _ButtonVariant.outline2
+                      ? null
+                      : [
+                          // Ambient shadow
+                          BoxShadow(
+                            color: Colors.black.withValues(alpha: 0.25),
+                            blurRadius: 12,
+                            offset: const Offset(0, 4),
+                          ),
+                          // Glow on press
+                          if (_glowColor != Colors.transparent)
+                            BoxShadow(
+                              color: _glowColor.withValues(
+                                alpha: _glowColor.a * _glowAnim.value,
+                              ),
+                              blurRadius: 20,
+                              spreadRadius: 2,
+                            ),
+                        ],
                 ),
                 child: ClipRRect(
                   borderRadius: _radius,
@@ -344,6 +261,17 @@ class _TestButtonState extends State<TestButton>
                                   //     letterSpacing: 0.2,
                                   //   ),
                                   // ),
+                                  if (widget.child != null) ...[
+                                    AnimatedSlide(
+                                      duration: const Duration(
+                                        milliseconds: 200,
+                                      ),
+                                      offset: _isPressed
+                                          ? const Offset(0, 0)
+                                          : Offset.zero,
+                                      child: widget.child,
+                                    ),
+                                  ],
                                   if (widget.icon != null) ...[
                                     // const SizedBox(width: 8),
                                     AnimatedSlide(
