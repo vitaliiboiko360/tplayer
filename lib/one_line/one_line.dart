@@ -5,6 +5,9 @@ import 'package:tplayer/home/home_buttons.dart';
 import 'package:tplayer/home/home_slider.dart';
 import 'package:tplayer/logo/logo_holder.dart';
 
+const double childHeight = 500;
+const double childWidth = 350;
+
 class OneLinePage extends StatefulWidget {
   const OneLinePage({super.key});
 
@@ -40,8 +43,8 @@ class OnePageLayoutParent extends StatelessWidget {
     return CustomSingleChildLayout(
       delegate: OnePageLayoutChild(screenWidth, screenHeight),
       child: SizedBox(
-        width: 350,
-        height: 500,
+        width: childWidth,
+        height: childHeight,
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
     );
@@ -55,12 +58,12 @@ class OnePageLayoutChild extends SingleChildLayoutDelegate {
 
   @override
   Size getSize(BoxConstraints constraints) {
-    return Size(width, max(height, 500));
+    return Size(max(width, childWidth), max(height, childHeight));
   }
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
-    return Offset((width / 2) - 175, (height / 2) - 250);
+    return Offset(max(0, (width / 2) - 175), max(0, (height / 2) - 250));
   }
 
   @override
@@ -138,8 +141,8 @@ class TextBlock extends StatelessWidget {
     return Stack(
       children: [
         SizedBox(
-          width: 350,
-          height: 400,
+          width: childWidth,
+          height: childHeight,
           child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border(left: borderSide, right: borderSide),
