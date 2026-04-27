@@ -268,10 +268,10 @@ class PlaybackSpeed extends StatelessWidget {
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
-        padding: EdgeInsetsGeometry.directional(start: 8),
+        padding: EdgeInsetsGeometry.directional(start: 0),
         child: SizedBox(
-          width: 50,
-          height: 40,
+          width: 58,
+          height: 30,
           child: DecoratedBox(
             decoration: BoxDecoration(
               // gradient: RadialGradient(
@@ -289,12 +289,20 @@ class PlaybackSpeed extends StatelessWidget {
               //   width: 1,
               // ),
             ),
-            child: Text(
-              '0.85x',
-              style: TextStyle(
-                color: const Color.fromARGB(255, 87, 87, 87),
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
+            child: TestButton.outline2(
+              child: Text(
+                '0.85x',
+                textHeightBehavior: const TextHeightBehavior(
+                  applyHeightToFirstAscent: false,
+                  applyHeightToLastDescent: true,
+                ),
+                strutStyle: StrutStyle(height: 1),
+                style: TextStyle(
+                  color: const Color.fromARGB(255, 87, 87, 87),
+                  fontSize: 18,
+                  height: 1,
+                  fontWeight: FontWeight.w700,
+                ),
               ),
             ),
           ),
@@ -353,7 +361,7 @@ class ShowDetails extends StatelessWidget {
         child: SizedBox(
           width: 50,
           height: 30,
-          child: TestButton(label: '', icon: Icons.pending_rounded),
+          child: TestButton.outline(label: '', icon: Icons.pending_rounded),
         ),
       ),
     );
