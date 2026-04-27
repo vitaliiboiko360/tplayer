@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tplayer/home/home_buttons.dart';
 import 'package:tplayer/home/home_slider.dart';
 import 'package:tplayer/logo/logo_holder.dart';
+import 'package:tplayer/ui/test_button.dart';
 
 const double childHeight = 500;
 const double childWidth = 350;
@@ -303,7 +304,7 @@ class PlaybackSpeed extends StatelessWidget {
   }
 }
 
-class ShowDetails extends StatelessWidget {
+class ShowDetails_1 extends StatelessWidget {
   @override
   Widget build(Object context) {
     return Align(
@@ -336,6 +337,23 @@ class ShowDetails extends StatelessWidget {
               color: const Color.fromARGB(255, 145, 151, 165),
             ),
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShowDetails extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsetsGeometry.zero,
+        child: SizedBox(
+          width: 50,
+          height: 30,
+          child: TestButton(label: '', icon: Icons.pending_rounded),
         ),
       ),
     );
