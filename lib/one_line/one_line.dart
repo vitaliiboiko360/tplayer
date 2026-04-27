@@ -22,6 +22,7 @@ class _OneLinePageState extends State<OneLinePage> {
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.sizeOf(context).height;
     double screenWidth = MediaQuery.sizeOf(context).width;
+    double devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return Scaffold(
       body: SingleChildScrollView(
@@ -30,7 +31,27 @@ class _OneLinePageState extends State<OneLinePage> {
           // child: Column(children: [TextBlock(), PlayerControls()]),
         ),
       ),
-      floatingActionButton: Text('$screenWidth x $screenHeight'),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.topLeft,
+            child: Padding(
+              padding: EdgeInsetsGeometry.directional(top: 20, start: 20),
+              child: FloatingActionButton(
+                onPressed: () {},
+                child: Icon(Icons.arrow_back, size: 25),
+              ),
+            ),
+          ),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: Text(
+              '${screenWidth.toStringAsFixed(0)} x ${screenHeight.toStringAsFixed(0)} : ${devicePixelRatio.toStringAsFixed(2)}',
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -75,24 +96,27 @@ class OnePageLayoutChild extends SingleChildLayoutDelegate {
 class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(height: 20),
-        Container(
-          height: 80,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            spacing: 10,
-            children: [
-              Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
-              Backward(),
-              PlayPause(),
-              Forward(),
-              PlaybackSpeed(),
-            ],
+    return SizedBox(
+      width: childWidth,
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Container(
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 10,
+              children: [
+                Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
+                Backward(),
+                PlayPause(),
+                Forward(),
+                PlaybackSpeed(),
+              ],
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -142,7 +166,7 @@ class TextBlock extends StatelessWidget {
       children: [
         SizedBox(
           width: childWidth,
-          height: childHeight,
+          height: 400,
           child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border(left: borderSide, right: borderSide),
