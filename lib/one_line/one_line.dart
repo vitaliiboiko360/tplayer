@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tplayer/home/home_buttons.dart';
 import 'package:tplayer/home/home_slider.dart';
 import 'package:tplayer/logo/logo_holder.dart';
+import 'package:tplayer/ui/play_pause.dart';
 import 'package:tplayer/ui/test_button.dart';
 
 const double childHeight = 500;
@@ -110,7 +111,7 @@ class PlayerControls extends StatelessWidget {
               children: [
                 Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
                 Backward(),
-                PlayPause(),
+                PlayPauseButton(),
                 Forward(),
                 PlaybackSpeed(),
               ],
@@ -122,7 +123,7 @@ class PlayerControls extends StatelessWidget {
   }
 }
 
-class PlayPause extends StatelessWidget {
+class PlayPauseLocal extends StatelessWidget {
   @override
   Widget build(Object context) {
     return SizedBox(
