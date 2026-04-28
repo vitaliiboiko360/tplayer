@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tplayer/home/home_buttons.dart';
 import 'package:tplayer/home/home_slider.dart';
 import 'package:tplayer/logo/logo_holder.dart';
+import 'package:tplayer/ui/test_logo.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -24,6 +25,10 @@ class _HomePageState extends State<HomePage> {
           children: [
             SizedBox(height: 10),
             LogoHolder(),
+            GoldLuxuryText(text: 'Language Shadowing'),
+            NeonGlowText(text: 'Language Shadowing'),
+            ChromaticText(text: 'Language Shadowing'),
+            LongShadowText(text: 'Language Shadowing'),
             SizedBox(height: 10),
             HomeSlider(),
             HomeButtons(),
