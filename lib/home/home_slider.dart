@@ -50,7 +50,7 @@ class _SlideHolderState extends State<SlideHolder> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 250),
+            duration: const Duration(milliseconds: 150),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return FadeTransition(
                 opacity: animation,
