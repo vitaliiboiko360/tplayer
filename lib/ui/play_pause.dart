@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 class PlayPauseButton extends StatelessWidget {
   @override
   Widget build(Object context) {
-    return SizedBox(
-      width: 80,
-      height: 80,
-      child: Button(
+    return Button(
+      child: SizedBox(
+        width: 80,
+        height: 80,
         child: DecoratedBox(
           decoration: BoxDecoration(
             gradient: RadialGradient(
@@ -94,7 +94,7 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
   bool _isPressed = false;
 
   // ── Design tokens ──────────────────────────
-  static const _radius = BorderRadius.all(Radius.circular(14));
+  static const _radius = BorderRadius.all(Radius.circular(40));
 
   Color get _bg {
     switch (widget._variant) {
@@ -225,8 +225,6 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
               opacity: disabled ? 0.38 : 1.0,
               duration: const Duration(milliseconds: 200),
               child: Container(
-                width: double.infinity,
-                // height: 56,
                 decoration: BoxDecoration(
                   // color: _bg,
                   borderRadius: _radius,
@@ -272,18 +270,7 @@ class _ButtonState extends State<Button> with SingleTickerProviderStateMixin {
                       Center(
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
-                          children: [
-                            if (widget.isSliding) ...[
-                              AnimatedSlide(
-                                duration: const Duration(milliseconds: 200),
-                                offset: _isPressed
-                                    ? const Offset(0, 0)
-                                    : Offset.zero,
-                                child: widget.child,
-                              ),
-                            ] else
-                              widget.child!,
-                          ],
+                          children: [widget.child!],
                         ),
                       ),
                     ],
