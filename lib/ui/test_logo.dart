@@ -314,11 +314,13 @@ class LongShadowText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Text(
       text,
+      softWrap: false,
       style: TextStyle(
+        height: 1,
         fontSize: 34,
         fontWeight: FontWeight.w900,
         letterSpacing: -1,
-        color: const Color(0xFFCFB0FF),
+        color: const Color.fromARGB(255, 176, 196, 255),
         shadows: _buildLongShadow(),
       ),
     );
