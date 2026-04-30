@@ -14,15 +14,12 @@ class LogoHolder extends StatelessWidget {
           Positioned(
             left: 80,
             top: 55,
-            child: Align(
-              child: SizedBox(
-                width: 250,
-                height: 60,
-                child: FittedBox(
-                  fit: BoxFit
-                      .scaleDown, // Scales down only if it exceeds the box
-                  child: LongShadowText(text: 'Language Shadowing'),
-                ),
+            child: SizedBox(
+              width: 250,
+              height: 60,
+              child: FittedBox(
+                fit: BoxFit.scaleDown, // Scales down only if it exceeds the box
+                child: LongShadowText(text: 'Language Shadowing'),
               ),
             ),
           ),
