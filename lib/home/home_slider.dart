@@ -181,9 +181,95 @@ class Slide extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       padding: const EdgeInsets.all(16.0),
-      child: Text(''),
+      child: SlideOne(),
     );
   }
 }
 
-var slides = List.generate(colors.length, (index) => Slide(colors[index]));
+List<Widget> slides = List.generate(
+  colors.length,
+  (index) => Slide(colors[index]),
+);
+
+class SlideOne extends StatefulWidget {
+  const SlideOne({super.key});
+
+  @override
+  State<SlideOne> createState() => _SlideOneState();
+}
+
+class _SlideOneState extends State<SlideOne>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  late final Animation<double> _opacity;
+  late final Animation<double> _slideX;
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 900),
+    );
+
+    // Fade: 0.0 → 1.0
+    _opacity = Tween<double>(
+      begin: 0.0,
+      end: 1.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    // Slide: starts 150px to the right, moves to 0
+    _slideX = Tween<double>(
+      begin: -75.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+
+    // Auto-play on start
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _replay() {
+    _controller.forward(from: 0.0);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisSize: MainAxisSize.max,
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          AnimatedBuilder(
+            animation: _controller,
+            builder: (context, child) {
+              return Opacity(
+                opacity: _opacity.value,
+                child: Transform.translate(
+                  offset: Offset(_slideX.value, 0),
+                  child: child,
+                ),
+              );
+            },
+            child: ClipRRect(
+              // borderRadius: BorderRadius.circular(16),
+              child: Image.asset(
+                'img/home-1.png',
+                width: 165,
+                height: 165,
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
