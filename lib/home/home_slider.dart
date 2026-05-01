@@ -52,8 +52,9 @@ class _SlideHolderState extends State<SlideHolder> {
           AnimatedSwitcher(
             duration: const Duration(milliseconds: 150),
             transitionBuilder: (Widget child, Animation<double> animation) {
-              return FadeTransition(
-                opacity: animation,
+              return AnimatedOpacity(
+                opacity: 1 - animation.value,
+                duration: Duration(microseconds: 500),
                 child: SlideTransition(
                   position:
                       Tween<Offset>(
