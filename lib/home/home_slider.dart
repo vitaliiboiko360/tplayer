@@ -50,11 +50,12 @@ class _SlideHolderState extends State<SlideHolder> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 150),
+            duration: const Duration(milliseconds: 1500),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return AnimatedOpacity(
                 opacity: 1 - animation.value,
-                duration: Duration(microseconds: 500),
+                duration: Duration(microseconds: 1500),
+                curve: Curves.linear,
                 child: SlideTransition(
                   position:
                       Tween<Offset>(
@@ -168,12 +169,12 @@ List<DecorationColors> colors = [
 ];
 
 class Slide extends StatelessWidget {
-  Slide(this.decorationColors);
+  Slide(Key? key, this.decorationColors) : super(key: key);
   final DecorationColors decorationColors;
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
+      width: 500,
       height: 200,
       decoration: BoxDecoration(
         color: decorationColors.color,
@@ -188,7 +189,7 @@ class Slide extends StatelessWidget {
 
 List<Widget> slides = List.generate(
   colors.length,
-  (index) => Slide(colors[index]),
+  (index) => Slide(ValueKey(index), colors[index]),
 );
 
 class SlideOne extends StatefulWidget {
