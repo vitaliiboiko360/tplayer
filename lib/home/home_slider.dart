@@ -50,11 +50,11 @@ class _SlideHolderState extends State<SlideHolder> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 1500),
+            duration: const Duration(milliseconds: 150),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return AnimatedOpacity(
                 opacity: 1 - animation.value,
-                duration: Duration(microseconds: 1500),
+                duration: Duration(microseconds: 150),
                 curve: Curves.linear,
                 child: SlideTransition(
                   position:
@@ -174,7 +174,7 @@ class Slide extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 500,
+      width: 350,
       height: 200,
       decoration: BoxDecoration(
         color: decorationColors.color,
@@ -242,35 +242,33 @@ class _SlideOneState extends State<SlideOne>
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Column(
-        mainAxisSize: MainAxisSize.max,
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          AnimatedBuilder(
-            animation: _controller,
-            builder: (context, child) {
-              return Opacity(
-                opacity: _opacity.value,
-                child: Transform.translate(
-                  offset: Offset(_slideX.value, 0),
-                  child: child,
-                ),
-              );
-            },
-            child: ClipRRect(
-              // borderRadius: BorderRadius.circular(16),
-              child: Image.asset(
-                'img/home-1.png',
-                width: 165,
-                height: 165,
-                fit: BoxFit.cover,
+    return Column(
+      mainAxisSize: MainAxisSize.max,
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        AnimatedBuilder(
+          animation: _controller,
+          builder: (context, child) {
+            return Opacity(
+              opacity: _opacity.value,
+              child: Transform.translate(
+                offset: Offset(_slideX.value, 0),
+                child: child,
               ),
+            );
+          },
+          child: ClipRRect(
+            // borderRadius: BorderRadius.circular(16),
+            child: Image.asset(
+              'img/home-1.png',
+              width: 165,
+              height: 165,
+              fit: BoxFit.cover,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
