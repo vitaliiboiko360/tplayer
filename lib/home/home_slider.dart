@@ -222,7 +222,7 @@ class _SlideOneState extends State<SlideOne>
 
     // Slide: starts 150px to the right, moves to 0
     _slideX = Tween<double>(
-      begin: -75.0,
+      begin: -175.0,
       end: 0.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
