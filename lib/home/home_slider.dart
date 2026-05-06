@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tplayer/home/home.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 class HomeSlider extends StatelessWidget {
   @override
@@ -269,6 +270,65 @@ class _SlideOneState extends State<SlideOne>
           ),
         ),
       ],
+    );
+  }
+}
+
+class WordAnimation extends StatelessWidget {
+  const WordAnimation({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF0D0D0F),
+      body: Center(
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            // ── First word: appears at t=0s ──
+            const Text(
+                  'Listen',
+                  style: TextStyle(
+                    fontSize: 52,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xFFE8E4FF),
+                    letterSpacing: -1.5,
+                  ),
+                )
+                .animate()
+                .fadeIn(duration: 600.ms)
+                .slideX(
+                  begin: -0.3,
+                  end: 0,
+                  duration: 600.ms,
+                  curve: Curves.easeOut,
+                ),
+
+            const SizedBox(width: 14),
+
+            // ── Second word: appears at t=1s ──
+            const Text(
+                  'Repeat',
+                  style: TextStyle(
+                    fontSize: 52,
+                    fontWeight: FontWeight.w300,
+                    color: Color(0xFF7B61FF),
+                    letterSpacing: -1.5,
+                  ),
+                )
+                .animate(delay: 1000.ms)
+                .fadeIn(duration: 600.ms)
+                .slideX(
+                  begin: 0.3,
+                  end: 0,
+                  duration: 600.ms,
+                  curve: Curves.easeOut,
+                ),
+          ],
+        ),
+      ),
     );
   }
 }
