@@ -205,10 +205,12 @@ class _SlideOneState extends State<SlideOne>
   late final AnimationController _controller;
   late final Animation<double> _opacity;
   late final Animation<double> _slideX;
+  late bool isSecondStage = false;
 
   @override
   void initState() {
     super.initState();
+    isSecondStage = false;
 
     _controller = AnimationController(
       vsync: this,
@@ -227,6 +229,20 @@ class _SlideOneState extends State<SlideOne>
       end: 0.0,
     ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
+    _controller.addStatusListener((status) {
+      if (status == AnimationStatus.completed) {
+        // print("Animation Finished!");
+        Future.delayed(const Duration(milliseconds: 500), () {
+          setState(() {
+            isSecondStage = true;
+          });
+        });
+      } else if (status == AnimationStatus.dismissed) {
+        // Triggers if the animation reverses back to the start
+        // print("Animation Back at Start!");
+      }
+    });
+
     // Auto-play on start
     _controller.forward();
   }
@@ -243,32 +259,39 @@ class _SlideOneState extends State<SlideOne>
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.max,
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
+    return Stack(
+      alignment: AlignmentGeometry.topRight,
       children: [
-        AnimatedBuilder(
-          animation: _controller,
-          builder: (context, child) {
-            return Opacity(
-              opacity: _opacity.value,
-              child: Transform.translate(
-                offset: Offset(_slideX.value, 0),
-                child: child,
+        Column(
+          mainAxisSize: MainAxisSize.max,
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Opacity(
+                  opacity: _opacity.value,
+                  child: Transform.translate(
+                    offset: Offset(_slideX.value, 0),
+                    child: child,
+                  ),
+                );
+              },
+              child: ClipRRect(
+                // borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  'img/home-1.png',
+                  width: 165,
+                  height: 165,
+                  fit: BoxFit.cover,
+                ),
               ),
-            );
-          },
-          child: ClipRRect(
-            // borderRadius: BorderRadius.circular(16),
-            child: Image.asset(
-              'img/home-1.png',
-              width: 165,
-              height: 165,
-              fit: BoxFit.cover,
             ),
-          ),
+          ],
         ),
+        if (isSecondStage)
+          Align(alignment: AlignmentGeometry.topLeft, child: WordAnimation()),
       ],
     );
   }
