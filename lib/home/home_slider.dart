@@ -291,7 +291,7 @@ class _SlideOneState extends State<SlideOne>
           ],
         ),
         if (isSecondStage)
-          Align(alignment: AlignmentGeometry.topLeft, child: WordAnimation()),
+          Align(alignment: AlignmentGeometry.topRight, child: WordAnimation()),
       ],
     );
   }
@@ -303,9 +303,9 @@ class WordAnimation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0D0D0F),
+      backgroundColor: Colors.transparent,
       body: Center(
-        child: Row(
+        child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.baseline,
           textBaseline: TextBaseline.alphabetic,
