@@ -304,10 +304,12 @@ class WordAnimation extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Center(
+      body: Align(
+        alignment: AlignmentGeometry.topLeft,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.baseline,
+          mainAxisAlignment: MainAxisAlignment.start,
           textBaseline: TextBaseline.alphabetic,
           children: [
             // ── First word: appears at t=0s ──
@@ -322,7 +324,7 @@ class WordAnimation extends StatelessWidget {
                 )
                 .animate()
                 .fadeIn(duration: 600.ms)
-                .slideX(
+                .slideY(
                   begin: -0.3,
                   end: 0,
                   duration: 600.ms,
@@ -343,8 +345,8 @@ class WordAnimation extends StatelessWidget {
                 )
                 .animate(delay: 1000.ms)
                 .fadeIn(duration: 600.ms)
-                .slideX(
-                  begin: 0.3,
+                .slideY(
+                  begin: -0.3,
                   end: 0,
                   duration: 600.ms,
                   curve: Curves.easeOut,
