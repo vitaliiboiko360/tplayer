@@ -306,61 +306,60 @@ class WordAnimation extends StatelessWidget {
       backgroundColor: Colors.transparent,
       body: Align(
         alignment: AlignmentGeometry.topLeft,
-        child: SizedBox(
-          width: 150,
-          child: Column(
-            // mainAxisSize: MainAxisSize.max,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            mainAxisAlignment: MainAxisAlignment.start,
-            textBaseline: TextBaseline.alphabetic,
-            children: [
-              Wrap(
-                spacing: 8.0, // Gap between adjacent chips
-                runSpacing: 4.0, // Gap between lines
-                children: [
-                  const Text(
-                        'Listen',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w700,
-                          color: Color(0xFFE8E4FF),
-                          letterSpacing: -1.5,
+        child:
+            // SizedBox(
+            //   width: 150,
+            //   child:
+            Column(
+              // mainAxisSize: MainAxisSize.max,
+              crossAxisAlignment: CrossAxisAlignment.baseline,
+              mainAxisAlignment: MainAxisAlignment.start,
+              textBaseline: TextBaseline.alphabetic,
+              children: [
+                Row(
+                  spacing: 8.0, // Gap between adjacent chips
+                  children: [
+                    const Text(
+                          'Listen',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFE8E4FF),
+                            letterSpacing: -1.5,
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 600.ms)
+                        .slideY(
+                          begin: -0.3,
+                          end: 0,
+                          duration: 600.ms,
+                          curve: Curves.easeOut,
                         ),
-                      )
-                      .animate()
-                      .fadeIn(duration: 600.ms)
-                      .slideY(
-                        begin: -0.3,
-                        end: 0,
-                        duration: 600.ms,
-                        curve: Curves.easeOut,
-                      ),
 
-                  const SizedBox(width: 14),
-
-                  // ── Second word: appears at t=1s ──
-                  const Text(
-                        'Repeat',
-                        style: TextStyle(
-                          fontSize: 28,
-                          fontWeight: FontWeight.w300,
-                          color: Color(0xFF7B61FF),
-                          letterSpacing: -1.5,
+                    // ── Second word: appears at t=1s ──
+                    const Text(
+                          'Repeat',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w300,
+                            color: Color(0xFF7B61FF),
+                            letterSpacing: -1.5,
+                          ),
+                        )
+                        .animate(delay: 1000.ms)
+                        .fadeIn(duration: 600.ms)
+                        .slideY(
+                          begin: -0.3,
+                          end: 0,
+                          duration: 600.ms,
+                          curve: Curves.easeOut,
                         ),
-                      )
-                      .animate(delay: 1000.ms)
-                      .fadeIn(duration: 600.ms)
-                      .slideY(
-                        begin: -0.3,
-                        end: 0,
-                        duration: 600.ms,
-                        curve: Curves.easeOut,
-                      ),
-                ],
-              ),
-            ],
-          ),
-        ),
+                  ],
+                ),
+              ],
+            ),
+        // ),
       ),
     );
   }
