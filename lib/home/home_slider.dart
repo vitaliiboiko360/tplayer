@@ -43,6 +43,12 @@ class _SlideHolderState extends State<SlideHolder> {
   bool isRightToLeft() => _previousIndex < _index;
 
   @override
+  void initState() {
+    _index = 0;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ColoredBox(
       color: Colors.white,
@@ -208,6 +214,13 @@ class _SlideOneState extends State<SlideOne>
   late bool isSecondStage = false;
 
   @override
+  void activate() {
+    _controller.reset();
+    _controller.forward();
+    super.activate();
+  }
+
+  @override
   void initState() {
     super.initState();
     isSecondStage = false;
@@ -317,7 +330,7 @@ class WordAnimation extends StatelessWidget {
               textBaseline: TextBaseline.alphabetic,
               children: [
                 Row(
-                  spacing: 8.0, // Gap between adjacent chips
+                  spacing: 8.0, // Gap between adjacent words
                   children: [
                     const Text(
                           'Listen',
@@ -336,10 +349,108 @@ class WordAnimation extends StatelessWidget {
                           duration: 600.ms,
                           curve: Curves.easeOut,
                         ),
-
-                    // ── Second word: appears at t=1s ──
+                    const Text(
+                          'To',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w300,
+                            color: Color(0xFF7B61FF),
+                            letterSpacing: -1.5,
+                          ),
+                        )
+                        .animate(delay: 1000.ms)
+                        .fadeIn(duration: 600.ms)
+                        .slideY(
+                          begin: -0.3,
+                          end: 0,
+                          duration: 600.ms,
+                          curve: Curves.easeOut,
+                        ),
+                  ],
+                ),
+                Row(
+                  spacing: 8.0, // Gap between adjacent words
+                  children: [
+                    const Text(
+                          'Native',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFE8E4FF),
+                            letterSpacing: -1.5,
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 600.ms)
+                        .slideY(
+                          begin: -0.3,
+                          end: 0,
+                          duration: 600.ms,
+                          curve: Curves.easeOut,
+                        ),
+                    const Text(
+                          'Speaker',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w300,
+                            color: Color(0xFF7B61FF),
+                            letterSpacing: -1.5,
+                          ),
+                        )
+                        .animate(delay: 1000.ms)
+                        .fadeIn(duration: 600.ms)
+                        .slideY(
+                          begin: -0.3,
+                          end: 0,
+                          duration: 600.ms,
+                          curve: Curves.easeOut,
+                        ),
+                  ],
+                ),
+                Row(
+                  spacing: 8.0, // Gap between adjacent words
+                  children: [
+                    const Text(
+                          'and',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w300,
+                            color: Color(0xFF7B61FF),
+                            letterSpacing: -1.5,
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 600.ms)
+                        .slideY(
+                          begin: -0.3,
+                          end: 0,
+                          duration: 600.ms,
+                          curve: Curves.easeOut,
+                        ),
+                  ],
+                ),
+                Row(
+                  spacing: 8.0, // Gap between adjacent words
+                  children: [
                     const Text(
                           'Repeat',
+                          style: TextStyle(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w700,
+                            color: Color(0xFFE8E4FF),
+                            letterSpacing: -1.5,
+                          ),
+                        )
+                        .animate()
+                        .fadeIn(duration: 600.ms)
+                        .slideY(
+                          begin: -0.3,
+                          end: 0,
+                          duration: 600.ms,
+                          curve: Curves.easeOut,
+                        ),
+                    const Text(
+                          'After',
                           style: TextStyle(
                             fontSize: 28,
                             fontWeight: FontWeight.w300,
