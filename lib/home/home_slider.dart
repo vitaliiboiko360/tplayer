@@ -77,10 +77,11 @@ class _SlideHolderState extends State<SlideHolder>
           AnimatedSwitcher(
             duration: const Duration(milliseconds: _slideTransitionDuration),
             transitionBuilder: (Widget child, Animation<double> animation) {
-              return AnimatedOpacity(
-                opacity: _opacity.value,
-                duration: Duration(microseconds: _slideTransitionDuration),
-                curve: Curves.linear,
+              return FadeTransition(
+                opacity: CurvedAnimation(
+                  parent: animation,
+                  curve: Curves.easeInOut, // customize the easing
+                ),
                 child: SlideTransition(
                   position:
                       Tween<Offset>(
