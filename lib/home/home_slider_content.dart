@@ -24,15 +24,12 @@ class _SlideAnimeState extends State<SlideAnime> {
             sourceType: 'asset',
             source: 'ani/world.lottie',
             useFrameInterpolation: true,
-            mode: 'forward',
             autoplay: true,
             loop: true,
             onViewCreated: (controller) {
-              print('on view created');
               _controller = controller;
             },
             onLoad: () {
-              print('on load');
               // Do something
             },
           ),

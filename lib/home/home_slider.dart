@@ -17,9 +17,15 @@ class SlideHolder extends StatefulWidget {
   State<SlideHolder> createState() => _SlideHolderState();
 }
 
-class _SlideHolderState extends State<SlideHolder> {
+class _SlideHolderState extends State<SlideHolder>
+    with SingleTickerProviderStateMixin {
   int _index = 0;
   int _previousIndex = -1;
+
+  static const int _slideTransitionDuration = 150;
+
+  late final AnimationController _controller;
+  late final Animation<double> _opacity;
 
   void decrementIndex() {
     if (_index == 0) return;
@@ -46,6 +52,17 @@ class _SlideHolderState extends State<SlideHolder> {
   @override
   void initState() {
     _index = 0;
+
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: _slideTransitionDuration),
+    );
+
+    _opacity = Tween<double>(
+      begin: 1.0,
+      end: 0.0,
+    ).animate(CurvedAnimation(parent: _controller, curve: Curves.easeInOut));
+
     super.initState();
   }
 
@@ -58,11 +75,11 @@ class _SlideHolderState extends State<SlideHolder> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           AnimatedSwitcher(
-            duration: const Duration(milliseconds: 150),
+            duration: const Duration(milliseconds: _slideTransitionDuration),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return AnimatedOpacity(
-                opacity: 1 - animation.value / 2,
-                duration: Duration(microseconds: 150),
+                opacity: _opacity.value,
+                duration: Duration(microseconds: _slideTransitionDuration),
                 curve: Curves.linear,
                 child: SlideTransition(
                   position:
