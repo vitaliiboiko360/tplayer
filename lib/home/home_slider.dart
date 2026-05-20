@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tplayer/home/home.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:tplayer/home/home_slider_content.dart';
 
 class HomeSlider extends StatelessWidget {
   @override
@@ -60,7 +61,7 @@ class _SlideHolderState extends State<SlideHolder> {
             duration: const Duration(milliseconds: 150),
             transitionBuilder: (Widget child, Animation<double> animation) {
               return AnimatedOpacity(
-                opacity: 1 - animation.value,
+                opacity: 1 - animation.value / 2,
                 duration: Duration(microseconds: 150),
                 curve: Curves.linear,
                 child: SlideTransition(
@@ -183,13 +184,16 @@ class Slide extends StatelessWidget {
     return Container(
       width: 350,
       height: 200,
+      clipBehavior: Clip.hardEdge,
       decoration: BoxDecoration(
         color: decorationColors.color,
         border: Border.all(color: decorationColors.border),
         borderRadius: const BorderRadius.all(Radius.circular(10)),
       ),
       padding: const EdgeInsets.all(16.0),
-      child: SlideOne(),
+      child: (key == ValueKey(0))
+          ? OverflowBox(maxWidth: 350, maxHeight: 200, child: SlideAnime())
+          : SlideOne(),
     );
   }
 }
@@ -212,13 +216,6 @@ class _SlideOneState extends State<SlideOne>
   late final Animation<double> _opacity;
   late final Animation<double> _slideX;
   late bool isSecondStage = false;
-
-  @override
-  void activate() {
-    _controller.reset();
-    _controller.forward();
-    super.activate();
-  }
 
   @override
   void initState() {
