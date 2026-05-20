@@ -23,34 +23,19 @@ class _SlideAnimeState extends State<SlideAnime> {
           child: DotLottieView(
             sourceType: 'asset',
             source: 'ani/world.lottie',
+            useFrameInterpolation: true,
+            mode: 'forward',
             autoplay: true,
             loop: true,
             onViewCreated: (controller) {
+              print('on view created');
               _controller = controller;
             },
             onLoad: () {
+              print('on load');
               // Do something
             },
           ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: () => _controller?.play(),
-              child: const Text('Play'),
-            ),
-            const SizedBox(width: 10),
-            ElevatedButton(
-              onPressed: () => _controller?.pause(),
-              child: const Text('Pause'),
-            ),
-            const SizedBox(width: 10),
-            ElevatedButton(
-              onPressed: () => _controller?.stop(),
-              child: const Text('Stop'),
-            ),
-          ],
         ),
       ],
     );
