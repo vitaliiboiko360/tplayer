@@ -22,7 +22,7 @@ class _SlideHolderState extends State<SlideHolder>
   int _index = 0;
   int _previousIndex = -1;
 
-  static const int _slideTransitionDuration = 150;
+  static const int _slideTransitionDuration = 300;
 
   late final AnimationController _controller;
   late final Animation<double> _opacity;
@@ -80,7 +80,7 @@ class _SlideHolderState extends State<SlideHolder>
               return FadeTransition(
                 opacity: CurvedAnimation(
                   parent: animation,
-                  curve: Curves.easeInOut, // customize the easing
+                  curve: Curves.easeOut, // customize the easing
                 ),
                 child: SlideTransition(
                   position:
