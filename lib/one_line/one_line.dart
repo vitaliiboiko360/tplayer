@@ -7,8 +7,8 @@ import 'package:tplayer/logo/logo_holder.dart';
 import 'package:tplayer/ui/play_pause.dart';
 import 'package:tplayer/ui/test_button.dart';
 
-const double childHeight = 500;
-const double childWidth = 350;
+const double ChildHeight = 500;
+const double ChildWidth = 350;
 
 class OneLinePage extends StatefulWidget {
   const OneLinePage({super.key});
@@ -66,8 +66,8 @@ class OnePageLayoutParent extends StatelessWidget {
     return CustomSingleChildLayout(
       delegate: OnePageLayoutChild(screenWidth, screenHeight),
       child: SizedBox(
-        width: childWidth,
-        height: childHeight,
+        width: ChildWidth,
+        height: ChildHeight,
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
     );
@@ -75,18 +75,21 @@ class OnePageLayoutParent extends StatelessWidget {
 }
 
 class OnePageLayoutChild extends SingleChildLayoutDelegate {
-  OnePageLayoutChild(this.width, this.height);
-  double width;
-  double height;
+  OnePageLayoutChild(this.screenWidth, this.screenHeight);
+  double screenWidth;
+  double screenHeight;
 
   @override
   Size getSize(BoxConstraints constraints) {
-    return Size(max(width, childWidth), max(height, childHeight));
+    return Size(max(screenWidth, ChildWidth), max(screenHeight, ChildHeight));
   }
 
   @override
   Offset getPositionForChild(Size size, Size childSize) {
-    return Offset(max(0, (width / 2) - 175), max(0, (height / 2) - 250));
+    return Offset(
+      max(0, (screenWidth / 2) - 175),
+      max(0, (screenHeight / 2) - 250),
+    );
   }
 
   @override
@@ -99,7 +102,7 @@ class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: childWidth,
+      width: ChildWidth,
       child: Column(
         children: [
           SizedBox(height: 20),
@@ -167,7 +170,7 @@ class TextBlock extends StatelessWidget {
     return Stack(
       children: [
         SizedBox(
-          width: childWidth,
+          width: ChildWidth,
           height: 400,
           child: DecoratedBox(
             decoration: BoxDecoration(
