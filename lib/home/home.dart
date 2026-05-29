@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(height: 10),
             HomeSlider(),
             HomeButtons(),
+            SizedBox(height: 10),
           ],
         ),
       ),
