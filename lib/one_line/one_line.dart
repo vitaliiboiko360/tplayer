@@ -28,7 +28,7 @@ class _OneLinePageState extends State<OneLinePage> {
 
     return Scaffold(
       body: SingleChildScrollView(
-        child: OnePageLayoutParent(
+        child: OneLinePageLayoutParent(
           // SizedBox(height: 400)
           // child: Column(children: [TextBlock(), PlayerControls()]),
         ),
@@ -58,13 +58,13 @@ class _OneLinePageState extends State<OneLinePage> {
   }
 }
 
-class OnePageLayoutParent extends StatelessWidget {
+class OneLinePageLayoutParent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.sizeOf(context).width;
     double screenHeight = MediaQuery.sizeOf(context).height;
     return CustomSingleChildLayout(
-      delegate: OnePageLayoutChild(screenWidth, screenHeight),
+      delegate: OneLinePageLayoutChild(screenWidth, screenHeight),
       child: SizedBox(
         width: ChildWidth,
         height: ChildHeight,
@@ -74,8 +74,8 @@ class OnePageLayoutParent extends StatelessWidget {
   }
 }
 
-class OnePageLayoutChild extends SingleChildLayoutDelegate {
-  OnePageLayoutChild(this.screenWidth, this.screenHeight);
+class OneLinePageLayoutChild extends SingleChildLayoutDelegate {
+  OneLinePageLayoutChild(this.screenWidth, this.screenHeight);
   double screenWidth;
   double screenHeight;
 
