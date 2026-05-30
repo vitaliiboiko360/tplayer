@@ -7,7 +7,7 @@ import 'package:tplayer/logo/logo_holder.dart';
 import 'package:tplayer/ui/play_pause.dart';
 import 'package:tplayer/ui/test_button.dart';
 
-const double ChildHeight = 500;
+const double ChildHeight = 510;
 const double ChildWidth = 350;
 
 class OneLinePage extends StatefulWidget {
@@ -103,24 +103,32 @@ class PlayerControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: ChildWidth,
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          Container(
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 10,
-              children: [
-                Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
-                Backward(),
-                PlayPauseButton(),
-                Forward(),
-                PlaybackSpeed(),
-              ],
+
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(25)),
+          color: Color(0xFFE1E0FF),
+        ),
+        child: Column(
+          children: [
+            SizedBox(height: 20),
+            Container(
+              height: 80,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                spacing: 10,
+                children: [
+                  Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
+                  Backward(),
+                  PlayPauseButton(),
+                  Forward(),
+                  PlaybackSpeed(),
+                ],
+              ),
             ),
-          ),
-        ],
+            SizedBox(height: 10),
+          ],
+        ),
       ),
     );
   }
