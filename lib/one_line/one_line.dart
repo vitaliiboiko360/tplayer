@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:tplayer/home/home_buttons.dart';
 import 'package:tplayer/home/home_slider.dart';
 import 'package:tplayer/logo/logo_holder.dart';
+import 'package:tplayer/one_line/text_block.dart';
 import 'package:tplayer/ui/play_pause.dart';
 import 'package:tplayer/ui/test_button.dart';
 
@@ -160,47 +161,6 @@ class PlayPauseLocal extends StatelessWidget {
           color: Color.fromARGB(255, 76, 80, 107),
         ),
       ),
-    );
-  }
-}
-
-class TextBlock extends StatelessWidget {
-  BorderSide borderSide = BorderSide(
-    color: Colors.blue, // Specify your desired color
-    width: 1.0, // Specify your desired width
-  );
-
-  @override
-  Widget build(Object context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: ChildWidth,
-          height: 400,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border(left: borderSide, right: borderSide),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsetsGeometry.directional(start: 15, end: 10),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: Text(
-                          '\t\t\tDeja que te cuente una historia sobre un pollito. Su nombre es Pollito Tito. Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
     );
   }
 }
