@@ -102,10 +102,11 @@ class _TestButtonState extends State<TestButton>
   Color get _fg {
     switch (widget._variant) {
       case _ButtonVariant.primary:
-        return const Color(0xFF0D0D0F);
+        return Color.fromARGB(255, 76, 80, 107);
+      //return const Color(0xFF0D0D0F);
       case _ButtonVariant.outline:
       case _ButtonVariant.outline2:
-        return const Color(0xFF0D0D0F);
+        return Color.fromARGB(255, 76, 80, 107);
       // return const Color(0xFFE8E0FF);
       case _ButtonVariant.ghost:
         return const Color(0xFF9D9DAA);

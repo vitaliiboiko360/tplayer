@@ -301,7 +301,7 @@ class PlaybackSpeed extends StatelessWidget {
                 ),
                 strutStyle: StrutStyle(height: 1),
                 style: TextStyle(
-                  color: Color(0xFF585B87),
+                  color: Color.fromARGB(255, 76, 80, 107),
                   fontSize: 18,
                   height: 1,
                   fontWeight: FontWeight.w700,
