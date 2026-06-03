@@ -19,10 +19,7 @@ class PlayPauseButton extends StatelessWidget {
               stops: <double>[0.0, 1.0],
             ),
             borderRadius: BorderRadius.all(Radius.circular(40)),
-            border: BoxBorder.all(
-              color: const Color.fromARGB(255, 91, 93, 109),
-              width: 1,
-            ),
+            border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
           ),
           child: Icon(
             Icons.play_arrow_rounded,

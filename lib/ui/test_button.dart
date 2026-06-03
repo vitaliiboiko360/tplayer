@@ -118,10 +118,7 @@ class _TestButtonState extends State<TestButton>
     switch (widget._variant) {
       case _ButtonVariant.outline:
       case _ButtonVariant.outline2:
-        return Border.all(
-          color: const Color.fromARGB(255, 91, 93, 109),
-          width: 1,
-        );
+        return Border.all(color: Color(0xFF8B8DBD), width: 1);
       case _ButtonVariant.danger:
         return Border.all(
           color: const Color(0xFFFF3B30).withValues(alpha: 0.35),

@@ -152,10 +152,7 @@ class PlayPauseLocal extends StatelessWidget {
             stops: <double>[0.0, 1.0],
           ),
           borderRadius: BorderRadius.all(Radius.circular(40)),
-          border: BoxBorder.all(
-            color: const Color.fromARGB(255, 91, 93, 109),
-            width: 1,
-          ),
+          border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
         ),
         child: Icon(
           Icons.play_arrow_rounded,
@@ -226,10 +223,7 @@ class Forward extends StatelessWidget {
             stops: <double>[0.0, 1.0],
           ),
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          border: BoxBorder.all(
-            color: const Color.fromARGB(255, 91, 93, 109),
-            width: 1,
-          ),
+          border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
         ),
         child: Icon(
           Icons.fast_forward_rounded,
@@ -259,10 +253,7 @@ class Backward extends StatelessWidget {
             stops: <double>[0.0, 1.0],
           ),
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          border: BoxBorder.all(
-            color: const Color.fromARGB(255, 91, 93, 109),
-            width: 1,
-          ),
+          border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
         ),
         child: Icon(
           Icons.fast_rewind_rounded,
@@ -297,7 +288,7 @@ class PlaybackSpeed extends StatelessWidget {
               // ),
               // borderRadius: BorderRadius.all(Radius.circular(40)),
               // border: BoxBorder.all(
-              //   color: const Color.fromARGB(255, 91, 93, 109),
+              //   color: Color(0xFF8B8DBD),
               //   width: 1,
               // ),
             ),
@@ -310,7 +301,7 @@ class PlaybackSpeed extends StatelessWidget {
                 ),
                 strutStyle: StrutStyle(height: 1),
                 style: TextStyle(
-                  color: const Color.fromARGB(255, 87, 87, 87),
+                  color: Color(0xFF585B87),
                   fontSize: 18,
                   height: 1,
                   fontWeight: FontWeight.w700,
