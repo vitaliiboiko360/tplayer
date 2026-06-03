@@ -12,14 +12,14 @@ class PlayerControls extends StatelessWidget {
       child: DecoratedBox(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(25)),
-          color: Color.fromARGB(255, 82, 82, 191),
-          backgroundBlendMode: BlendMode.src,
+          color: Color.fromARGB(255, 224, 225, 245),
+          // backgroundBlendMode: BlendMode.hue,
           image: DecorationImage(
             image: AssetImage('img/pattern3.webp'),
             repeat: ImageRepeat.repeat,
-            fit: BoxFit.scaleDown,
-            opacity: 0.1,
-            scale: 7,
+            fit: BoxFit.none,
+            opacity: 0.05,
+            scale: 0.75,
           ),
         ),
         child: Column(
