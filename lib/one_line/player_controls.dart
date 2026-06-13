@@ -7,7 +7,7 @@ class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: ChildWidth,
+      width: TextBlockWidth,
 
       child: DecoratedBox(
         decoration: BoxDecoration(
