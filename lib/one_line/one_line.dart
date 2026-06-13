@@ -8,8 +8,8 @@ import 'package:tplayer/one_line/player_controls.dart';
 import 'package:tplayer/one_line/text_block.dart';
 import 'package:tplayer/ui/play_pause.dart';
 
-const double ChildHeight = 510;
-const double ChildWidth = 350;
+const double TextBlockHeight = 510;
+const double TextBlockWidth = 350;
 
 class OneLinePage extends StatefulWidget {
   const OneLinePage({super.key});
@@ -67,8 +67,8 @@ class OneLinePageLayoutParent extends StatelessWidget {
     return CustomSingleChildLayout(
       delegate: OneLinePageLayoutChild(screenWidth, screenHeight),
       child: SizedBox(
-        width: ChildWidth,
-        height: ChildHeight,
+        width: TextBlockWidth,
+        height: TextBlockHeight,
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
     );
@@ -82,7 +82,10 @@ class OneLinePageLayoutChild extends SingleChildLayoutDelegate {
 
   @override
   Size getSize(BoxConstraints constraints) {
-    return Size(max(screenWidth, ChildWidth), max(screenHeight, ChildHeight));
+    return Size(
+      max(screenWidth, TextBlockWidth),
+      max(screenHeight, TextBlockHeight),
+    );
   }
 
   @override
