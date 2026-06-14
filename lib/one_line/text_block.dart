@@ -37,7 +37,8 @@ class TextBlock extends StatelessWidget {
   }
 }
 
-const firstWordLineIndentation = '\t\t';
+const firstWordLineIndentation =
+    '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
 const sumOfLeftRightPadding = 25;
 
 Size _textSize(String text, TextStyle style) {
@@ -57,6 +58,7 @@ Widget getTextLines(String inputString, TextStyle style) {
 
   List<Widget> lines = [];
 
+  bool isFirstLine = true;
   for (var i = 0; i < words.length; i++) {
     String word = words[i];
     var wordWidth = _textSize(word, style).width.ceil();
@@ -66,12 +68,17 @@ Widget getTextLines(String inputString, TextStyle style) {
         firstWordLineIndentation,
         style,
       ).width.ceil();
-      currentLine += firstWordLineIndentation;
+      // currentLine += firstWordLineIndentation;
     }
 
     if (currentLineLength + wordWidth >
         TextBlockWidth - sumOfLeftRightPadding) {
-      lines.add(new Row(children: [Text(currentLine)]));
+      lines.add(getTextLine(currentLine, style, addIndentation: isFirstLine));
+
+      if (isFirstLine) {
+        isFirstLine = false;
+      }
+
       currentLine = word;
       currentLineLength = wordWidth;
     } else {
@@ -81,7 +88,61 @@ Widget getTextLines(String inputString, TextStyle style) {
       currentLineLength += wordWidth;
     }
   }
-  lines.add(new Row(children: [Text(currentLine)]));
+
+  lines.add(getTextLine(currentLine, style));
 
   return Column(children: lines);
+}
+
+Widget getTextLine(
+  String inputString,
+  TextStyle style, {
+  bool addIndentation = false,
+}) {
+  final lineWidth = _textSize(inputString, style).width.ceil().toDouble();
+  if (addIndentation) {
+    return Row(
+      children: [
+        Text(firstWordLineIndentation),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [Text(inputString), hLine(lineWidth)],
+        ),
+      ],
+    );
+  }
+
+  return Row(
+    children: [
+      Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [Text(inputString), hLine(lineWidth)],
+      ),
+    ],
+  );
+}
+
+Widget hLine(double width) =>
+    Row(children: [CustomPaint(painter: HLinePainter(width))]);
+
+class HLinePainter extends CustomPainter {
+  HLinePainter(this.width);
+  double? width;
+  @override
+  void paint(Canvas canvas, Size size) {
+    final Rect rect = Offset.zero & Size(width!, 2);
+    const RadialGradient gradient = RadialGradient(
+      center: Alignment(0.7, -0.6),
+      radius: 10,
+      colors: <Color>[
+        Color(0xFF0099FF),
+        Color(0xFF0099FF),
+      ], // Color(0xFFFFFF00),
+      stops: <double>[0.4, 1.0],
+    );
+    canvas.drawRect(rect, Paint()..shader = gradient.createShader(rect));
+  }
+
+  @override
+  bool shouldRepaint(HLinePainter oldDelegate) => false;
 }
