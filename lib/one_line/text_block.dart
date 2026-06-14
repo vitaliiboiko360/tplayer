@@ -37,8 +37,7 @@ class TextBlock extends StatelessWidget {
   }
 }
 
-const firstWordLineIndentation =
-    '\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0\u00A0';
+const firstWordLineIndentation = '\u00A0\u00A0\u00A0';
 const sumOfLeftRightPadding = 25;
 
 Size _textSize(String text, TextStyle style) {
@@ -54,6 +53,7 @@ Widget getTextLines(String inputString, TextStyle style) {
   List<String> words = inputString.split(' ');
 
   var currentLineLength = 0;
+  var firstLineLengthNoIndent = 0;
   String currentLine = '';
 
   List<Widget> lines = [];
@@ -86,6 +86,7 @@ Widget getTextLines(String inputString, TextStyle style) {
       currentLine += word;
       currentLineLength += _textSize(' ', style).width.ceil();
       currentLineLength += wordWidth;
+      firstLineLengthNoIndent += wordWidth;
     }
   }
 
@@ -102,8 +103,13 @@ Widget getTextLine(
   final lineWidth = _textSize(inputString, style).width.ceil().toDouble();
   if (addIndentation) {
     return Row(
+      spacing: 0,
       children: [
-        Text(firstWordLineIndentation),
+        Text(
+          firstWordLineIndentation,
+          textAlign: TextAlign.right,
+          textDirection: TextDirection.rtl,
+        ),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [Text(inputString), hLine(lineWidth)],
