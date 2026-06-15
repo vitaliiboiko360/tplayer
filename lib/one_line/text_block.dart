@@ -22,10 +22,14 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       duration: const Duration(seconds: 5),
       vsync: this,
     );
+    _controller.addStatusListener((AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        _controller.reset();
+      }
+    });
   }
 
   Future<void> _playAnimation() async {
-    print('play animation called');
     try {
       await _controller.forward().orCancel;
       // await _controller.reverse().orCancel;
@@ -122,12 +126,6 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
     for (var i = 0; i < lineLengths.length; i++) {
       var lineLength = lineLengths[i];
       var lineInterval = lineLength / lineLengthsSum;
-
-      print(
-        'interval start:$intervalStart end:${intervalStart + lineInterval}',
-      );
-      print('line length begin:0 end:${lineLength.toDouble()}');
-
       _animations.add(
         Tween<double>(begin: 0, end: lineLength.toDouble()).animate(
           CurvedAnimation(
