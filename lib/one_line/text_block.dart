@@ -73,11 +73,14 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
     List<String> words = inputString.split(' ');
 
     var currentLineLength = 0;
+    bool isFirstLine = true;
     var firstLineLengthNoIndent = 0;
     String currentLine = '';
     List<int> lineLengths = [];
     List<String> lineTexts = [];
     List<Widget> lines = [];
+
+    var spaceWidth = _textSize(' ', style).width.ceil();
 
     for (var i = 0; i < words.length; i++) {
       String word = words[i];
@@ -89,23 +92,29 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
           style,
         ).width.ceil();
       }
-
       if (currentLineLength + wordWidth >
           TextBlockWidth - sumOfLeftRightPadding) {
         lineTexts.add(currentLine);
-        lineLengths.add(currentLineLength);
+
+        if (isFirstLine) {
+          isFirstLine = false;
+          lineLengths.add(firstLineLengthNoIndent - spaceWidth);
+        } else {
+          lineLengths.add(currentLineLength - spaceWidth);
+        }
         currentLine = word;
         currentLineLength = wordWidth;
       } else {
-        currentLine += ' ';
         currentLine += word;
-        currentLineLength += _textSize(' ', style).width.ceil();
+        currentLine += ' ';
         currentLineLength += wordWidth;
+        currentLineLength += spaceWidth;
         firstLineLengthNoIndent += wordWidth;
+        firstLineLengthNoIndent += spaceWidth;
       }
     }
     lineTexts.add(currentLine);
-    lineLengths.add(currentLineLength);
+    lineLengths.add(currentLineLength - spaceWidth);
 
     final lineLengthsSum = lineLengths.reduce((a, b) => a + b);
 
@@ -117,6 +126,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       print(
         'interval start:$intervalStart end:${intervalStart + lineInterval}',
       );
+      print('line length begin:0 end:${lineLength.toDouble()}');
 
       _animations.add(
         Tween<double>(begin: 0, end: lineLength.toDouble()).animate(
@@ -145,6 +155,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
           child: getTextLine(
             currentLine,
             _animations[i].value,
+            i,
             addIndentation: i == 0,
           ),
         ),
@@ -156,7 +167,8 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
 
   Widget getTextLine(
     String inputString,
-    double lineWidth, {
+    double lineWidth,
+    int index, {
     addIndentation = false,
   }) {
     if (addIndentation) {
@@ -170,7 +182,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(inputString), hLine(lineWidth)],
+            children: [Text(inputString), hLine(_animations[index])],
           ),
         ],
       );
@@ -180,7 +192,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(inputString), hLine(lineWidth)],
+          children: [Text(inputString), hLine(_animations[index])],
         ),
       ],
     );
@@ -199,15 +211,15 @@ Size _textSize(String text, TextStyle style) {
   return textPainter.size;
 }
 
-Widget hLine(double width) =>
-    Row(children: [CustomPaint(painter: HLinePainter(width))]);
+Widget hLine(Animation<double> widthAnimated) =>
+    Row(children: [CustomPaint(painter: HLinePainter(widthAnimated))]);
 
 class HLinePainter extends CustomPainter {
-  HLinePainter(this.width);
-  double width;
+  HLinePainter(this.widthAnimated) : super(repaint: widthAnimated);
+  Animation<double> widthAnimated;
   @override
   void paint(Canvas canvas, Size size) {
-    final Rect rect = Offset.zero & Size(width, 2);
+    final Rect rect = Offset.zero & Size(widthAnimated.value, 2);
     const RadialGradient gradient = RadialGradient(
       center: Alignment(0.7, -0.6),
       radius: 10,
