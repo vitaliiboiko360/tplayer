@@ -227,7 +227,9 @@ class HLinePainter extends CustomPainter {
       ], // Color(0xFFFFFF00),
       stops: <double>[0.4, 1.0],
     );
-    canvas.drawRect(rect, Paint()..shader = gradient.createShader(rect));
+    Paint paint = Paint()..shader = gradient.createShader(rect);
+    RRect rrect = RRect.fromRectAndRadius(rect, Radius.circular(2));
+    canvas.drawRRect(rrect, paint);
   }
 
   @override
