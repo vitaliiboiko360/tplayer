@@ -10,7 +10,10 @@ class TextBlock extends StatefulWidget {
 }
 
 class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
-  BorderSide borderSide = BorderSide(color: Colors.blue, width: 1.0);
+  BorderSide borderSide = BorderSide(
+    color: const Color.fromARGB(50, 158, 158, 158),
+    width: 0.0,
+  );
 
   late AnimationController _controller;
   List<Animation<double>> _animations = [];
@@ -222,8 +225,8 @@ class HLinePainter extends CustomPainter {
       center: Alignment(0.7, -0.6),
       radius: 10,
       colors: <Color>[
-        Color(0xFF0099FF),
-        Color(0xFF0099FF),
+        Color(0xFF4A8EFF),
+        Color(0xFF4A8EFF),
       ], // Color(0xFFFFFF00),
       stops: <double>[0.4, 1.0],
     );

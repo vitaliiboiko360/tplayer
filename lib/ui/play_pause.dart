@@ -12,19 +12,16 @@ class PlayPauseButton extends StatelessWidget {
             gradient: RadialGradient(
               center: Alignment(0, 0),
               radius: 0.15,
-              colors: <Color>[
-                Color.fromARGB(255, 191, 196, 213),
-                Color.fromARGB(255, 185, 185, 217),
-              ],
+              colors: <Color>[Color(0xFFD8E2FF), Color(0xFFEDF0FF)],
               stops: <double>[0.0, 1.0],
             ),
             borderRadius: BorderRadius.all(Radius.circular(40)),
-            border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
+            border: BoxBorder.all(color: Color(0xFF7FABFF), width: 1),
           ),
           child: Icon(
             Icons.play_arrow_rounded,
             size: 50,
-            color: Color.fromARGB(255, 76, 80, 107),
+            color: Color(0xFF7FABFF),
           ),
         ),
       ),
