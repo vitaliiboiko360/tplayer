@@ -7,6 +7,7 @@ import 'package:tplayer/logo/logo_holder.dart';
 import 'package:tplayer/one_line/player_controls.dart';
 import 'package:tplayer/one_line/text_block.dart';
 import 'package:tplayer/ui/play_pause.dart';
+import 'package:tplayer/router/router.dart';
 
 const double TextBlockHeight = 510;
 const double TextBlockWidth = 350;
@@ -41,10 +42,7 @@ class _OneLinePageState extends State<OneLinePage> {
             alignment: Alignment.topLeft,
             child: Padding(
               padding: EdgeInsetsGeometry.directional(top: 20, start: 20),
-              child: FloatingActionButton(
-                onPressed: () {},
-                child: Icon(Icons.arrow_back, size: 25),
-              ),
+              child: BackButton(),
             ),
           ),
           Align(
@@ -99,5 +97,19 @@ class OneLinePageLayoutChild extends SingleChildLayoutDelegate {
   @override
   bool shouldRelayout(covariant SingleChildLayoutDelegate oldDelegate) {
     return true;
+  }
+}
+
+class BackButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return FloatingActionButton(
+      onPressed: () {
+        router.go('/');
+      },
+      foregroundColor: Color.fromARGB(255, 19, 87, 189),
+      backgroundColor: Color.fromARGB(255, 206, 220, 251),
+      child: Icon(Icons.arrow_back, size: 25),
+    );
   }
 }
