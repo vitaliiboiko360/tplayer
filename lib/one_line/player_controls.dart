@@ -3,45 +3,47 @@ import 'package:tplayer/one_line/one_line.dart';
 import 'package:tplayer/ui/play_pause.dart';
 import 'package:tplayer/ui/test_button.dart';
 
+const decoratedBoxOld = DecoratedBox(
+  decoration: BoxDecoration(
+    borderRadius: BorderRadius.all(Radius.circular(25)),
+    color: Color.fromARGB(255, 224, 225, 245),
+    // backgroundBlendMode: BlendMode.hue,
+    image: DecorationImage(
+      image: AssetImage('img/pattern3.webp'),
+      repeat: ImageRepeat.repeat,
+      fit: BoxFit.none,
+      opacity: 0.05,
+      scale: 0.75,
+    ),
+  ),
+  child: SizedBox.expand(),
+);
+
 class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: TextBlockWidth,
 
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.all(Radius.circular(25)),
-          color: Color.fromARGB(255, 224, 225, 245),
-          // backgroundBlendMode: BlendMode.hue,
-          image: DecorationImage(
-            image: AssetImage('img/pattern3.webp'),
-            repeat: ImageRepeat.repeat,
-            fit: BoxFit.none,
-            opacity: 0.05,
-            scale: 0.75,
-          ),
-        ),
-        child: Column(
-          children: [
-            SizedBox(height: 20),
-            Container(
-              height: 80,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                spacing: 10,
-                children: [
-                  Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
-                  Backward(),
-                  PlayPauseButton(),
-                  Forward(),
-                  PlaybackSpeed(),
-                ],
-              ),
+      child: Column(
+        children: [
+          SizedBox(height: 20),
+          Container(
+            height: 80,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              spacing: 10,
+              children: [
+                Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
+                Backward(),
+                PlayPauseButton(),
+                Forward(),
+                PlaybackSpeed(),
+              ],
             ),
-            SizedBox(height: 10),
-          ],
-        ),
+          ),
+          SizedBox(height: 10),
+        ],
       ),
     );
   }
