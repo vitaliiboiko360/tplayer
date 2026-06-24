@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tplayer/one_line/one_line.dart';
+import 'package:tplayer/ui/button_animated.dart';
 import 'package:tplayer/ui/play_pause.dart';
 import 'package:tplayer/ui/test_button.dart';
 
@@ -166,7 +167,8 @@ class PlaybackSpeed extends StatelessWidget {
               //   width: 1,
               // ),
             ),
-            child: TestButton.outline2(
+            child: ButtonAnimated(
+              label: '',
               child: Text(
                 '0.85x',
                 textHeightBehavior: const TextHeightBehavior(
@@ -238,7 +240,7 @@ class ShowDetails extends StatelessWidget {
         child: SizedBox(
           width: 50,
           height: 30,
-          child: TestButton.outline(label: '', icon: Icons.pending_rounded),
+          child: ButtonAnimated(label: '', icon: Icons.pending_rounded),
         ),
       ),
     );

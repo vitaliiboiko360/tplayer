@@ -1,12 +1,7 @@
 import 'dart:math';
-
 import 'package:flutter/material.dart';
-import 'package:tplayer/home/home_buttons.dart';
-import 'package:tplayer/home/home_slider.dart';
-import 'package:tplayer/logo/logo_holder.dart';
 import 'package:tplayer/one_line/player_controls.dart';
 import 'package:tplayer/one_line/text_block.dart';
-import 'package:tplayer/ui/play_pause.dart';
 import 'package:tplayer/router/router.dart';
 
 const double TextBlockHeight = 510;
