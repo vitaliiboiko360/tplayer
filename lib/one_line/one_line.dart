@@ -24,12 +24,7 @@ class _OneLinePageState extends State<OneLinePage> {
     double devicePixelRatio = MediaQuery.of(context).devicePixelRatio;
 
     return Scaffold(
-      body: SingleChildScrollView(
-        child: OneLinePageLayoutParent(
-          // SizedBox(height: 400)
-          // child: Column(children: [TextBlock(), PlayerControls()]),
-        ),
-      ),
+      body: SingleChildScrollView(child: OneLinePageLayoutParent()),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: Stack(
         children: <Widget>[
