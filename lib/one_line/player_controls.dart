@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/one_line/one_line.dart';
+import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
 import 'package:tplayer/ui/play_pause.dart';
-import 'package:tplayer/ui/test_button.dart';
 
 const decoratedBoxOld = DecoratedBox(
   decoration: BoxDecoration(
@@ -20,33 +21,86 @@ const decoratedBoxOld = DecoratedBox(
   child: SizedBox.expand(),
 );
 
+const playerContolsHeight = TextBlockWidth;
+
 class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: TextBlockWidth,
-
-      child: Column(
-        children: [
-          SizedBox(height: 20),
-          Container(
-            height: 80,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              spacing: 10,
+    return BlocProvider(
+      create: (BuildContext context) => ShowDetailsMenuCubit(),
+      child: SizedBox(
+        width: TextBlockWidth,
+        height: 110,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Column(
               children: [
-                Align(alignment: Alignment.bottomLeft, child: ShowDetails()),
-                Backward(),
-                PlayPauseButton(),
-                Forward(),
-                PlaybackSpeed(),
+                SizedBox(height: 20),
+                Container(
+                  height: 80,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    spacing: 10,
+                    children: [
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: ShowDetails(),
+                      ),
+                      Backward(),
+                      PlayPauseButton(),
+                      Forward(),
+                      PlaybackSpeed(),
+                    ],
+                  ),
+                ),
+                SizedBox(height: 10),
               ],
             ),
-          ),
-          SizedBox(height: 10),
-        ],
+            ShowDetailsMenu(),
+          ],
+        ),
       ),
     );
+  }
+}
+
+class ShowDetailsMenu extends StatefulWidget {
+  const ShowDetailsMenu({super.key});
+
+  @override
+  State<ShowDetailsMenu> createState() => _ShowDetailsMenuState();
+}
+
+class _ShowDetailsMenuState extends State<ShowDetailsMenu> {
+  late bool isOpened;
+
+  @override
+  void initState() {
+    isOpened = false;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var showDetailsMenuState = BlocProvider.of<ShowDetailsMenuCubit>(
+      context,
+      listen: true,
+    );
+    return showDetailsMenuState.state.isOpened
+        ? Positioned(
+            top: -88,
+            left: 0,
+            width: 150,
+            height: 100,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 204, 218, 253),
+              ),
+              child: SizedBox(width: 150, height: 100, child: Text('Menu')),
+            ),
+          )
+        : SizedBox.shrink();
   }
 }
 
@@ -150,23 +204,7 @@ class PlaybackSpeed extends StatelessWidget {
         child: SizedBox(
           width: 58,
           height: 30,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              // gradient: RadialGradient(
-              //   center: Alignment(0, 0),
-              //   radius: 0.15,
-              //   colors: <Color>[
-              //     Color.fromARGB(255, 191, 196, 213),
-              //     Color.fromARGB(255, 185, 185, 217),
-              //   ],
-              //   stops: <double>[0.0, 1.0],
-              // ),
-              // borderRadius: BorderRadius.all(Radius.circular(40)),
-              // border: BoxBorder.all(
-              //   color: Color(0xFF8B8DBD),
-              //   width: 1,
-              // ),
-            ),
+          child: Container(
             child: ButtonAnimated(
               label: '',
               child: Text(
@@ -191,48 +229,13 @@ class PlaybackSpeed extends StatelessWidget {
   }
 }
 
-class ShowDetails_1 extends StatelessWidget {
-  @override
-  Widget build(Object context) {
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Padding(
-        padding: EdgeInsetsGeometry.only(left: 8),
-        child: SizedBox(
-          width: 50,
-          height: 30,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              // gradient: RadialGradient(
-              //   center: Alignment(0, 0),
-              //   radius: 0.15,
-              //   colors: <Color>[
-              //     Color.fromARGB(255, 213, 226, 227),
-              //     Color.fromARGB(255, 181, 199, 196),
-              //   ],
-              //   stops: <double>[0.0, 1.0],
-              // ),
-              borderRadius: BorderRadius.all(Radius.circular(40)),
-              // border: BoxBorder.all(
-              //   color: const Color.fromARGB(255, 234, 244, 247),
-              //   width: 1,
-              // ),
-            ),
-            child: Icon(
-              Icons.pending_rounded,
-              size: 30,
-              color: const Color.fromARGB(255, 145, 151, 165),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 class ShowDetails extends StatelessWidget {
   @override
-  Widget build(Object context) {
+  Widget build(BuildContext context) {
+    VoidCallback onTap = () {
+      BlocProvider.of<ShowDetailsMenuCubit>(context).toggleOpen();
+    };
+
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
@@ -240,7 +243,11 @@ class ShowDetails extends StatelessWidget {
         child: SizedBox(
           width: 50,
           height: 30,
-          child: ButtonAnimated(label: '', icon: Icons.pending_rounded),
+          child: ButtonAnimated(
+            label: '',
+            icon: Icons.pending_rounded,
+            onTap: onTap,
+          ),
         ),
       ),
     );
