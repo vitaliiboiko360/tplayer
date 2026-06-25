@@ -72,12 +72,33 @@ class ShowDetailsMenu extends StatefulWidget {
   State<ShowDetailsMenu> createState() => _ShowDetailsMenuState();
 }
 
-class _ShowDetailsMenuState extends State<ShowDetailsMenu> {
+class _ShowDetailsMenuState extends State<ShowDetailsMenu>
+    with SingleTickerProviderStateMixin {
   late bool isOpened;
+  AnimationController? _controller;
+  Animation<Offset>? _offsetAnimation;
 
   @override
   void initState() {
     isOpened = false;
+
+    _controller = AnimationController(
+      duration: const Duration(seconds: 1),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0, -100),
+      end: const Offset(0, 0),
+    ).animate(CurvedAnimation(
+      parent: _controller!,
+      curve: Curves.easeInOut,
+    ));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose(); // Always dispose your controllers
     super.initState();
   }
 
@@ -87,18 +108,36 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu> {
       context,
       listen: true,
     );
+
+    if (showDetailsMenuState.state.isOpened) {
+      _controller?.forward();
+    } else {
+      _controller?.reset();
+    }
     return showDetailsMenuState.state.isOpened
         ? Positioned(
             top: -88,
             left: 0,
             width: 150,
             height: 100,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 204, 218, 253),
-              ),
-              child: SizedBox(width: 150, height: 100, child: Text('Menu')),
-            ),
+            child: Container(
+                width: 150,
+                height: 100,
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(),
+                child: SlideTransition(
+                  // offset: _offsetAnimation.value,
+                  // duration: Duration(microseconds: 300),
+                  // curve: Curves.easeInOut,
+                  position: _offsetAnimation!,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 204, 218, 253),
+                    ),
+                    child:
+                        SizedBox(width: 150, height: 100, child: Text('Menu')),
+                  ),
+                )),
           )
         : SizedBox.shrink();
   }
