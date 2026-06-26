@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/one_line/one_line.dart';
+import 'package:tplayer/state/playback_speed_slider.dart';
 import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
 import 'package:tplayer/ui/play_pause.dart';
@@ -26,8 +27,14 @@ const playerContolsHeight = TextBlockWidth;
 class PlayerControls extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) => ShowDetailsMenuCubit(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ShowDetailsMenuCubit>(
+            create: (BuildContext context) => ShowDetailsMenuCubit()),
+        BlocProvider<PlaybackSpeedSliderCubit>(
+          create: (BuildContext context) => PlaybackSpeedSliderCubit(),
+        )
+      ],
       child: SizedBox(
         width: TextBlockWidth,
         height: 110,
@@ -58,6 +65,7 @@ class PlayerControls extends StatelessWidget {
               ],
             ),
             ShowDetailsMenu(),
+            PlaybackSpeedSlider(),
           ],
         ),
       ),
@@ -100,7 +108,7 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
   @override
   void dispose() {
     _controller!.dispose(); // Always dispose your controllers
-    super.initState();
+    super.dispose();
   }
 
   @override
@@ -241,7 +249,10 @@ class Backward extends StatelessWidget {
 
 class PlaybackSpeed extends StatelessWidget {
   @override
-  Widget build(Object context) {
+  Widget build(BuildContext context) {
+    VoidCallback onTap = () {
+      BlocProvider.of<PlaybackSpeedSliderCubit>(context).toggleOpen();
+    };
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
@@ -252,6 +263,7 @@ class PlaybackSpeed extends StatelessWidget {
           child: Container(
             child: ButtonAnimated(
               label: '',
+              onTap: onTap,
               child: Text(
                 '0.85x',
                 textHeightBehavior: const TextHeightBehavior(
@@ -270,6 +282,151 @@ class PlaybackSpeed extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class PlaybackSpeedSlider extends StatefulWidget {
+  const PlaybackSpeedSlider({super.key});
+  @override
+  State<PlaybackSpeedSlider> createState() => PlaybackSpeedSliderState();
+}
+
+class PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
+    with SingleTickerProviderStateMixin {
+  late bool isOpened;
+  late double sliderValue;
+  AnimationController? _controller;
+  Animation<Offset>? _offsetAnimation;
+  MenuController? menuController;
+
+  void sliderOnChanged(value) {
+    setState(() {
+      print('slider on change');
+      sliderValue = value;
+    });
+  }
+
+  @override
+  void initState() {
+    isOpened = false;
+    sliderValue = 0.5;
+    menuController = MenuController();
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      reverseDuration: Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller!,
+      curve: Curves.easeInOut,
+    ));
+
+    _controller?.addStatusListener((AnimationStatus status) {
+      if (status == AnimationStatus.completed) {
+        menuController?.open(position: Offset.zero);
+      }
+    });
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose(); // Always dispose your controllers
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var showDetailsMenuState = BlocProvider.of<PlaybackSpeedSliderCubit>(
+      context,
+      listen: true,
+    );
+
+    if (showDetailsMenuState.state.isOpened) {
+      setState(() {
+        _controller?.forward();
+      });
+    } else {
+      setState(() {
+        _controller?.reverse();
+      });
+    }
+    return Positioned(
+      top: -88,
+      right: 0,
+      width: 150,
+      height: 100,
+      child: Container(
+          width: 150,
+          height: 100,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(),
+          child: SlideTransition(
+            position: _offsetAnimation!,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 204, 218, 253),
+              ),
+              child: MenuAnchor(
+                  alignmentOffset: Offset.zero,
+                  controller: menuController,
+                  menuChildren: [
+                    TapRegion(
+                      consumeOutsideTaps: false,
+                      child: SizedBox(
+                        width: 150,
+                        height: 100,
+                        child: StatefulBuilder(
+                          builder: (context, setStateInsideMenu) {
+                            return Slider(
+                              value: sliderValue,
+                              onChanged: (newValue) {
+                                setState(() => sliderValue = newValue);
+                                setStateInsideMenu(() {});
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ),
+                  ]),
+            ),
+          )),
+    );
+  }
+}
+
+class PlaybackSpeedSliderInner extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => PlaybackSpeedSliderInnerState();
+}
+
+class PlaybackSpeedSliderInnerState extends State<PlaybackSpeedSliderInner> {
+  late double sliderValue;
+
+  void sliderOnChanged(double value) {
+    setState(() {
+      print('slider on change');
+      sliderValue = value;
+    });
+  }
+
+  @override
+  void initState() {
+    sliderValue = 0.5;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Slider(
+      value: sliderValue,
+      onChanged: sliderOnChanged,
     );
   }
 }
