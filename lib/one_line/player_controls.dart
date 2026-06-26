@@ -83,12 +83,13 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
     isOpened = false;
 
     _controller = AnimationController(
-      duration: const Duration(seconds: 1),
+      duration: const Duration(milliseconds: 200),
+      reverseDuration: Duration(milliseconds: 100),
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
-      begin: Offset(0, -100),
-      end: const Offset(0, 0),
+      begin: Offset(0, 1),
+      end: Offset.zero,
     ).animate(CurvedAnimation(
       parent: _controller!,
       curve: Curves.easeInOut,
@@ -110,36 +111,41 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
     );
 
     if (showDetailsMenuState.state.isOpened) {
-      _controller?.forward();
+      setState(() {
+        _controller?.forward();
+      });
     } else {
-      _controller?.reset();
+      setState(() {
+        _controller?.reverse();
+      });
     }
-    return showDetailsMenuState.state.isOpened
-        ? Positioned(
-            top: -88,
-            left: 0,
-            width: 150,
-            height: 100,
-            child: Container(
-                width: 150,
-                height: 100,
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(),
-                child: SlideTransition(
-                  // offset: _offsetAnimation.value,
-                  // duration: Duration(microseconds: 300),
-                  // curve: Curves.easeInOut,
-                  position: _offsetAnimation!,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 204, 218, 253),
-                    ),
-                    child:
-                        SizedBox(width: 150, height: 100, child: Text('Menu')),
-                  ),
-                )),
-          )
-        : SizedBox.shrink();
+    return
+        // showDetailsMenuState.state.isOpened
+        //     ?
+        Positioned(
+      top: -88,
+      left: 0,
+      width: 150,
+      height: 100,
+      child: Container(
+          width: 150,
+          height: 100,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(),
+          child: SlideTransition(
+            // offset: _offsetAnimation.value,
+            // duration: Duration(microseconds: 300),
+            // curve: Curves.easeInOut,
+            position: _offsetAnimation!,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 204, 218, 253),
+              ),
+              child: SizedBox(width: 150, height: 100, child: Text('Menu')),
+            ),
+          )),
+    );
+    // : SizedBox.shrink();
   }
 }
 
