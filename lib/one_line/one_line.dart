@@ -57,7 +57,10 @@ class OneLinePageLayoutParent extends StatelessWidget {
       child: SizedBox(
         width: TextBlockWidth,
         height: TextBlockHeight,
-        child: Column(children: [TextBlock(), PlayerControls()]),
+        child: Column(children: [
+          TextBlock(),
+          PlayerControls(),
+        ]),
       ),
     );
   }
