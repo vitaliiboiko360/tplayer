@@ -13,7 +13,15 @@ class PlaybackSpeedSliderState {
 class PlaybackSpeedSliderCubit extends Cubit<PlaybackSpeedSliderState> {
   PlaybackSpeedSliderCubit() : super(PlaybackSpeedSliderState(false));
 
-  void toggleOpen() {
+  void toggle() {
     emit(state.copyWith(isOpened: !state.isOpened));
+  }
+
+  void setOpen() {
+    emit(PlaybackSpeedSliderState(true));
+  }
+
+  void setClose() {
+    emit(PlaybackSpeedSliderState(false));
   }
 }

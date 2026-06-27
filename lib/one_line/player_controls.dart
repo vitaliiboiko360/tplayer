@@ -251,7 +251,7 @@ class PlaybackSpeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback onTap = () {
-      BlocProvider.of<PlaybackSpeedSliderCubit>(context).toggleOpen();
+      BlocProvider.of<PlaybackSpeedSliderCubit>(context).toggle();
     };
     return Align(
       alignment: Alignment.topCenter,
@@ -295,7 +295,7 @@ class PlaybackSpeedSlider extends StatefulWidget {
 class PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
     with SingleTickerProviderStateMixin {
   late bool isOpened;
-  late double sliderValue;
+  double sliderValue = 0;
   AnimationController? _controller;
   Animation<Offset>? _offsetAnimation;
   MenuController? menuController;
@@ -326,11 +326,11 @@ class PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       curve: Curves.easeInOut,
     ));
 
-    _controller?.addStatusListener((AnimationStatus status) {
-      if (status == AnimationStatus.completed) {
-        menuController?.open(position: Offset.zero);
-      }
-    });
+    // _controller?.addStatusListener((AnimationStatus status) {
+    //   if (status == AnimationStatus.forward && !menuController!.isOpen) {
+    //     menuController?.open(position: Offset.zero);
+    //   }
+    // });
     super.initState();
   }
 
@@ -357,47 +357,38 @@ class PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       });
     }
     return Positioned(
-      top: -88,
-      right: 0,
-      width: 150,
-      height: 100,
-      child: Container(
-          width: 150,
-          height: 100,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(),
-          child: SlideTransition(
-            position: _offsetAnimation!,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 204, 218, 253),
-              ),
-              child: MenuAnchor(
-                  alignmentOffset: Offset.zero,
-                  controller: menuController,
-                  menuChildren: [
-                    TapRegion(
-                      consumeOutsideTaps: false,
-                      child: SizedBox(
-                        width: 150,
-                        height: 100,
-                        child: StatefulBuilder(
-                          builder: (context, setStateInsideMenu) {
-                            return Slider(
-                              value: sliderValue,
-                              onChanged: (newValue) {
-                                setState(() => sliderValue = newValue);
-                                setStateInsideMenu(() {});
-                              },
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ]),
-            ),
-          )),
-    );
+        top: -88,
+        right: 0,
+        width: 150,
+        height: 100,
+        child: Slider(
+            value: sliderValue,
+            onChanged: (newValue) {
+              setState(() => sliderValue = newValue);
+            })
+
+        // Container(
+        //     width: 150,
+        //     height: 100,
+        //     clipBehavior: Clip.antiAlias,
+        //     decoration: BoxDecoration(),
+        //     child: SlideTransition(
+        //       position: _offsetAnimation!,
+        //       child: DecoratedBox(
+        //         decoration: BoxDecoration(
+        //           color: const Color.fromARGB(255, 204, 218, 253),
+        //         ),
+        //         // child: TapRegion(
+        //         //   consumeOutsideTaps: false,
+        //         //   onTapOutside: (event) {
+        //         //     // if (showDetailsMenuState.state.isOpened)
+        //         //     //   showDetailsMenuState.setClose();
+        //         //   },
+        //         child: Text('slider'),
+        //         // ),
+        //       ),
+        //     )),
+        );
   }
 }
 
