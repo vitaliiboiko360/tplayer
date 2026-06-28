@@ -38,34 +38,32 @@ class PlayerControls extends StatelessWidget {
       child: SizedBox(
         width: TextBlockWidth,
         height: 110,
-        child: Stack(
-          children: [
-            Column(
-              children: [
-                SizedBox(height: 20),
-                Container(
-                  height: 80,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    spacing: 10,
-                    children: [
-                      Align(
-                        alignment: Alignment.bottomLeft,
-                        child: ShowDetails(),
-                      ),
-                      Backward(),
-                      PlayPauseButton(),
-                      Forward(),
-                      PlaybackSpeed(),
-                    ],
-                  ),
+        child: Stack(clipBehavior: Clip.none, children: [
+          Column(
+            children: [
+              SizedBox(height: 20),
+              Container(
+                height: 80,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  spacing: 10,
+                  children: [
+                    Align(
+                      alignment: Alignment.bottomLeft,
+                      child: ShowDetails(),
+                    ),
+                    Backward(),
+                    PlayPauseButton(),
+                    Forward(),
+                    PlaybackSpeed(),
+                  ],
                 ),
-                SizedBox(height: 10),
-              ],
-            ),
-            PlaybackSpeedSlider(parentContext: context)
-          ],
-        ),
+              ),
+              SizedBox(height: 10),
+            ],
+          ),
+          PlaybackSpeedSlider()
+        ]),
       ),
     );
   }
@@ -249,6 +247,8 @@ class PlaybackSpeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback onTap = () {
+      print(
+          'onTap isOpened= ${BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened}');
       if (!BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
         BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
       }
@@ -287,8 +287,7 @@ class PlaybackSpeed extends StatelessWidget {
 }
 
 class PlaybackSpeedSlider extends StatefulWidget {
-  PlaybackSpeedSlider({required this.parentContext, super.key});
-  BuildContext parentContext;
+  PlaybackSpeedSlider({super.key});
 
   @override
   State<PlaybackSpeedSlider> createState() => _PlaybackSpeedSliderState();
@@ -300,8 +299,7 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
   AnimationController? _controller;
   Animation<Offset>? _offsetAnimation;
 
-  final OverlayPortalController _overlayController = OverlayPortalController()
-    ..show();
+  final OverlayPortalController _overlayController = OverlayPortalController();
 
   void _sliderOnChanged(value) {
     setState(() {
@@ -327,7 +325,7 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
     ));
     // _controller!.addStatusListener((AnimationStatus animationStatus) {
     //   if (animationStatus.isForwardOrCompleted) {
-    //     _addOverlayEntry(context);
+    //     _overlayController.show();
     //   }
     // });
     super.initState();
@@ -368,27 +366,26 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
           child: SlideTransition(
             position: _offsetAnimation!,
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 204, 218, 253),
-              ),
-              // child: TapRegion(
-              //   onTapOutside: (event) {
-              //     showDetailsMenuState.setClose();
-              //   },
-              child: OverlayPortal(
-                  controller: _overlayController,
-                  overlayChildBuilder: (context) => Positioned(
-                        top: 0,
-                        right: 0,
-                        width: 150,
-                        height: 100,
-                        child: Slider(
-                          value: _sliderValue,
-                          onChanged: _sliderOnChanged,
-                        ),
-                      )),
-              // ),
-            ),
+                decoration: BoxDecoration(
+                  color: const Color.fromARGB(255, 204, 218, 253),
+                ),
+                child: TapRegion(
+                  onTapOutside: (event) {
+                    showDetailsMenuState.setClose();
+                  },
+                  child: SizedBox(
+                    width: 150,
+                    height: 100,
+                    child: SizedBox.expand(),
+                  ),
+                  // OverlayPortal(
+                  //     controller: _overlayController,
+                  //     overlayChildBuilder: (context) => Slider(
+                  //           value: _sliderValue,
+                  //           onChanged: _sliderOnChanged,
+                  //         ),
+                  //     child: SizedBox.shrink()),
+                )),
           )),
     );
   }
