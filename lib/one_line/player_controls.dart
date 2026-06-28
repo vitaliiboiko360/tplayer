@@ -39,7 +39,6 @@ class PlayerControls extends StatelessWidget {
         width: TextBlockWidth,
         height: 110,
         child: Stack(
-          clipBehavior: Clip.none,
           children: [
             Column(
               children: [
@@ -64,8 +63,7 @@ class PlayerControls extends StatelessWidget {
                 SizedBox(height: 10),
               ],
             ),
-            ShowDetailsMenu(),
-            PlaybackSpeedSlider(),
+            PlaybackSpeedSlider(parentContext: context)
           ],
         ),
       ),
@@ -251,7 +249,9 @@ class PlaybackSpeed extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback onTap = () {
-      BlocProvider.of<PlaybackSpeedSliderCubit>(context).toggle();
+      if (!BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
+        BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
+      }
     };
     return Align(
       alignment: Alignment.topCenter,
@@ -287,31 +287,31 @@ class PlaybackSpeed extends StatelessWidget {
 }
 
 class PlaybackSpeedSlider extends StatefulWidget {
-  const PlaybackSpeedSlider({super.key});
+  PlaybackSpeedSlider({required this.parentContext, super.key});
+  BuildContext parentContext;
+
   @override
-  State<PlaybackSpeedSlider> createState() => PlaybackSpeedSliderState();
+  State<PlaybackSpeedSlider> createState() => _PlaybackSpeedSliderState();
 }
 
-class PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
+class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
     with SingleTickerProviderStateMixin {
-  late bool isOpened;
-  double sliderValue = 0;
+  double _sliderValue = 0;
   AnimationController? _controller;
   Animation<Offset>? _offsetAnimation;
-  MenuController? menuController;
 
-  void sliderOnChanged(value) {
+  final OverlayPortalController _overlayController = OverlayPortalController()
+    ..show();
+
+  void _sliderOnChanged(value) {
     setState(() {
-      print('slider on change');
-      sliderValue = value;
+      _sliderValue = value;
     });
   }
 
   @override
   void initState() {
-    isOpened = false;
-    sliderValue = 0.5;
-    menuController = MenuController();
+    _sliderValue = 0.5;
 
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
@@ -325,10 +325,9 @@ class PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       parent: _controller!,
       curve: Curves.easeInOut,
     ));
-
-    // _controller?.addStatusListener((AnimationStatus status) {
-    //   if (status == AnimationStatus.forward && !menuController!.isOpen) {
-    //     menuController?.open(position: Offset.zero);
+    // _controller!.addStatusListener((AnimationStatus animationStatus) {
+    //   if (animationStatus.isForwardOrCompleted) {
+    //     _addOverlayEntry(context);
     //   }
     // });
     super.initState();
@@ -357,38 +356,41 @@ class PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       });
     }
     return Positioned(
-        top: -88,
-        right: 0,
-        width: 150,
-        height: 100,
-        child: Slider(
-            value: sliderValue,
-            onChanged: (newValue) {
-              setState(() => sliderValue = newValue);
-            })
-
-        // Container(
-        //     width: 150,
-        //     height: 100,
-        //     clipBehavior: Clip.antiAlias,
-        //     decoration: BoxDecoration(),
-        //     child: SlideTransition(
-        //       position: _offsetAnimation!,
-        //       child: DecoratedBox(
-        //         decoration: BoxDecoration(
-        //           color: const Color.fromARGB(255, 204, 218, 253),
-        //         ),
-        //         // child: TapRegion(
-        //         //   consumeOutsideTaps: false,
-        //         //   onTapOutside: (event) {
-        //         //     // if (showDetailsMenuState.state.isOpened)
-        //         //     //   showDetailsMenuState.setClose();
-        //         //   },
-        //         child: Text('slider'),
-        //         // ),
-        //       ),
-        //     )),
-        );
+      top: -88,
+      right: 0,
+      width: 150,
+      height: 100,
+      child: Container(
+          width: 150,
+          height: 100,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(),
+          child: SlideTransition(
+            position: _offsetAnimation!,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 204, 218, 253),
+              ),
+              // child: TapRegion(
+              //   onTapOutside: (event) {
+              //     showDetailsMenuState.setClose();
+              //   },
+              child: OverlayPortal(
+                  controller: _overlayController,
+                  overlayChildBuilder: (context) => Positioned(
+                        top: 0,
+                        right: 0,
+                        width: 150,
+                        height: 100,
+                        child: Slider(
+                          value: _sliderValue,
+                          onChanged: _sliderOnChanged,
+                        ),
+                      )),
+              // ),
+            ),
+          )),
+    );
   }
 }
 
