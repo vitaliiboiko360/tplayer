@@ -356,13 +356,13 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
     }
 
     return Positioned(
-        top: -88,
+        top: -50,
         right: 0,
         width: 150,
-        height: 100,
+        height: 50,
         child: Container(
             width: 150,
-            height: 100,
+            height: 50,
             clipBehavior: Clip.antiAlias,
             decoration: BoxDecoration(),
             child: SlideTransition(
@@ -371,7 +371,7 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
                 link: _layerLink,
                 child: Container(
                     width: 150,
-                    height: 100,
+                    height: 50,
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 204, 218, 253),
                     ),
@@ -385,7 +385,7 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
                       controller: _overlayController,
                       overlayChildBuilder: (context) => Positioned(
                           width: 150,
-                          height: 100,
+                          height: 50,
                           child: CompositedTransformFollower(
                               link: _layerLink,
                               showWhenUnlinked: false,
