@@ -323,11 +323,11 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       parent: _controller!,
       curve: Curves.easeInOut,
     ));
-    // _controller!.addStatusListener((AnimationStatus animationStatus) {
-    //   if (animationStatus.isForwardOrCompleted) {
-    //     _overlayController.show();
-    //   }
-    // });
+    _controller!.addStatusListener((AnimationStatus animationStatus) {
+      if (animationStatus.isForwardOrCompleted) {
+        _overlayController.show();
+      }
+    });
     super.initState();
   }
 
@@ -339,6 +339,7 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
 
   @override
   Widget build(BuildContext context) {
+    final LayerLink _layerLink = LayerLink();
     var showDetailsMenuState = BlocProvider.of<PlaybackSpeedSliderCubit>(
       context,
       listen: true,
@@ -353,41 +354,50 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
         _controller?.reverse();
       });
     }
+
     return Positioned(
-      top: -88,
-      right: 0,
-      width: 150,
-      height: 100,
-      child: Container(
-          width: 150,
-          height: 100,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(),
-          child: SlideTransition(
-            position: _offsetAnimation!,
-            child: DecoratedBox(
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 204, 218, 253),
-                ),
-                child: TapRegion(
-                  onTapOutside: (event) {
-                    showDetailsMenuState.setClose();
-                  },
-                  child: SizedBox(
+        top: -88,
+        right: 0,
+        width: 150,
+        height: 100,
+        child: Container(
+            width: 150,
+            height: 100,
+            clipBehavior: Clip.antiAlias,
+            decoration: BoxDecoration(),
+            child: SlideTransition(
+              position: _offsetAnimation!,
+              child: CompositedTransformTarget(
+                link: _layerLink,
+                child: Container(
                     width: 150,
                     height: 100,
-                    child: SizedBox.expand(),
-                  ),
-                  // OverlayPortal(
-                  //     controller: _overlayController,
-                  //     overlayChildBuilder: (context) => Slider(
-                  //           value: _sliderValue,
-                  //           onChanged: _sliderOnChanged,
-                  //         ),
-                  //     child: SizedBox.shrink()),
-                )),
-          )),
-    );
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(255, 204, 218, 253),
+                    ),
+                    child:
+                        // TapRegion(
+                        //     onTapOutside: (event) {
+                        //       showDetailsMenuState.setClose();
+                        //     },
+                        //     child:
+                        OverlayPortal(
+                      controller: _overlayController,
+                      overlayChildBuilder: (context) => Positioned(
+                          width: 150,
+                          height: 100,
+                          child: CompositedTransformFollower(
+                              link: _layerLink,
+                              showWhenUnlinked: false,
+                              child: Slider(
+                                value: _sliderValue,
+                                onChanged: _sliderOnChanged,
+                              ))),
+                      child: null,
+                    )),
+                // )
+              ),
+            )));
   }
 }
 
