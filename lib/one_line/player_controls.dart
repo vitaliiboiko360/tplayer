@@ -5,6 +5,7 @@ import 'package:tplayer/state/playback_speed_slider.dart';
 import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
 import 'package:tplayer/ui/play_pause.dart';
+import 'package:defer_pointer/defer_pointer.dart';
 
 const decoratedBoxOld = DecoratedBox(
   decoration: BoxDecoration(
@@ -35,7 +36,8 @@ class PlayerControls extends StatelessWidget {
           create: (BuildContext context) => PlaybackSpeedSliderCubit(),
         )
       ],
-      child: SizedBox(
+      child: DeferredPointerHandler(
+          child: SizedBox(
         width: TextBlockWidth,
         height: 110,
         child: Stack(clipBehavior: Clip.none, children: [
@@ -64,7 +66,7 @@ class PlayerControls extends StatelessWidget {
           ),
           PlaybackSpeedSlider()
         ]),
-      ),
+      )),
     );
   }
 }
@@ -251,6 +253,10 @@ class PlaybackSpeed extends StatelessWidget {
           'onTap isOpened= ${BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened}');
       if (!BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
         BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
+      } else if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
+          .state
+          .isOpened) {
+        BlocProvider.of<PlaybackSpeedSliderCubit>(context).setClose();
       }
     };
     return Align(
@@ -295,22 +301,13 @@ class PlaybackSpeedSlider extends StatefulWidget {
 
 class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
     with SingleTickerProviderStateMixin {
-  double _sliderValue = 0;
   AnimationController? _controller;
   Animation<Offset>? _offsetAnimation;
 
   final OverlayPortalController _overlayController = OverlayPortalController();
 
-  void _sliderOnChanged(value) {
-    setState(() {
-      _sliderValue = value;
-    });
-  }
-
   @override
   void initState() {
-    _sliderValue = 0.5;
-
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       reverseDuration: Duration(milliseconds: 100),
@@ -327,6 +324,10 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       if (animationStatus.isForwardOrCompleted) {
         _overlayController.show();
       }
+      // else if (animationStatus == AnimationStatus.reverse ||
+      //     animationStatus == AnimationStatus.dismissed) {
+      //   _overlayController.hide();
+      // }
     });
     super.initState();
   }
@@ -356,77 +357,106 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
     }
 
     return Positioned(
-        top: -50,
-        right: 0,
-        width: 150,
-        height: 50,
-        child: Container(
-            width: 150,
-            height: 50,
-            clipBehavior: Clip.antiAlias,
-            decoration: BoxDecoration(),
-            child: SlideTransition(
-              position: _offsetAnimation!,
-              child: CompositedTransformTarget(
-                link: _layerLink,
+      top: -50,
+      right: 0,
+      width: 150,
+      height: 50,
+      child: DeferPointer(
+          child: Container(
+              width: 150,
+              height: 50,
+              clipBehavior: Clip.antiAlias,
+              decoration: BoxDecoration(),
+              child: SlideTransition(
+                position: _offsetAnimation!,
                 child: Container(
                     width: 150,
                     height: 50,
-                    decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 204, 218, 253),
-                    ),
-                    child:
-                        // TapRegion(
-                        //     onTapOutside: (event) {
-                        //       showDetailsMenuState.setClose();
-                        //     },
-                        //     child:
-                        OverlayPortal(
-                      controller: _overlayController,
-                      overlayChildBuilder: (context) => Positioned(
-                          width: 150,
-                          height: 50,
-                          child: CompositedTransformFollower(
-                              link: _layerLink,
-                              showWhenUnlinked: false,
-                              child: Slider(
-                                value: _sliderValue,
-                                onChanged: _sliderOnChanged,
-                              ))),
-                      child: null,
-                    )),
-                // )
-              ),
-            )));
+                    decoration: BoxDecoration(),
+                    child: PlaybackSpeedSliderInner()),
+              ))),
+    );
   }
 }
 
 class PlaybackSpeedSliderInner extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => PlaybackSpeedSliderInnerState();
+  State<StatefulWidget> createState() => _PlaybackSpeedSliderInnerState();
 }
 
-class PlaybackSpeedSliderInnerState extends State<PlaybackSpeedSliderInner> {
-  late double sliderValue;
+class _PlaybackSpeedSliderInnerState extends State<PlaybackSpeedSliderInner> {
+  late double _sliderValue;
 
-  void sliderOnChanged(double value) {
+  void _sliderOnChanged(double value) {
     setState(() {
-      print('slider on change');
-      sliderValue = value;
+      _sliderValue = value;
     });
   }
 
   @override
   void initState() {
-    sliderValue = 0.5;
+    _sliderValue = 0.5;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Slider(
-      value: sliderValue,
-      onChanged: sliderOnChanged,
+    return SliderTheme(
+        data: SliderTheme.of(context).copyWith(
+            trackHeight: 4.0, // Set the desired height
+            trackShape: SameHeightTrackShape(), // Apply your custom track shape
+            // activeTrackColor: Colors.blue,
+            inactiveTrackColor: Colors.grey.withValues(alpha: 0.4),
+            padding: EdgeInsetsGeometry.directional(
+                start: 24, end: 22, top: 4, bottom: 4)),
+        child: Slider(
+          value: _sliderValue,
+          onChanged: _sliderOnChanged,
+        ));
+  }
+}
+
+class SameHeightTrackShape extends RoundedRectSliderTrackShape {
+  @override
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    Offset offset = Offset.zero,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double trackHeight = sliderTheme.trackHeight ?? 2.0;
+    final double trackLeft = offset.dx;
+    final double trackTop =
+        offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackWidth = parentBox.size.width;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
+  }
+
+  @override
+  void paint(PaintingContext context, Offset offset,
+      {required RenderBox parentBox,
+      required SliderThemeData sliderTheme,
+      required Animation<double> enableAnimation,
+      required TextDirection textDirection,
+      required Offset thumbCenter,
+      Offset? secondaryOffset,
+      bool isEnabled = false,
+      bool isDiscrete = false,
+      double additionalActiveTrackHeight = 0}) {
+    // Override additionalActiveTrackHeight to 0 to keep the active track flat and even
+    super.paint(
+      context,
+      offset,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumbCenter: thumbCenter,
+      secondaryOffset: secondaryOffset,
+      isEnabled: isEnabled,
+      isDiscrete: isDiscrete,
+      additionalActiveTrackHeight: 0,
     );
   }
 }
