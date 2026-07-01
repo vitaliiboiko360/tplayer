@@ -246,19 +246,21 @@ class Backward extends StatelessWidget {
 }
 
 class PlaybackSpeed extends StatelessWidget {
+  static const PlaybackSpeedButtonKey = 'PLAYBACK_SPEED_BUTTON_KEY';
+
+  void _onTap(BuildContext context) {
+    if (BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
+      BlocProvider.of<PlaybackSpeedSliderCubit>(context).setClose();
+    } else /**  if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
+        .state
+        .isOpened) */
+    {
+      BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    VoidCallback onTap = () {
-      print(
-          'onTap isOpened= ${BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened}');
-      if (!BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
-        BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
-      } else if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
-          .state
-          .isOpened) {
-        BlocProvider.of<PlaybackSpeedSliderCubit>(context).setClose();
-      }
-    };
     return Align(
       alignment: Alignment.topCenter,
       child: Padding(
@@ -269,7 +271,7 @@ class PlaybackSpeed extends StatelessWidget {
           child: Container(
             child: ButtonAnimated(
               label: '',
-              onTap: onTap,
+              onTap: () => _onTap(context),
               child: Text(
                 '0.85x',
                 textHeightBehavior: const TextHeightBehavior(
@@ -304,8 +306,6 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
   AnimationController? _controller;
   Animation<Offset>? _offsetAnimation;
 
-  final OverlayPortalController _overlayController = OverlayPortalController();
-
   @override
   void initState() {
     _controller = AnimationController(
@@ -320,27 +320,17 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       parent: _controller!,
       curve: Curves.easeInOut,
     ));
-    _controller!.addStatusListener((AnimationStatus animationStatus) {
-      if (animationStatus.isForwardOrCompleted) {
-        _overlayController.show();
-      }
-      // else if (animationStatus == AnimationStatus.reverse ||
-      //     animationStatus == AnimationStatus.dismissed) {
-      //   _overlayController.hide();
-      // }
-    });
     super.initState();
   }
 
   @override
   void dispose() {
-    _controller!.dispose(); // Always dispose your controllers
+    _controller!.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    final LayerLink _layerLink = LayerLink();
     var showDetailsMenuState = BlocProvider.of<PlaybackSpeedSliderCubit>(
       context,
       listen: true,
@@ -373,7 +363,13 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
                     width: 150,
                     height: 50,
                     decoration: BoxDecoration(),
-                    child: PlaybackSpeedSliderInner()),
+                    child: TapRegion(
+                        onTapOutside: (PointerDownEvent event) async {
+                          if (showDetailsMenuState.state.isOpened) {
+                            showDetailsMenuState.setClose();
+                          }
+                        },
+                        child: PlaybackSpeedSliderInner())),
               ))),
     );
   }
@@ -403,8 +399,8 @@ class _PlaybackSpeedSliderInnerState extends State<PlaybackSpeedSliderInner> {
   Widget build(BuildContext context) {
     return SliderTheme(
         data: SliderTheme.of(context).copyWith(
-            trackHeight: 4.0, // Set the desired height
-            trackShape: SameHeightTrackShape(), // Apply your custom track shape
+            trackHeight: 4.0,
+            trackShape: SameHeightTrackShape(),
             // activeTrackColor: Colors.blue,
             inactiveTrackColor: Colors.grey.withValues(alpha: 0.4),
             padding: EdgeInsetsGeometry.directional(
