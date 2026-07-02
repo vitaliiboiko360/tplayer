@@ -31,154 +31,45 @@ class PlayerControls extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<ShowDetailsMenuCubit>(
-            create: (BuildContext context) => ShowDetailsMenuCubit()),
+          create: (BuildContext context) => ShowDetailsMenuCubit(),
+        ),
         BlocProvider<PlaybackSpeedSliderCubit>(
           create: (BuildContext context) => PlaybackSpeedSliderCubit(),
-        )
+        ),
       ],
       child: DeferredPointerHandler(
-          child: SizedBox(
-        width: TextBlockWidth,
-        height: 110,
-        child: Stack(clipBehavior: Clip.none, children: [
-          Column(
+        child: SizedBox(
+          width: TextBlockWidth,
+          height: 110,
+          child: Stack(
+            clipBehavior: Clip.none,
             children: [
-              SizedBox(height: 20),
-              Container(
-                height: 80,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  spacing: 10,
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: ShowDetails(),
+              Column(
+                children: [
+                  SizedBox(height: 20),
+                  Container(
+                    height: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: ShowDetails(),
+                        ),
+                        Backward(),
+                        PlayPauseButton(),
+                        Forward(),
+                        PlaybackSpeed(),
+                      ],
                     ),
-                    Backward(),
-                    PlayPauseButton(),
-                    Forward(),
-                    PlaybackSpeed(),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: 10),
+                ],
               ),
-              SizedBox(height: 10),
+              PlaybackSpeedSlider(),
             ],
           ),
-          PlaybackSpeedSlider()
-        ]),
-      )),
-    );
-  }
-}
-
-class ShowDetailsMenu extends StatefulWidget {
-  const ShowDetailsMenu({super.key});
-
-  @override
-  State<ShowDetailsMenu> createState() => _ShowDetailsMenuState();
-}
-
-class _ShowDetailsMenuState extends State<ShowDetailsMenu>
-    with SingleTickerProviderStateMixin {
-  late bool isOpened;
-  AnimationController? _controller;
-  Animation<Offset>? _offsetAnimation;
-
-  @override
-  void initState() {
-    isOpened = false;
-
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      reverseDuration: Duration(milliseconds: 100),
-      vsync: this,
-    );
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset(0, 1),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller!,
-      curve: Curves.easeInOut,
-    ));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller!.dispose(); // Always dispose your controllers
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var showDetailsMenuState = BlocProvider.of<ShowDetailsMenuCubit>(
-      context,
-      listen: true,
-    );
-
-    if (showDetailsMenuState.state.isOpened) {
-      setState(() {
-        _controller?.forward();
-      });
-    } else {
-      setState(() {
-        _controller?.reverse();
-      });
-    }
-    return
-        // showDetailsMenuState.state.isOpened
-        //     ?
-        Positioned(
-      top: -88,
-      left: 0,
-      width: 150,
-      height: 100,
-      child: Container(
-          width: 150,
-          height: 100,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(),
-          child: SlideTransition(
-            // offset: _offsetAnimation.value,
-            // duration: Duration(microseconds: 300),
-            // curve: Curves.easeInOut,
-            position: _offsetAnimation!,
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 204, 218, 253),
-              ),
-              child: SizedBox(width: 150, height: 100, child: Text('Menu')),
-            ),
-          )),
-    );
-    // : SizedBox.shrink();
-  }
-}
-
-class PlayPauseLocal extends StatelessWidget {
-  @override
-  Widget build(Object context) {
-    return SizedBox(
-      width: 80,
-      height: 80,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          gradient: RadialGradient(
-            center: Alignment(0, 0),
-            radius: 0.15,
-            colors: <Color>[
-              Color.fromARGB(255, 191, 196, 213),
-              Color.fromARGB(255, 185, 185, 217),
-            ],
-            stops: <double>[0.0, 1.0],
-          ),
-          borderRadius: BorderRadius.all(Radius.circular(40)),
-          border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
-        ),
-        child: Icon(
-          Icons.play_arrow_rounded,
-          size: 50,
-          color: Color.fromARGB(255, 76, 80, 107),
         ),
       ),
     );
@@ -251,7 +142,8 @@ class PlaybackSpeed extends StatelessWidget {
   void _onTap(BuildContext context) {
     if (BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
       BlocProvider.of<PlaybackSpeedSliderCubit>(context).setClose();
-    } else /**  if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
+    } else
+    /**  if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
         .state
         .isOpened) */
     {
@@ -316,10 +208,7 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
     _offsetAnimation = Tween<Offset>(
       begin: Offset(0, 1),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller!,
-      curve: Curves.easeInOut,
-    ));
+    ).animate(CurvedAnimation(parent: _controller!, curve: Curves.easeInOut));
     super.initState();
   }
 
@@ -352,25 +241,29 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
       width: 150,
       height: 50,
       child: DeferPointer(
-          child: Container(
+        child: Container(
+          width: 150,
+          height: 50,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(),
+          child: SlideTransition(
+            position: _offsetAnimation!,
+            child: Container(
               width: 150,
               height: 50,
-              clipBehavior: Clip.antiAlias,
               decoration: BoxDecoration(),
-              child: SlideTransition(
-                position: _offsetAnimation!,
-                child: Container(
-                    width: 150,
-                    height: 50,
-                    decoration: BoxDecoration(),
-                    child: TapRegion(
-                        onTapOutside: (PointerDownEvent event) async {
-                          if (showDetailsMenuState.state.isOpened) {
-                            showDetailsMenuState.setClose();
-                          }
-                        },
-                        child: PlaybackSpeedSliderInner())),
-              ))),
+              child: TapRegion(
+                onTapOutside: (PointerDownEvent event) async {
+                  if (showDetailsMenuState.state.isOpened) {
+                    showDetailsMenuState.setClose();
+                  }
+                },
+                child: PlaybackSpeedSliderInner(),
+              ),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }
@@ -398,17 +291,20 @@ class _PlaybackSpeedSliderInnerState extends State<PlaybackSpeedSliderInner> {
   @override
   Widget build(BuildContext context) {
     return SliderTheme(
-        data: SliderTheme.of(context).copyWith(
-            trackHeight: 4.0,
-            trackShape: SameHeightTrackShape(),
-            // activeTrackColor: Colors.blue,
-            inactiveTrackColor: Colors.grey.withValues(alpha: 0.4),
-            padding: EdgeInsetsGeometry.directional(
-                start: 24, end: 22, top: 4, bottom: 4)),
-        child: Slider(
-          value: _sliderValue,
-          onChanged: _sliderOnChanged,
-        ));
+      data: SliderTheme.of(context).copyWith(
+        trackHeight: 4.0,
+        trackShape: SameHeightTrackShape(),
+        // activeTrackColor: Colors.blue,
+        inactiveTrackColor: Colors.grey.withValues(alpha: 0.4),
+        padding: EdgeInsetsGeometry.directional(
+          start: 24,
+          end: 22,
+          top: 4,
+          bottom: 4,
+        ),
+      ),
+      child: Slider(value: _sliderValue, onChanged: _sliderOnChanged),
+    );
   }
 }
 
@@ -430,16 +326,19 @@ class SameHeightTrackShape extends RoundedRectSliderTrackShape {
   }
 
   @override
-  void paint(PaintingContext context, Offset offset,
-      {required RenderBox parentBox,
-      required SliderThemeData sliderTheme,
-      required Animation<double> enableAnimation,
-      required TextDirection textDirection,
-      required Offset thumbCenter,
-      Offset? secondaryOffset,
-      bool isEnabled = false,
-      bool isDiscrete = false,
-      double additionalActiveTrackHeight = 0}) {
+  void paint(
+    PaintingContext context,
+    Offset offset, {
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required Offset thumbCenter,
+    Offset? secondaryOffset,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+    double additionalActiveTrackHeight = 0,
+  }) {
     // Override additionalActiveTrackHeight to 0 to keep the active track flat and even
     super.paint(
       context,
@@ -475,6 +374,85 @@ class ShowDetails extends StatelessWidget {
             label: '',
             icon: Icons.pending_rounded,
             onTap: onTap,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShowDetailsMenu extends StatefulWidget {
+  const ShowDetailsMenu({super.key});
+
+  @override
+  State<ShowDetailsMenu> createState() => _ShowDetailsMenuState();
+}
+
+class _ShowDetailsMenuState extends State<ShowDetailsMenu>
+    with SingleTickerProviderStateMixin {
+  late bool isOpened;
+  AnimationController? _controller;
+  Animation<Offset>? _offsetAnimation;
+
+  @override
+  void initState() {
+    isOpened = false;
+
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      reverseDuration: Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller!, curve: Curves.easeInOut));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose(); // Always dispose your controllers
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var showDetailsMenuState = BlocProvider.of<ShowDetailsMenuCubit>(
+      context,
+      listen: true,
+    );
+
+    if (showDetailsMenuState.state.isOpened) {
+      setState(() {
+        _controller?.forward();
+      });
+    } else {
+      setState(() {
+        _controller?.reverse();
+      });
+    }
+    return Positioned(
+      top: -88,
+      left: 0,
+      width: 150,
+      height: 100,
+      child: Container(
+        width: 150,
+        height: 100,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(),
+        child: SlideTransition(
+          // offset: _offsetAnimation.value,
+          // duration: Duration(microseconds: 300),
+          // curve: Curves.easeInOut,
+          position: _offsetAnimation!,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 204, 218, 253),
+              borderRadius: .circular(20),
+            ),
+            child: SizedBox(width: 150, height: 100, child: Text('Menu')),
           ),
         ),
       ),
