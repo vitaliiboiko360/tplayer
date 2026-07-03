@@ -68,6 +68,7 @@ class PlayerControls extends StatelessWidget {
                 ],
               ),
               PlaybackSpeedSlider(),
+              ShowDetailsMenu(),
             ],
           ),
         ),
@@ -390,14 +391,11 @@ class ShowDetailsMenu extends StatefulWidget {
 
 class _ShowDetailsMenuState extends State<ShowDetailsMenu>
     with SingleTickerProviderStateMixin {
-  late bool isOpened;
   AnimationController? _controller;
   Animation<Offset>? _offsetAnimation;
 
   @override
   void initState() {
-    isOpened = false;
-
     _controller = AnimationController(
       duration: const Duration(milliseconds: 200),
       reverseDuration: Duration(milliseconds: 100),
@@ -433,13 +431,13 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
       });
     }
     return Positioned(
-      top: -88,
+      top: -188,
       left: 0,
       width: 150,
-      height: 100,
+      height: 200,
       child: Container(
         width: 150,
-        height: 100,
+        height: 200,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(),
         child: SlideTransition(
@@ -452,7 +450,7 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
               color: const Color.fromARGB(255, 204, 218, 253),
               borderRadius: .circular(20),
             ),
-            child: SizedBox(width: 150, height: 100, child: Text('Menu')),
+            child: SizedBox(width: 150, height: 200, child: Text('Menu')),
           ),
         ),
       ),
