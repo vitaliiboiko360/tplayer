@@ -1,11 +1,13 @@
 services:
   web:
-    image: nginx
+    image: nginx:latest
+    container_name: nginx_web_test
+    network_mode: 'host'
     volumes:
-      - ./build/web:/var/www/web
+      - ../webtest:/var/www/web
       - ./nginx.conf:/etc/nginx/nginx.conf
     ports:
-      - '8080:80'
+      - '8081:8081'
     environment:
       - NGINX_HOST=language-shadowing-learn.com
-      - NGINX_PORT=80
+      - NGINX_PORT=8081
