@@ -7,6 +7,9 @@ import 'package:tplayer/ui/button_animated.dart';
 import 'package:tplayer/ui/play_pause.dart';
 import 'package:defer_pointer/defer_pointer.dart';
 
+const playbackSpeedTapRegionObjectGroupId =
+    'playback-speed-tap-region-object-group-id';
+
 const decoratedBoxOld = DecoratedBox(
   decoration: BoxDecoration(
     borderRadius: BorderRadius.all(Radius.circular(25)),
@@ -141,15 +144,19 @@ class PlaybackSpeed extends StatelessWidget {
   static const PlaybackSpeedButtonKey = 'PLAYBACK_SPEED_BUTTON_KEY';
 
   void _onTap(BuildContext context) {
-    if (BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
-      BlocProvider.of<PlaybackSpeedSliderCubit>(context).setClose();
-    } else
-    /**  if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
-        .state
-        .isOpened) */
-    {
-      BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
-    }
+    // if (BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
+    //   BlocProvider.of<PlaybackSpeedSliderCubit>(context).setClose();
+    // } else
+    // /**  if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
+    //     .state
+    //     .isOpened) */
+    // {
+    //   BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
+    // }
+    print(
+      'onTap menu button before toggle : current state is : ${BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened}',
+    );
+    BlocProvider.of<PlaybackSpeedSliderCubit>(context).toggle();
   }
 
   @override
@@ -162,21 +169,24 @@ class PlaybackSpeed extends StatelessWidget {
           width: 58,
           height: 30,
           child: Container(
-            child: ButtonAnimated(
-              label: '',
-              onTap: () => _onTap(context),
-              child: Text(
-                '0.85x',
-                textHeightBehavior: const TextHeightBehavior(
-                  applyHeightToFirstAscent: false,
-                  applyHeightToLastDescent: true,
-                ),
-                strutStyle: StrutStyle(height: 1),
-                style: TextStyle(
-                  color: Color.fromARGB(255, 76, 80, 107),
-                  fontSize: 18,
-                  height: 1,
-                  fontWeight: FontWeight.w700,
+            child: TapRegion(
+              groupId: playbackSpeedTapRegionObjectGroupId,
+              child: ButtonAnimated(
+                label: '',
+                onTap: () => _onTap(context),
+                child: Text(
+                  '0.85x',
+                  textHeightBehavior: const TextHeightBehavior(
+                    applyHeightToFirstAscent: false,
+                    applyHeightToLastDescent: true,
+                  ),
+                  strutStyle: StrutStyle(height: 1),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 76, 80, 107),
+                    fontSize: 18,
+                    height: 1,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ),
@@ -254,8 +264,12 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
               height: 50,
               decoration: BoxDecoration(),
               child: TapRegion(
+                groupId: playbackSpeedTapRegionObjectGroupId,
                 onTapOutside: (PointerDownEvent event) async {
                   if (showDetailsMenuState.state.isOpened) {
+                    print(
+                      'tap outside: current state is : ${showDetailsMenuState.state.isOpened}',
+                    );
                     showDetailsMenuState.setClose();
                   }
                 },
@@ -441,9 +455,6 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(),
         child: SlideTransition(
-          // offset: _offsetAnimation.value,
-          // duration: Duration(microseconds: 300),
-          // curve: Curves.easeInOut,
           position: _offsetAnimation!,
           child: DecoratedBox(
             decoration: BoxDecoration(
