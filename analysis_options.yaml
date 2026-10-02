@@ -1,0 +1,8 @@
+analyzer:
+  errors:
+    invalid_annotation_target: ignore
+  enable-experiment:
+    - primary-constructors
+  exclude:
+    - build/**
+    - web/**
