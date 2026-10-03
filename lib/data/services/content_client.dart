@@ -13,8 +13,8 @@ const DEFAULT_HOST = '192.168.0.21';
 /// Adds the `Authentication` header to a header configuration.
 typedef AuthHeaderProvider = String? Function();
 
-class ConentClient {
-  ConentClient({String? host, int? port, HttpClient Function()? clientFactory})
+class ContentClient {
+  ContentClient({String? host, int? port, HttpClient Function()? clientFactory})
     : _host = host ?? DEFAULT_HOST,
       _port = port ?? DEFAULT_PORT,
       _clientFactory = clientFactory ?? HttpClient.new;
@@ -39,7 +39,7 @@ class ConentClient {
   Future<Result<List<TextTitle>>> getListAllTextTitles() async {
     final client = _clientFactory();
     try {
-      final request = await client.get(_host, _port, '/texts');
+      final request = await client.get(_host, _port, '/cdn/texts.json');
       await _authHeader(request.headers);
       final response = await request.close();
       if (response.statusCode == HttpStatus.ok) {
