@@ -144,18 +144,6 @@ class PlaybackSpeed extends StatelessWidget {
   static const PlaybackSpeedButtonKey = 'PLAYBACK_SPEED_BUTTON_KEY';
 
   void _onTap(BuildContext context) {
-    // if (BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened) {
-    //   BlocProvider.of<PlaybackSpeedSliderCubit>(context).setClose();
-    // } else
-    // /**  if (BlocProvider.of<PlaybackSpeedSliderCubit>(context)
-    //     .state
-    //     .isOpened) */
-    // {
-    //   BlocProvider.of<PlaybackSpeedSliderCubit>(context).setOpen();
-    // }
-    print(
-      'onTap menu button before toggle : current state is : ${BlocProvider.of<PlaybackSpeedSliderCubit>(context).state.isOpened}',
-    );
     BlocProvider.of<PlaybackSpeedSliderCubit>(context).toggle();
   }
 
@@ -267,9 +255,6 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
                 groupId: playbackSpeedTapRegionObjectGroupId,
                 onTapOutside: (PointerDownEvent event) async {
                   if (showDetailsMenuState.state.isOpened) {
-                    print(
-                      'tap outside: current state is : ${showDetailsMenuState.state.isOpened}',
-                    );
                     showDetailsMenuState.setClose();
                   }
                 },
