@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tplayer/ui/test_logo.dart';
+import 'package:tplayer/logo/long_shadow_text_effect.dart';
 
 class LogoHolder extends StatelessWidget {
   @override
