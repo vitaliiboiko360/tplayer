@@ -10,22 +10,6 @@ import 'package:defer_pointer/defer_pointer.dart';
 const playbackSpeedTapRegionObjectGroupId =
     'playback-speed-tap-region-object-group-id';
 
-const decoratedBoxOld = DecoratedBox(
-  decoration: BoxDecoration(
-    borderRadius: BorderRadius.all(Radius.circular(25)),
-    color: Color.fromARGB(255, 224, 225, 245),
-    // backgroundBlendMode: BlendMode.hue,
-    image: DecorationImage(
-      image: AssetImage('img/pattern3.webp'),
-      repeat: ImageRepeat.repeat,
-      fit: BoxFit.none,
-      opacity: 0.05,
-      scale: 0.75,
-    ),
-  ),
-  child: SizedBox.expand(),
-);
-
 const playerContolsHeight = TextBlockWidth;
 
 class PlayerControls extends StatelessWidget {
