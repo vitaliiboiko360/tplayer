@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:tplayer/home/home_buttons.dart';
-import 'package:tplayer/home/home_slider.dart';
+import 'package:tplayer/page_home/home_buttons.dart';
+import 'package:tplayer/page_home/home_slider.dart';
 import 'package:tplayer/logo/logo_holder.dart';
 
 class HomePage extends StatefulWidget {

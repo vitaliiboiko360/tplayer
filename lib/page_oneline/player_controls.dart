@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tplayer/one_line/one_line.dart';
+import 'package:tplayer/page_oneline/one_line.dart';
 import 'package:tplayer/state/playback_speed_slider.dart';
 import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';

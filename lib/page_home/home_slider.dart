@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tplayer/home/home.dart';
+import 'package:tplayer/page_home/home.dart';
 import 'package:flutter_animate/flutter_animate.dart';
-import 'package:tplayer/home/home_slider_content.dart';
+import 'package:tplayer/page_home/home_slider_content.dart';
 
 class HomeSlider extends StatelessWidget {
   @override

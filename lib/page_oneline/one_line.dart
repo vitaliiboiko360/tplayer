@@ -1,9 +1,9 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:tplayer/one_line/player_controls.dart';
-import 'package:tplayer/one_line/text_block.dart';
-import 'package:tplayer/one_line/button_back.dart';
+import 'package:tplayer/page_oneline/player_controls.dart';
+import 'package:tplayer/page_oneline/text_block.dart';
+import 'package:tplayer/page_oneline/button_back.dart';
 
 const double TextBlockHeight = 510;
 const double TextBlockWidth = 350;

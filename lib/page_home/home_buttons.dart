@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tplayer/home/home.dart';
+import 'package:tplayer/page_home/home.dart';
 import 'package:tplayer/router/router.dart';
 
 class HomeButtons extends StatelessWidget {

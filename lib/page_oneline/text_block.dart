@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:tplayer/one_line/one_line.dart';
+import 'package:tplayer/page_oneline/one_line.dart';
 
 const String testString =
     'Deja que te cuente una historia sobre un pollito. Su nombre es Pollito Tito. Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.';
