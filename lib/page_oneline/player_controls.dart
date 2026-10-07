@@ -4,7 +4,7 @@ import 'package:tplayer/page_oneline/one_line.dart';
 import 'package:tplayer/state/playback_speed_slider.dart';
 import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
-import 'package:tplayer/ui/play_pause.dart';
+import 'package:tplayer/page_oneline/player_controls_playpause_button.dart';
 import 'package:defer_pointer/defer_pointer.dart';
 
 const playbackSpeedTapRegionObjectGroupId =
@@ -45,7 +45,7 @@ class PlayerControls extends StatelessWidget {
                           child: ShowDetails(),
                         ),
                         Backward(),
-                        PlayPauseButton(),
+                        PlayPauseButton(isPlaying: false, onPressed: (){},),
                         Forward(),
                         PlaybackSpeed(),
                       ],
