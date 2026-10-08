@@ -1,0 +1,439 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tplayer/page_oneline/one_line.dart';
+import 'package:tplayer/state/playback_speed_slider.dart';
+import 'package:tplayer/state/show_details_menu.dart';
+import 'package:tplayer/ui/button_animated.dart';
+import 'package:tplayer/ui/play_pause.dart';
+import 'package:defer_pointer/defer_pointer.dart';
+
+const playbackSpeedTapRegionObjectGroupId =
+    'playback-speed-tap-region-object-group-id';
+
+const playerContolsHeight = TextBlockWidth;
+
+class PlayerControls extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<ShowDetailsMenuCubit>(
+          create: (BuildContext context) => ShowDetailsMenuCubit(),
+        ),
+        BlocProvider<PlaybackSpeedSliderCubit>(
+          create: (BuildContext context) => PlaybackSpeedSliderCubit(),
+        ),
+      ],
+      child: DeferredPointerHandler(
+        child: SizedBox(
+          width: TextBlockWidth,
+          height: 110,
+          child: Stack(
+            clipBehavior: Clip.none,
+            children: [
+              Column(
+                children: [
+                  SizedBox(height: 20),
+                  Container(
+                    height: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      spacing: 10,
+                      children: [
+                        Align(
+                          alignment: Alignment.bottomLeft,
+                          child: ShowDetails(),
+                        ),
+                        Backward(),
+                        PlayPauseButton(),
+                        Forward(),
+                        PlaybackSpeed(),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                ],
+              ),
+              PlaybackSpeedSlider(),
+              ShowDetailsMenu(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class Forward extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 50,
+      height: 40,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, 0),
+            radius: 0.15,
+            colors: <Color>[
+              Color.fromARGB(255, 191, 196, 213),
+              Color.fromARGB(255, 185, 185, 217),
+            ],
+            stops: <double>[0.0, 1.0],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
+        ),
+        child: Icon(
+          Icons.fast_forward_rounded,
+          size: 20,
+          color: Color.fromARGB(255, 76, 80, 107),
+        ),
+      ),
+    );
+  }
+}
+
+class Backward extends StatelessWidget {
+  @override
+  Widget build(Object context) {
+    return SizedBox(
+      width: 50,
+      height: 40,
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, 0),
+            radius: 0.15,
+            colors: <Color>[
+              Color.fromARGB(255, 191, 196, 213),
+              Color.fromARGB(255, 185, 185, 217),
+            ],
+            stops: <double>[0.0, 1.0],
+          ),
+          borderRadius: BorderRadius.all(Radius.circular(20)),
+          border: BoxBorder.all(color: Color(0xFF8B8DBD), width: 1),
+        ),
+        child: Icon(
+          Icons.fast_rewind_rounded,
+          size: 20,
+          color: Color.fromARGB(255, 76, 80, 107),
+        ),
+      ),
+    );
+  }
+}
+
+class PlaybackSpeed extends StatelessWidget {
+  static const PlaybackSpeedButtonKey = 'PLAYBACK_SPEED_BUTTON_KEY';
+
+  void _onTap(BuildContext context) {
+    BlocProvider.of<PlaybackSpeedSliderCubit>(context).toggle();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsetsGeometry.directional(start: 0),
+        child: SizedBox(
+          width: 58,
+          height: 30,
+          child: Container(
+            child: TapRegion(
+              groupId: playbackSpeedTapRegionObjectGroupId,
+              child: ButtonAnimated(
+                label: '',
+                onTap: () => _onTap(context),
+                child: Text(
+                  '0.85x',
+                  textHeightBehavior: const TextHeightBehavior(
+                    applyHeightToFirstAscent: false,
+                    applyHeightToLastDescent: true,
+                  ),
+                  strutStyle: StrutStyle(height: 1),
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 76, 80, 107),
+                    fontSize: 18,
+                    height: 1,
+                    fontWeight: FontWeight.w700,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PlaybackSpeedSlider extends StatefulWidget {
+  PlaybackSpeedSlider({super.key});
+
+  @override
+  State<PlaybackSpeedSlider> createState() => _PlaybackSpeedSliderState();
+}
+
+class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
+  Animation<Offset>? _offsetAnimation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      reverseDuration: Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller!, curve: Curves.easeInOut));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var showDetailsMenuState = BlocProvider.of<PlaybackSpeedSliderCubit>(
+      context,
+      listen: true,
+    );
+
+    if (showDetailsMenuState.state.isOpened) {
+      setState(() {
+        _controller?.forward();
+      });
+    } else {
+      setState(() {
+        _controller?.reverse();
+      });
+    }
+
+    return Positioned(
+      top: -50,
+      right: 0,
+      width: 150,
+      height: 50,
+      child: DeferPointer(
+        child: Container(
+          width: 150,
+          height: 50,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(),
+          child: SlideTransition(
+            position: _offsetAnimation!,
+            child: Container(
+              width: 150,
+              height: 50,
+              decoration: BoxDecoration(),
+              child: TapRegion(
+                groupId: playbackSpeedTapRegionObjectGroupId,
+                onTapOutside: (PointerDownEvent event) async {
+                  if (showDetailsMenuState.state.isOpened) {
+                    showDetailsMenuState.setClose();
+                  }
+                },
+                child: PlaybackSpeedSliderInner(),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class PlaybackSpeedSliderInner extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() => _PlaybackSpeedSliderInnerState();
+}
+
+class _PlaybackSpeedSliderInnerState extends State<PlaybackSpeedSliderInner> {
+  late double _sliderValue;
+
+  void _sliderOnChanged(double value) {
+    setState(() {
+      _sliderValue = value;
+    });
+  }
+
+  @override
+  void initState() {
+    _sliderValue = 0.5;
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SliderTheme(
+      data: SliderTheme.of(context).copyWith(
+        trackHeight: 4.0,
+        trackShape: SameHeightTrackShape(),
+        // activeTrackColor: Colors.blue,
+        inactiveTrackColor: Colors.grey.withValues(alpha: 0.4),
+        padding: EdgeInsetsGeometry.directional(
+          start: 24,
+          end: 22,
+          top: 4,
+          bottom: 4,
+        ),
+      ),
+      child: Slider(value: _sliderValue, onChanged: _sliderOnChanged),
+    );
+  }
+}
+
+class SameHeightTrackShape extends RoundedRectSliderTrackShape {
+  @override
+  Rect getPreferredRect({
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    Offset offset = Offset.zero,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+  }) {
+    final double trackHeight = sliderTheme.trackHeight ?? 2.0;
+    final double trackLeft = offset.dx;
+    final double trackTop =
+        offset.dy + (parentBox.size.height - trackHeight) / 2;
+    final double trackWidth = parentBox.size.width;
+    return Rect.fromLTWH(trackLeft, trackTop, trackWidth, trackHeight);
+  }
+
+  @override
+  void paint(
+    PaintingContext context,
+    Offset offset, {
+    required RenderBox parentBox,
+    required SliderThemeData sliderTheme,
+    required Animation<double> enableAnimation,
+    required TextDirection textDirection,
+    required Offset thumbCenter,
+    Offset? secondaryOffset,
+    bool isEnabled = false,
+    bool isDiscrete = false,
+    double additionalActiveTrackHeight = 0,
+  }) {
+    // Override additionalActiveTrackHeight to 0 to keep the active track flat and even
+    super.paint(
+      context,
+      offset,
+      parentBox: parentBox,
+      sliderTheme: sliderTheme,
+      enableAnimation: enableAnimation,
+      textDirection: textDirection,
+      thumbCenter: thumbCenter,
+      secondaryOffset: secondaryOffset,
+      isEnabled: isEnabled,
+      isDiscrete: isDiscrete,
+      additionalActiveTrackHeight: 0,
+    );
+  }
+}
+
+class ShowDetails extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    VoidCallback onTap = () {
+      BlocProvider.of<ShowDetailsMenuCubit>(context).toggleOpen();
+    };
+
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsetsGeometry.zero,
+        child: SizedBox(
+          width: 50,
+          height: 30,
+          child: ButtonAnimated(
+            label: '',
+            icon: Icons.pending_rounded,
+            onTap: onTap,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ShowDetailsMenu extends StatefulWidget {
+  const ShowDetailsMenu({super.key});
+
+  @override
+  State<ShowDetailsMenu> createState() => _ShowDetailsMenuState();
+}
+
+class _ShowDetailsMenuState extends State<ShowDetailsMenu>
+    with SingleTickerProviderStateMixin {
+  AnimationController? _controller;
+  Animation<Offset>? _offsetAnimation;
+
+  @override
+  void initState() {
+    _controller = AnimationController(
+      duration: const Duration(milliseconds: 200),
+      reverseDuration: Duration(milliseconds: 100),
+      vsync: this,
+    );
+    _offsetAnimation = Tween<Offset>(
+      begin: Offset(0, 1),
+      end: Offset.zero,
+    ).animate(CurvedAnimation(parent: _controller!, curve: Curves.easeInOut));
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller!.dispose(); // Always dispose your controllers
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    var showDetailsMenuState = BlocProvider.of<ShowDetailsMenuCubit>(
+      context,
+      listen: true,
+    );
+
+    if (showDetailsMenuState.state.isOpened) {
+      setState(() {
+        _controller?.forward();
+      });
+    } else {
+      setState(() {
+        _controller?.reverse();
+      });
+    }
+    return Positioned(
+      top: -188,
+      left: 0,
+      width: 150,
+      height: 200,
+      child: Container(
+        width: 150,
+        height: 200,
+        clipBehavior: Clip.antiAlias,
+        decoration: BoxDecoration(),
+        child: SlideTransition(
+          position: _offsetAnimation!,
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: const Color.fromARGB(255, 204, 218, 253),
+              borderRadius: .circular(20),
+            ),
+            child: SizedBox(width: 150, height: 200, child: Text('Menu')),
+          ),
+        ),
+      ),
+    );
+  }
+}
