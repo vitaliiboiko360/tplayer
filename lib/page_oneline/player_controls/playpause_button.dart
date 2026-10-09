@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-/// Big round 3D play/pause button, styled like the web page.
 class PlayPauseButton extends StatefulWidget {
   const PlayPauseButton({
     super.key,
@@ -99,33 +98,6 @@ class _PlayPauseButtonState extends State<PlayPauseButton> {
               ),
             ],
           ),
-        ),
-      ),
-    );
-  }
-}
-
-// Usage example
-void main() => runApp(const MaterialApp(home: Demo()));
-
-class Demo extends StatefulWidget {
-  const Demo({super.key});
-
-  @override
-  State<Demo> createState() => _DemoState();
-}
-
-class _DemoState extends State<Demo> {
-  bool playing = false;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF7A7CFF),
-      body: Center(
-        child: PlayPauseButton(
-          isPlaying: playing,
-          onPressed: () => setState(() => playing = !playing),
         ),
       ),
     );
