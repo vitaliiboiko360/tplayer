@@ -16,7 +16,7 @@ class _PlayPauseButtonModelState extends State<PlayPauseButtonModel> {
     return Scaffold(
       backgroundColor: const Color(0xFF7A7CFF),
       body: Center(
-        child: PlayPauseButton(
+        child: PlayPauseButtonUI(
           isPlaying: playing,
           onPressed: () => setState(() => playing = !playing),
         ),

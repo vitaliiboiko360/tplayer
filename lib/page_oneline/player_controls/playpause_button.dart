@@ -1,8 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class PlayPauseButton extends StatefulWidget {
-  const PlayPauseButton({
+class PlayPauseButtonModel extends StatefulWidget {
+  const PlayPauseButtonModel({super.key});
+
+  @override
+  State<PlayPauseButtonModel> createState() => _PlayPauseButtonModelState();
+}
+
+class _PlayPauseButtonModelState extends State<PlayPauseButtonModel> {
+  bool playing = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xFF7A7CFF),
+      body: Center(
+        child: PlayPauseButtonUI(
+          isPlaying: playing,
+          onPressed: () => setState(() => playing = !playing),
+        ),
+      ),
+    );
+  }
+}
+
+class PlayPauseButtonUI extends StatefulWidget {
+  const PlayPauseButtonUI({
     super.key,
     required this.isPlaying,
     required this.onPressed,
@@ -18,10 +42,10 @@ class PlayPauseButton extends StatefulWidget {
   final Color shadowColor;
 
   @override
-  State<PlayPauseButton> createState() => _PlayPauseButtonState();
+  State<PlayPauseButtonUI> createState() => _PlayPauseButtonUIState();
 }
 
-class _PlayPauseButtonState extends State<PlayPauseButton> {
+class _PlayPauseButtonUIState extends State<PlayPauseButtonUI> {
   bool _pressed = false;
 
   @override
