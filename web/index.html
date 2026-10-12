@@ -55,6 +55,7 @@
                     function (event) {
                       // Prevent the browser from permanently disabling WebGL on this canvas
                       event.preventDefault();
+                      console.log('entered webglcontextlost event handler');
                       console.warn(
                         'Flutter WebGL context lost. Force-reloading page to recover state...',
                       );
