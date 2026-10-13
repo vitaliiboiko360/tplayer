@@ -45,7 +45,10 @@ class PlayerControls extends StatelessWidget {
                           child: ShowDetails(),
                         ),
                         Backward(),
-                        PlayPauseButtonUI(isPlaying: false, onPressed: () {}),
+                        PlayPauseButtonInnerUI(
+                          isPlaying: false,
+                          onPressed: () {},
+                        ),
                         Forward(),
                         PlaybackSpeed(),
                       ],
