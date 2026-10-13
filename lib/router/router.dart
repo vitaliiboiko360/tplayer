@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tplayer/app/details_screen.dart';
 import 'package:tplayer/page_home/home.dart';
-import 'package:tplayer/page_oneline/one_line.dart';
+import 'package:tplayer/page_oneline/page_oneline.dart';
 
 final GoRouter router = GoRouter(
   errorBuilder: (BuildContext context, GoRouterState state) {
@@ -45,7 +45,7 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'oneline',
           builder: (BuildContext context, GoRouterState state) {
-            return const OneLinePage();
+            return const PageOneLine();
           },
         ),
       ],

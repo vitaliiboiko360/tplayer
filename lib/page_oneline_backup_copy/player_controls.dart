@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:tplayer/page_oneline/one_line.dart';
+import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/state/playback_speed_slider.dart';
 import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
-import 'package:tplayer/page_oneline/player_controls/playpause_button.dart';
+import 'package:tplayer/ui/play_pause.dart';
 import 'package:defer_pointer/defer_pointer.dart';
 
 const playbackSpeedTapRegionObjectGroupId =
@@ -45,7 +45,7 @@ class PlayerControls extends StatelessWidget {
                           child: ShowDetails(),
                         ),
                         Backward(),
-                        PlayPauseButtonUI(isPlaying: false, onPressed: () {}),
+                        PlayPauseButton(),
                         Forward(),
                         PlaybackSpeed(),
                       ],
