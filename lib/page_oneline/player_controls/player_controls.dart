@@ -10,7 +10,7 @@ import 'package:defer_pointer/defer_pointer.dart';
 const playbackSpeedTapRegionObjectGroupId =
     'playback-speed-tap-region-object-group-id';
 
-const playerContolsHeight = TextBlockWidth;
+const playerContolsHeight = 500;
 
 class PlayerControls extends StatelessWidget {
   @override
@@ -27,7 +27,7 @@ class PlayerControls extends StatelessWidget {
       child: DeferredPointerHandler(
         child: SizedBox(
           width: TextBlockWidth,
-          height: 110,
+          height: playerContolsHeight.toDouble(),
           child: Stack(
             clipBehavior: Clip.none,
             children: [
@@ -35,7 +35,7 @@ class PlayerControls extends StatelessWidget {
                 children: [
                   SizedBox(height: 20),
                   Container(
-                    height: 80,
+                    height: 200,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 10,
@@ -44,12 +44,9 @@ class PlayerControls extends StatelessWidget {
                           alignment: Alignment.bottomLeft,
                           child: ShowDetails(),
                         ),
-                        Backward(),
-                        PlayPauseButtonInnerUI(
-                          isPlaying: false,
-                          onPressed: () {},
-                        ),
-                        Forward(),
+                        // Backward(),
+                        PlayPauseButton(),
+                        // Forward(),
                         PlaybackSpeed(),
                       ],
                     ),
