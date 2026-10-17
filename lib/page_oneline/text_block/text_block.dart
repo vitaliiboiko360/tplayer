@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 
+const double textBlockHeight = 400;
+
 const String testString =
     'Deja que te cuente una historia sobre un pollito. Su nombre es Pollito Tito. Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.';
 
@@ -53,7 +55,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       children: [
         SizedBox(
           width: TextBlockWidth,
-          height: 400,
+          height: textBlockHeight,
           child: DecoratedBox(
             decoration: BoxDecoration(
               border: Border(left: borderSide, right: borderSide),

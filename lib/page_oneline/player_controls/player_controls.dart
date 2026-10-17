@@ -10,7 +10,7 @@ import 'package:defer_pointer/defer_pointer.dart';
 const playbackSpeedTapRegionObjectGroupId =
     'playback-speed-tap-region-object-group-id';
 
-const playerContolsHeight = 150;
+const playerContolsHeight = 100;
 
 class PlayerControls extends StatelessWidget {
   @override
@@ -35,7 +35,7 @@ class PlayerControls extends StatelessWidget {
                 children: [
                   SizedBox(height: 20),
                   Container(
-                    height: 200,
+                    height: 70,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 10,

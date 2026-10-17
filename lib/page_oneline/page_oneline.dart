@@ -5,7 +5,7 @@ import 'package:tplayer/page_oneline/player_controls/player_controls.dart';
 import 'package:tplayer/page_oneline/text_block/text_block.dart';
 import 'package:tplayer/page_oneline/ui_elements/button_back.dart';
 
-const double TextBlockHeight = 510;
+const double PageOnelineHeight = 610;
 const double TextBlockWidth = 350;
 
 class PageOneLine extends StatefulWidget {
@@ -37,7 +37,7 @@ class PageOneLineLayoutParent extends StatelessWidget {
       delegate: PageOneLineLayoutChild(screenWidth, screenHeight),
       child: SizedBox(
         width: TextBlockWidth,
-        height: TextBlockHeight,
+        height: PageOnelineHeight,
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
     );
@@ -53,7 +53,7 @@ class PageOneLineLayoutChild extends SingleChildLayoutDelegate {
   Size getSize(BoxConstraints constraints) {
     return Size(
       max(screenWidth, TextBlockWidth),
-      max(screenHeight, TextBlockHeight),
+      max(screenHeight, PageOnelineHeight),
     );
   }
 

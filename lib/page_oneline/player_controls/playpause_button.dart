@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-const double playPauseButtonDefaultHeight = 124;
+const double playPauseButtonDefaultHeight = 70;
 
 class PlayPauseButton extends StatefulWidget {
   const PlayPauseButton({super.key});
