@@ -15,14 +15,9 @@ class _PlayPauseButtonState extends State<PlayPauseButton> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color(0xFF7A7CFF),
-      body: Center(
-        child: PlayPauseButtonInner(
-          isPlaying: playing,
-          onPressed: () => setState(() => playing = !playing),
-        ),
-      ),
+    return PlayPauseButtonInner(
+      isPlaying: playing,
+      onPressed: () => setState(() => playing = !playing),
     );
   }
 }
