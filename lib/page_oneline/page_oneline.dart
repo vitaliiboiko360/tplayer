@@ -5,7 +5,7 @@ import 'package:tplayer/page_oneline/player_controls/player_controls.dart';
 import 'package:tplayer/page_oneline/text_block/text_block.dart';
 import 'package:tplayer/page_oneline/ui_elements/button_back.dart';
 
-const double PageOnelineHeight = 610;
+const double PageOnelineHeight = 670;
 const double TextBlockWidth = 350;
 
 class PageOneLine extends StatefulWidget {
@@ -20,10 +20,21 @@ class PageOneLine extends StatefulWidget {
 class _PageOneLineState extends State<PageOneLine> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(child: PageOneLineLayoutParent()),
-      floatingActionButtonLocation: .centerDocked,
-      floatingActionButton: ButtonBack(),
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: .topCenter,
+          end: .bottomCenter,
+          transform: GradientRotation(2.79),
+          colors: [Color(0xFF9b6bff), Color(0xFF5b8cff)],
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SingleChildScrollView(child: PageOneLineLayoutParent()),
+        floatingActionButtonLocation: .centerDocked,
+        floatingActionButton: ButtonBack(),
+      ),
     );
   }
 }
