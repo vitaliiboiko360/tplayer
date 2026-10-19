@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:tplayer/page_oneline/round_background/round_background.dart';
 import 'package:tplayer/page_oneline/player_controls/player_controls.dart';
 import 'package:tplayer/page_oneline/text_block/text_block.dart';
 import 'package:tplayer/page_oneline/ui_elements/button_back.dart';
@@ -46,9 +47,12 @@ class PageOneLineLayoutParent extends StatelessWidget {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return CustomSingleChildLayout(
       delegate: PageOneLineLayoutChild(screenWidth, screenHeight),
-      child: SizedBox(
-        width: TextBlockWidth,
-        height: PageOnelineHeight,
+      // child: SizedBox(
+      //   width: TextBlockWidth,
+      //   height: PageOnelineHeight,
+      //   child: Column(children: [TextBlock(), PlayerControls()]),
+      // ),
+      child: RoundBackground(
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
     );
