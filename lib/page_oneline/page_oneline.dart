@@ -53,6 +53,8 @@ class PageOneLineLayoutParent extends StatelessWidget {
       //   child: Column(children: [TextBlock(), PlayerControls()]),
       // ),
       child: RoundBackground(
+        width: TextBlockWidth,
+        height: PageOnelineHeight,
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
     );

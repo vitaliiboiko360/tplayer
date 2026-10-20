@@ -35,7 +35,7 @@ class PlayerControls extends StatelessWidget {
                 children: [
                   SizedBox(height: 20),
                   Container(
-                    height: 70,
+                    height: 120,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       spacing: 10,

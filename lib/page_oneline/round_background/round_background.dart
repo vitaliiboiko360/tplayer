@@ -9,6 +9,7 @@ class RoundBackground extends StatefulWidget {
   const RoundBackground({
     super.key,
     required this.child,
+    required this.width,
     this.height = PageOnelineHeight,
     this.color = mainBackground,
     this.shadowColor = const Color(0x2E000000),
@@ -18,6 +19,7 @@ class RoundBackground extends StatefulWidget {
   final double height;
   final Color color;
   final Color shadowColor;
+  final double width;
 
   @override
   State<RoundBackground> createState() => _RoundBackgroundState();
@@ -29,7 +31,7 @@ class _RoundBackgroundState extends State<RoundBackground> {
     final double depth = 7; // height of the 3D edge
 
     return SizedBox(
-      width: TextBlockWidth,
+      width: widget.width,
       height: widget.height + depth,
       child: Stack(
         children: [
