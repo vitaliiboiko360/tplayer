@@ -47,16 +47,16 @@ class PageOneLineLayoutParent extends StatelessWidget {
     double screenHeight = MediaQuery.sizeOf(context).height;
     return CustomSingleChildLayout(
       delegate: PageOneLineLayoutChild(screenWidth, screenHeight),
-      // child: SizedBox(
-      //   width: TextBlockWidth,
-      //   height: PageOnelineHeight,
-      //   child: Column(children: [TextBlock(), PlayerControls()]),
-      // ),
-      child: RoundBackground(
+      child: SizedBox(
         width: TextBlockWidth,
         height: PageOnelineHeight,
         child: Column(children: [TextBlock(), PlayerControls()]),
       ),
+      // child: RoundBackground(
+      //   width: TextBlockWidth,
+      //   height: PageOnelineHeight,
+      //   child: Column(children: [TextBlock(), PlayerControls()]),
+      // ),
     );
   }
 }
