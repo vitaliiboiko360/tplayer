@@ -21,6 +21,7 @@ class App extends StatelessWidget {
             fontSize: 20.0,
             color: Colors.black,
             fontWeight: FontWeight.normal,
+            fontFamily: 'Fredoka',
           ),
           // You can define other styles like headlineLarge, etc.
         ),
