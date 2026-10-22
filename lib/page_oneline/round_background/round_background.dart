@@ -47,6 +47,8 @@ class _RoundBackgroundState extends State<RoundBackground> {
                 color: widget.shadowColor,
                 shape: BoxShape.rectangle,
                 borderRadius: .directional(
+                  topStart: .circular(radiusForBlock),
+                  topEnd: .circular(radiusForBlock),
                   bottomStart: .circular(radiusForBlock),
                   bottomEnd: .circular(radiusForBlock),
                 ),
@@ -72,6 +74,8 @@ class _RoundBackgroundState extends State<RoundBackground> {
                 color: widget.color,
                 shape: BoxShape.rectangle,
                 borderRadius: .directional(
+                  topStart: .circular(radiusForBlock),
+                  topEnd: .circular(radiusForBlock),
                   bottomStart: .circular(radiusForBlock),
                   bottomEnd: .circular(radiusForBlock),
                 ),
