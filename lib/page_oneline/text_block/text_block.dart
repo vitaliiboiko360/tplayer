@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
+import 'package:tplayer/page_oneline/round_background/round_background.dart';
 
 const double textBlockHeight = 400;
 
@@ -51,36 +52,40 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        SizedBox(
-          width: TextBlockWidth,
-          height: textBlockHeight,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border(left: borderSide, right: borderSide),
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsetsGeometry.directional(start: 15, end: 10),
-                  child: getTextLines(
-                    testString,
-                    DefaultTextStyle.of(context).style,
+    return RoundBackground(
+      width: TextBlockWidth,
+      height: textBlockHeight,
+      child: Stack(
+        children: [
+          SizedBox(
+            width: TextBlockWidth,
+            height: textBlockHeight,
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                border: Border(left: borderSide, right: borderSide),
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsetsGeometry.directional(start: 15, end: 10),
+                    child: getTextLines(
+                      testString,
+                      DefaultTextStyle.of(context).style,
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
-  Widget getTextLines(String inputString, TextStyle style) {
+  Widget getTextLines(String inputString, TextStyle styleIncoming) {
     List<String> words = inputString.split(' ');
-
+    TextStyle style = styleIncoming.copyWith(fontSize: 28);
     var currentLineLength = 0;
     bool isFirstLine = true;
     var firstLineLengthNoIndent = 0;
@@ -89,20 +94,17 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
     List<String> lineTexts = [];
     List<Widget> lines = [];
 
-    var spaceWidth = _textSize(' ', style).width.ceil();
+    var spaceWidth = _textSizeWidth(' ', style);
 
     for (var i = 0; i < words.length; i++) {
       String word = words[i];
-      var wordWidth = _textSize(word, style).width.ceil();
+      var wordWidth = _textSizeWidth(word, style);
 
       if (i == 0) {
-        currentLineLength += _textSize(
-          firstWordLineIndentation,
-          style,
-        ).width.ceil();
+        currentLineLength += _textSizeWidth(firstWordLineIndentation, style);
       }
-      if (currentLineLength + wordWidth >
-          TextBlockWidth - sumOfLeftRightPadding) {
+      if ((currentLineLength + wordWidth) >
+          (TextBlockWidth - sumOfLeftRightPadding)) {
         lineTexts.add(currentLine);
 
         if (isFirstLine) {
@@ -112,6 +114,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
           lineLengths.add(currentLineLength - spaceWidth);
         }
         currentLine = word;
+        currentLine += ' ';
         currentLineLength = wordWidth;
       } else {
         currentLine += word;
@@ -159,6 +162,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
             currentLine,
             _animations[i].value,
             i,
+            style,
             addIndentation: i == 0,
           ),
         ),
@@ -171,7 +175,8 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
   Widget getTextLine(
     String inputString,
     double lineWidth,
-    int index, {
+    int index,
+    TextStyle textStyle, {
     addIndentation = false,
   }) {
     if (addIndentation) {
@@ -182,10 +187,14 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
             firstWordLineIndentation,
             textAlign: TextAlign.right,
             textDirection: TextDirection.rtl,
+            style: textStyle,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [Text(inputString), hLine(_animations[index])],
+            children: [
+              Text(inputString, style: textStyle),
+              hLine(_animations[index]),
+            ],
           ),
         ],
       );
@@ -195,7 +204,10 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [Text(inputString), hLine(_animations[index])],
+          children: [
+            Text(inputString, style: textStyle),
+            hLine(_animations[index]),
+          ],
         ),
       ],
     );
@@ -203,7 +215,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
 }
 
 const firstWordLineIndentation = '\u00A0\u00A0\u00A0';
-const sumOfLeftRightPadding = 25;
+const sumOfLeftRightPadding = 27;
 
 Size _textSize(String text, TextStyle style) {
   final TextPainter textPainter = TextPainter(
@@ -213,6 +225,9 @@ Size _textSize(String text, TextStyle style) {
   )..layout(minWidth: 0, maxWidth: double.infinity);
   return textPainter.size;
 }
+
+int _textSizeWidth(String text, TextStyle style) =>
+    _textSize(text, style).width.ceil();
 
 Widget hLine(Animation<double> widthAnimated) =>
     Row(children: [CustomPaint(painter: HLinePainter(widthAnimated))]);
