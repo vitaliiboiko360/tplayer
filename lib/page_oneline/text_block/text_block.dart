@@ -85,7 +85,10 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
 
   Widget getTextLines(String inputString, TextStyle styleIncoming) {
     List<String> words = inputString.split(' ');
-    TextStyle style = styleIncoming.copyWith(fontSize: 28);
+    TextStyle style = styleIncoming.copyWith(
+      fontSize: 28,
+      fontWeight: FontWeight(500),
+    );
     var currentLineLength = 0;
     bool isFirstLine = true;
     var firstLineLengthNoIndent = 0;
@@ -103,7 +106,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       if (i == 0) {
         currentLineLength += _textSizeWidth(firstWordLineIndentation, style);
       }
-      if ((currentLineLength + wordWidth + spaceWidth) >
+      if ((currentLineLength + wordWidth + spaceWidth + 1) >
           (TextBlockWidth - sumOfLeftRightPadding)) {
         lineTexts.add(currentLine);
 
