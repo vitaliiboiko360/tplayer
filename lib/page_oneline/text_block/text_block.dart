@@ -103,7 +103,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       if (i == 0) {
         currentLineLength += _textSizeWidth(firstWordLineIndentation, style);
       }
-      if ((currentLineLength + wordWidth) >
+      if ((currentLineLength + wordWidth + spaceWidth) >
           (TextBlockWidth - sumOfLeftRightPadding)) {
         lineTexts.add(currentLine);
 
@@ -154,7 +154,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
       var currentLine = lineTexts[i];
       lines.add(
         GestureDetector(
-          behavior: HitTestBehavior.opaque,
+          behavior: .opaque,
           onTap: () {
             _playAnimation();
           },
@@ -215,7 +215,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
 }
 
 const firstWordLineIndentation = '\u00A0\u00A0\u00A0';
-const sumOfLeftRightPadding = 27;
+const sumOfLeftRightPadding = 25;
 
 Size _textSize(String text, TextStyle style) {
   final TextPainter textPainter = TextPainter(
