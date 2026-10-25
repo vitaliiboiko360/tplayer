@@ -32,7 +32,12 @@ class _PageOneLineState extends State<PageOneLine> {
       ),
       child: Scaffold(
         backgroundColor: Colors.transparent,
-        body: SingleChildScrollView(child: PageOneLineLayoutParent()),
+        body: SingleChildScrollView(
+          child: SingleChildScrollView(
+            scrollDirection: .horizontal,
+            child: PageOneLineLayoutParent(),
+          ),
+        ),
         floatingActionButtonLocation: .centerDocked,
         floatingActionButton: ButtonBack(),
       ),
