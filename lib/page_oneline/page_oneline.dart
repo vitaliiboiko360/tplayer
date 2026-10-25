@@ -55,7 +55,15 @@ class PageOneLineLayoutParent extends StatelessWidget {
       child: SizedBox(
         width: TextBlockWidth,
         height: PageOnelineHeight,
-        child: Column(children: [TextBlock(), PlayerControls()]),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: const Color.fromARGB(255, 105, 251, 98),
+              width: 1.0,
+            ),
+          ),
+          child: Column(children: [TextBlock(), PlayerControls()]),
+        ),
       ),
       // child: RoundBackground(
       //   width: TextBlockWidth,
