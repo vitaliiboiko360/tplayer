@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
+import 'package:tplayer/page_oneline/player_controls/settings_button.dart';
 import 'package:tplayer/state/playback_speed_slider.dart';
 import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
@@ -41,8 +42,8 @@ class PlayerControls extends StatelessWidget {
                       spacing: 10,
                       children: [
                         Align(
-                          alignment: Alignment.bottomLeft,
-                          child: ShowDetails(),
+                          alignment: Alignment.centerLeft,
+                          child: SettingsButtonWithOnPressed(),
                         ),
                         // Backward(),
                         PlayPauseButton(),
@@ -248,6 +249,19 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
           ),
         ),
       ),
+    );
+  }
+}
+
+class SettingsButtonWithOnPressed extends StatelessWidget {
+  Widget build(BuildContext context) {
+    void onPressed() {
+      BlocProvider.of<ShowDetailsMenuCubit>(context).toggleOpen();
+    }
+
+    return SettingsButton(
+      key: ValueKey('settingsButtonWithOnPressed'),
+      onPressed: onPressed,
     );
   }
 }
