@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/page_oneline/player_controls/settings_button.dart';
+import 'package:tplayer/page_oneline/round_background/round_background.dart';
 import 'package:tplayer/state/playback_speed_slider.dart';
 import 'package:tplayer/state/show_details_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
@@ -429,7 +430,7 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
     }
     const widthOfMenu = TextBlockWidth - 20;
     return Positioned(
-      top: -188,
+      top: -228,
       left: (TextBlockWidth - widthOfMenu) / 2,
       width: widthOfMenu,
       height: 200,
@@ -440,16 +441,35 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
         decoration: BoxDecoration(),
         child: SlideTransition(
           position: _offsetAnimation!,
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              color: const Color.fromARGB(255, 204, 218, 253),
-              borderRadius: .circular(20),
-              border: .all(
-                color: Color.fromARGB(255, 89, 140, 222),
-                width: 1.0,
+          child: RoundBackground(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: const Color.fromARGB(255, 204, 218, 253),
+                borderRadius: .circular(20),
+                border: .all(
+                  color: Color.fromARGB(255, 89, 140, 222),
+                  width: 1.0,
+                ),
+              ),
+              child: Padding(
+                padding: .all(5),
+                child: SizedBox(
+                  width: 10,
+                  height: 10,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      border: .all(
+                        color: Color.fromARGB(255, 85, 228, 3),
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Text('Menu'),
+                  ),
+                ),
               ),
             ),
-            child: SizedBox(width: 150, height: 200, child: Text('Menu')),
+            width: widthOfMenu,
+            height: 190,
           ),
         ),
       ),
