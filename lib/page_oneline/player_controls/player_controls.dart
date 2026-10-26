@@ -39,7 +39,7 @@ class PlayerControls extends StatelessWidget {
                     height: 120,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      spacing: 10,
+                      spacing: 25,
                       children: [
                         Align(
                           alignment: Alignment.centerLeft,
@@ -399,9 +399,9 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
       vsync: this,
     );
     _offsetAnimation = Tween<Offset>(
-      begin: Offset(0, 1),
+      begin: Offset(0, 1.01),
       end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller!, curve: Curves.easeInOut));
+    ).animate(CurvedAnimation(parent: _controller!, curve: Curves.easeOut));
     super.initState();
   }
 
@@ -427,13 +427,14 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
         _controller?.reverse();
       });
     }
+    const widthOfMenu = TextBlockWidth - 20;
     return Positioned(
       top: -188,
-      left: 0,
-      width: 150,
+      left: (TextBlockWidth - widthOfMenu) / 2,
+      width: widthOfMenu,
       height: 200,
       child: Container(
-        width: 150,
+        width: widthOfMenu,
         height: 200,
         clipBehavior: Clip.antiAlias,
         decoration: BoxDecoration(),
@@ -443,6 +444,10 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
             decoration: BoxDecoration(
               color: const Color.fromARGB(255, 204, 218, 253),
               borderRadius: .circular(20),
+              border: .all(
+                color: Color.fromARGB(255, 89, 140, 222),
+                width: 1.0,
+              ),
             ),
             child: SizedBox(width: 150, height: 200, child: Text('Menu')),
           ),
