@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/page_oneline/player_controls/settings_button.dart';
+import 'package:tplayer/page_oneline/player_controls/settings_menu.dart';
 import 'package:tplayer/page_oneline/round_background/round_background.dart';
 import 'package:tplayer/state/playback_speed_slider.dart';
-import 'package:tplayer/state/show_details_menu.dart';
+import 'package:tplayer/state/settings_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
 import 'package:tplayer/page_oneline/player_controls/playpause_button.dart';
 import 'package:defer_pointer/defer_pointer.dart';
@@ -19,8 +20,8 @@ class PlayerControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ShowDetailsMenuCubit>(
-          create: (BuildContext context) => ShowDetailsMenuCubit(),
+        BlocProvider<SettingsMenuCubit>(
+          create: (BuildContext context) => SettingsMenuCubit(),
         ),
         BlocProvider<PlaybackSpeedSliderCubit>(
           create: (BuildContext context) => PlaybackSpeedSliderCubit(),
@@ -57,7 +58,7 @@ class PlayerControls extends StatelessWidget {
                 ],
               ),
               PlaybackSpeedSlider(),
-              ShowDetailsMenu(),
+              SettingsMenu(),
             ],
           ),
         ),
@@ -257,7 +258,7 @@ class _PlaybackSpeedSliderState extends State<PlaybackSpeedSlider>
 class SettingsButtonWithOnPressed extends StatelessWidget {
   Widget build(BuildContext context) {
     void onPressed() {
-      BlocProvider.of<ShowDetailsMenuCubit>(context).toggleOpen();
+      BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
     }
 
     return SettingsButton(
@@ -359,7 +360,7 @@ class ShowDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback onTap = () {
-      BlocProvider.of<ShowDetailsMenuCubit>(context).toggleOpen();
+      BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
     };
 
     return Align(
@@ -373,103 +374,6 @@ class ShowDetails extends StatelessWidget {
             label: '',
             icon: Icons.pending_rounded,
             onTap: onTap,
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class ShowDetailsMenu extends StatefulWidget {
-  const ShowDetailsMenu({super.key});
-
-  @override
-  State<ShowDetailsMenu> createState() => _ShowDetailsMenuState();
-}
-
-class _ShowDetailsMenuState extends State<ShowDetailsMenu>
-    with SingleTickerProviderStateMixin {
-  AnimationController? _controller;
-  Animation<Offset>? _offsetAnimation;
-
-  @override
-  void initState() {
-    _controller = AnimationController(
-      duration: const Duration(milliseconds: 200),
-      reverseDuration: Duration(milliseconds: 100),
-      vsync: this,
-    );
-    _offsetAnimation = Tween<Offset>(
-      begin: Offset(0, 1.01),
-      end: Offset.zero,
-    ).animate(CurvedAnimation(parent: _controller!, curve: Curves.easeOut));
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _controller!.dispose(); // Always dispose your controllers
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    var showDetailsMenuState = BlocProvider.of<ShowDetailsMenuCubit>(
-      context,
-      listen: true,
-    );
-
-    if (showDetailsMenuState.state.isOpened) {
-      setState(() {
-        _controller?.forward();
-      });
-    } else {
-      setState(() {
-        _controller?.reverse();
-      });
-    }
-    const widthOfMenu = TextBlockWidth - 20;
-    return Positioned(
-      top: -228,
-      left: (TextBlockWidth - widthOfMenu) / 2,
-      width: widthOfMenu,
-      height: 200,
-      child: Container(
-        width: widthOfMenu,
-        height: 200,
-        clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(),
-        child: SlideTransition(
-          position: _offsetAnimation!,
-          child: RoundBackground(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 204, 218, 253),
-                borderRadius: .circular(20),
-                border: .all(
-                  color: Color.fromARGB(255, 89, 140, 222),
-                  width: 1.0,
-                ),
-              ),
-              child: Padding(
-                padding: .all(5),
-                child: SizedBox(
-                  width: 10,
-                  height: 10,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: .all(
-                        color: Color.fromARGB(255, 85, 228, 3),
-                        width: 1.0,
-                      ),
-                    ),
-                    child: Text('Menu'),
-                  ),
-                ),
-              ),
-            ),
-            width: widthOfMenu,
-            height: 190,
           ),
         ),
       ),

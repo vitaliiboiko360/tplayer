@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/state/playback_speed_slider.dart';
-import 'package:tplayer/state/show_details_menu.dart';
+import 'package:tplayer/state/settings_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
 import 'package:tplayer/ui/play_pause.dart';
 import 'package:defer_pointer/defer_pointer.dart';
@@ -17,8 +17,8 @@ class PlayerControls extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<ShowDetailsMenuCubit>(
-          create: (BuildContext context) => ShowDetailsMenuCubit(),
+        BlocProvider<SettingsMenuCubit>(
+          create: (BuildContext context) => SettingsMenuCubit(),
         ),
         BlocProvider<PlaybackSpeedSliderCubit>(
           create: (BuildContext context) => PlaybackSpeedSliderCubit(),
@@ -344,7 +344,7 @@ class ShowDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback onTap = () {
-      BlocProvider.of<ShowDetailsMenuCubit>(context).toggleOpen();
+      BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
     };
 
     return Align(
@@ -399,7 +399,7 @@ class _ShowDetailsMenuState extends State<ShowDetailsMenu>
 
   @override
   Widget build(BuildContext context) {
-    var showDetailsMenuState = BlocProvider.of<ShowDetailsMenuCubit>(
+    var showDetailsMenuState = BlocProvider.of<SettingsMenuCubit>(
       context,
       listen: true,
     );
