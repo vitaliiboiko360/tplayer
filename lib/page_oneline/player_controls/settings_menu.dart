@@ -56,14 +56,15 @@ class _SettingsMenuState extends State<SettingsMenu>
     }
     const widthOfMenu = TextBlockWidth - 20;
     return Positioned(
-      top: -228,
+      top: -216,
       left: (TextBlockWidth - widthOfMenu) / 2,
       width: widthOfMenu,
       height: 200,
       child: Container(
         width: widthOfMenu,
         height: 200,
-        clipBehavior: Clip.antiAlias,
+        // clipBehavior: Clip.antiAlias,
+        clipBehavior: .antiAlias,
         decoration: BoxDecoration(),
         child: SlideTransition(
           position: _offsetAnimation!,

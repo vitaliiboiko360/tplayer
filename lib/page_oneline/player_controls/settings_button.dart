@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tplayer/state/settings_menu.dart';
+import 'package:tplayer/ui/button_animated.dart';
 
 const double settingsButtonDefaultHeight = 50;
 
@@ -123,6 +126,31 @@ class _SettingsButtonUIState extends State<SettingsButtonInner> {
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class SettingsButtonOld extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    VoidCallback onTap = () {
+      BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
+    };
+
+    return Align(
+      alignment: Alignment.topCenter,
+      child: Padding(
+        padding: EdgeInsetsGeometry.zero,
+        child: SizedBox(
+          width: 50,
+          height: 30,
+          child: ButtonAnimated(
+            label: '',
+            icon: Icons.pending_rounded,
+            onTap: onTap,
           ),
         ),
       ),
