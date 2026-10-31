@@ -132,28 +132,3 @@ class _SettingsButtonUIState extends State<SettingsButtonInner> {
     );
   }
 }
-
-class SettingsButtonOld extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    VoidCallback onTap = () {
-      BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
-    };
-
-    return Align(
-      alignment: Alignment.topCenter,
-      child: Padding(
-        padding: EdgeInsetsGeometry.zero,
-        child: SizedBox(
-          width: 50,
-          height: 30,
-          child: ButtonAnimated(
-            label: '',
-            icon: Icons.pending_rounded,
-            onTap: onTap,
-          ),
-        ),
-      ),
-    );
-  }
-}

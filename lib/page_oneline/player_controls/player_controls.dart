@@ -58,7 +58,6 @@ class PlayerControls extends StatelessWidget {
                   SizedBox(height: 10),
                 ],
               ),
-              PlaybackSpeedSlider(),
               SettingsMenu(),
             ],
           ),
@@ -70,13 +69,13 @@ class PlayerControls extends StatelessWidget {
 
 class SettingsButtonWithOnPressed extends StatelessWidget {
   Widget build(BuildContext context) {
-    void onPressed() {
+    void _onPressed() {
       BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
     }
 
     return SettingsButton(
       key: ValueKey('settingsButtonWithOnPressed'),
-      onPressed: onPressed,
+      onPressed: _onPressed,
     );
   }
 }
