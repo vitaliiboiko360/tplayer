@@ -6,6 +6,8 @@ import 'package:tplayer/page_oneline/player_controls/settings_menu.dart';
 import 'package:tplayer/page_oneline/round_background/round_background.dart';
 import 'package:tplayer/state/settings_menu.dart';
 
+const boxShadowRadius = 5;
+
 class SettingsMenu extends StatefulWidget {
   const SettingsMenu({super.key});
 
@@ -57,22 +59,24 @@ class _SettingsMenuState extends State<SettingsMenu>
     const widthOfMenu = TextBlockWidth - 20;
     return Positioned(
       top: -216,
-      left: (TextBlockWidth - widthOfMenu) / 2,
-      width: widthOfMenu,
+      left: (TextBlockWidth - (widthOfMenu + boxShadowRadius * 2)) / 2,
+      width: widthOfMenu + boxShadowRadius * 2,
       height: 200,
       child: Container(
-        width: widthOfMenu,
-        height: 200,
-        // clipBehavior: Clip.antiAlias,
+        width: widthOfMenu + boxShadowRadius * 2,
+        height: 187,
         clipBehavior: .antiAlias,
         decoration: BoxDecoration(),
         child: SlideTransition(
           position: _offsetAnimation!,
           child: RoundBackground(
-            child: DecoratedBox(
+            child: Container(
+              width: widthOfMenu,
+              height: 180,
+              clipBehavior: .antiAlias,
               decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 204, 218, 253),
-                borderRadius: .circular(20),
+                color: const Color.fromARGB(255, 114, 113, 113),
+                borderRadius: .all(.circular(radiusForBlock)),
                 border: .all(
                   color: Color.fromARGB(255, 89, 140, 222),
                   width: 1.0,
@@ -80,23 +84,34 @@ class _SettingsMenuState extends State<SettingsMenu>
               ),
               child: Padding(
                 padding: .all(5),
-                child: SizedBox(
-                  width: 10,
-                  height: 10,
-                  child: DecoratedBox(
-                    decoration: BoxDecoration(
-                      border: .all(
-                        color: Color.fromARGB(255, 85, 228, 3),
-                        width: 1.0,
+                child: Container(
+                  clipBehavior: .antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: .all(.circular(radiusForBlock)),
+                    // border: .all(
+                    //   color: Color.fromARGB(255, 85, 228, 3),
+                    //   width: 1.0,
+                    // ),
+                  ),
+                  child: SizedBox(
+                    width: 10,
+                    height: 10,
+                    child: Align(
+                      child: Text(
+                        'Menulongwordstringlongwordstringlongwordstringlongwordstring',
                       ),
                     ),
-                    child: Text('Menu'),
                   ),
                 ),
               ),
             ),
             width: widthOfMenu,
-            height: 190,
+            height: 180,
+            boxShadow: const BoxShadow(
+              color: Color(0x40000000),
+              blurRadius: boxShadowRadius * 1.0,
+              offset: Offset(0, boxShadowRadius / 2),
+            ),
           ),
         ),
       ),
