@@ -58,59 +58,79 @@ class _SettingsMenuState extends State<SettingsMenu>
     }
     const widthOfMenu = TextBlockWidth - 20;
     return Positioned(
-      top: -216,
-      left: (TextBlockWidth - (widthOfMenu + boxShadowRadius * 2)) / 2,
-      width: widthOfMenu + boxShadowRadius * 2,
-      height: 200,
+      top: -225,
+      left: 0,
+      width: TextBlockWidth,
+      height: 220,
       child: Container(
-        width: widthOfMenu + boxShadowRadius * 2,
-        height: 187,
+        width: TextBlockWidth,
+        height: 220,
         clipBehavior: .antiAlias,
         decoration: BoxDecoration(),
         child: SlideTransition(
           position: _offsetAnimation!,
-          child: RoundBackground(
-            child: Container(
-              width: widthOfMenu,
-              height: 180,
-              clipBehavior: .antiAlias,
-              decoration: BoxDecoration(
-                color: const Color.fromARGB(255, 114, 113, 113),
-                borderRadius: .all(.circular(radiusForBlock)),
-                border: .all(
-                  color: Color.fromARGB(255, 89, 140, 222),
-                  width: 1.0,
-                ),
-              ),
-              child: Padding(
-                padding: .all(5),
-                child: Container(
-                  clipBehavior: .antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: .all(.circular(radiusForBlock)),
-                    // border: .all(
-                    //   color: Color.fromARGB(255, 85, 228, 3),
-                    //   width: 1.0,
-                    // ),
+          child: Padding(
+            padding: .directional(start: 5, end: 5, top: 10, bottom: 10),
+            child: RoundBackground(
+              child: Container(
+                width: widthOfMenu,
+                height: 180,
+                clipBehavior: .none,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFfffdf7),
+                  borderRadius: .all(.circular(radiusForBlock)),
+                  border: .all(
+                    color: Color.fromARGB(255, 185, 185, 185),
+                    width: 1.0,
                   ),
-                  child: SizedBox(
-                    width: 10,
-                    height: 10,
-                    child: Align(
-                      child: Text(
-                        'Menulongwordstringlongwordstringlongwordstringlongwordstring',
+                ),
+                child: Padding(
+                  padding: .all(5),
+                  child: Container(
+                    clipBehavior: .none,
+                    decoration: BoxDecoration(
+                      borderRadius: .all(.circular(radiusForBlock)),
+                      border: .all(
+                        color: Color.fromARGB(255, 85, 228, 3),
+                        width: 1.0,
+                      ),
+                    ),
+                    child: SizedBox(
+                      width: 10,
+                      height: 10,
+                      child: Align(
+                        child: Text(
+                          'Menulongwordstringlongwordstringlongwordstringlongwordstring',
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-            width: widthOfMenu,
-            height: 180,
-            boxShadow: const BoxShadow(
-              color: Color(0x40000000),
-              blurRadius: boxShadowRadius * 1.0,
-              offset: Offset(0, boxShadowRadius / 2),
+              width: widthOfMenu,
+              height: 180,
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x40000000),
+                  blurRadius: boxShadowRadius * 1.0,
+                  offset: Offset(0, boxShadowRadius / 2),
+                ),
+                BoxShadow(
+                  color: Color(0x40000000),
+                  blurRadius: boxShadowRadius * 1.0,
+                  offset: Offset(0, -(boxShadowRadius * 2.0)),
+                ),
+                // BoxShadow(
+                //   color: Color(0x40000000),
+                //   blurRadius: boxShadowRadius * 1.0,
+                //   offset: Offset(1, 0),
+                // ),
+                // BoxShadow(
+                //   color: Color(0x40000000),
+                //   blurRadius: boxShadowRadius * 1.0,
+                //   offset: Offset(-1, 0),
+                // ),
+              ],
             ),
           ),
         ),

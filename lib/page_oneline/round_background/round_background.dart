@@ -13,11 +13,13 @@ class RoundBackground extends StatefulWidget {
     this.height = PageOnelineHeight,
     this.color = mainBackground,
     this.shadowColor = const Color(0x2E000000),
-    this.boxShadow = const BoxShadow(
-      color: Color(0x40000000),
-      blurRadius: radiusForBlock,
-      offset: Offset(0, radiusForBlock / 2),
-    ),
+    this.boxShadow = const [
+      BoxShadow(
+        color: Color(0x40000000),
+        blurRadius: radiusForBlock,
+        offset: Offset(0, radiusForBlock / 2),
+      ),
+    ],
   });
 
   final Widget child;
@@ -25,7 +27,7 @@ class RoundBackground extends StatefulWidget {
   final Color shadowColor;
   final double height;
   final double width;
-  final BoxShadow boxShadow;
+  final List<BoxShadow> boxShadow;
 
   @override
   State<RoundBackground> createState() => _RoundBackgroundState();
@@ -59,7 +61,7 @@ class _RoundBackgroundState extends State<RoundBackground> {
                   bottomStart: .circular(radiusForBlock),
                   bottomEnd: .circular(radiusForBlock),
                 ),
-                boxShadow: [widget.boxShadow],
+                boxShadow: widget.boxShadow,
               ),
             ),
           ),
