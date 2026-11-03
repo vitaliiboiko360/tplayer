@@ -140,10 +140,25 @@ class _MenuContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: .directional(start: 10, end: 10, top: 10, bottom: 10),
-      child: Column(children: [_MenuHeader(), _TextSizeButtonGroup()]),
+      child: Column(
+        children: [
+          _MenuHeader(),
+          _TextSizeButtonGroup(),
+          divider(),
+          _ThemeButtonGroup(),
+        ],
+      ),
     );
   }
 }
+
+Widget divider() => const Divider(
+  height: 30,
+  thickness: 0.0,
+  indent: 40,
+  endIndent: 40,
+  color: Color.fromARGB(200, 158, 158, 158),
+);
 
 class _MenuHeader extends StatelessWidget {
   @override
@@ -172,7 +187,22 @@ class _TextSizeButtonGroup extends StatelessWidget {
         _Button(text: 'Normal', onPressed: () {}),
         _Button(text: 'Large', onPressed: () {}),
         Spacer(flex: 1),
-      ], //[_Button('Small'), _Button('Normal'), _Button('Large')],
+      ],
+    );
+  }
+}
+
+class _ThemeButtonGroup extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      spacing: 20,
+      children: [
+        Spacer(flex: 1),
+        _Button(text: 'Light', onPressed: () {}),
+        _Button(text: 'Dart', onPressed: () {}),
+        Spacer(flex: 1),
+      ],
     );
   }
 }
