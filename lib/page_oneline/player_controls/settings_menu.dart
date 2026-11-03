@@ -75,57 +75,62 @@ class _SettingsMenuState extends State<SettingsMenu>
           decoration: BoxDecoration(),
           child: SlideTransition(
             position: _offsetAnimation!,
-            child: Padding(
-              padding: .directional(start: 5, end: 5, top: 10, bottom: 10),
-              child: RoundBackground(
-                child: Container(
+            child: TapRegion(
+              onTapOutside: (PointerDownEvent pde) {
+                BlocProvider.of<SettingsMenuCubit>(context).setClosed();
+              },
+              child: Padding(
+                padding: .directional(start: 5, end: 5, top: 10, bottom: 10),
+                child: RoundBackground(
+                  child: Container(
+                    width: widthOfMenu,
+                    height: 180,
+                    clipBehavior: .none,
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFfffdf7),
+                      borderRadius: .all(.circular(radiusForBlock)),
+                      border: .all(
+                        color: Color.fromARGB(255, 185, 185, 185),
+                        width: 1.0,
+                      ),
+                    ),
+                    child: Padding(
+                      padding: .all(1),
+                      child: Container(
+                        clipBehavior: .none,
+                        decoration: BoxDecoration(
+                          borderRadius: .all(.circular(radiusForBlock - 2)),
+                          border: .all(color: Color(0x40000000), width: 1.0),
+                        ),
+                        child: _MenuContent(),
+                      ),
+                    ),
+                  ),
                   width: widthOfMenu,
                   height: 180,
-                  clipBehavior: .none,
-                  decoration: BoxDecoration(
-                    color: const Color(0xFFfffdf7),
-                    borderRadius: .all(.circular(radiusForBlock)),
-                    border: .all(
-                      color: Color.fromARGB(255, 185, 185, 185),
-                      width: 1.0,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x40000000),
+                      blurRadius: boxShadowRadius * 1.0,
+                      offset: Offset(0, boxShadowRadius / 2),
                     ),
-                  ),
-                  child: Padding(
-                    padding: .all(1),
-                    child: Container(
-                      clipBehavior: .none,
-                      decoration: BoxDecoration(
-                        borderRadius: .all(.circular(radiusForBlock - 2)),
-                        border: .all(color: Color(0x40000000), width: 1.0),
-                      ),
-                      child: _MenuContent(),
+                    BoxShadow(
+                      color: Color(0x40000000),
+                      blurRadius: boxShadowRadius * 1.0,
+                      offset: Offset(0, -(boxShadowRadius * 2.0)),
                     ),
-                  ),
+                    // BoxShadow(
+                    //   color: Color(0x40000000),
+                    //   blurRadius: boxShadowRadius * 1.0,
+                    //   offset: Offset(1, 0),
+                    // ),
+                    // BoxShadow(
+                    //   color: Color(0x40000000),
+                    //   blurRadius: boxShadowRadius * 1.0,
+                    //   offset: Offset(-1, 0),
+                    // ),
+                  ],
                 ),
-                width: widthOfMenu,
-                height: 180,
-                boxShadow: const [
-                  BoxShadow(
-                    color: Color(0x40000000),
-                    blurRadius: boxShadowRadius * 1.0,
-                    offset: Offset(0, boxShadowRadius / 2),
-                  ),
-                  BoxShadow(
-                    color: Color(0x40000000),
-                    blurRadius: boxShadowRadius * 1.0,
-                    offset: Offset(0, -(boxShadowRadius * 2.0)),
-                  ),
-                  // BoxShadow(
-                  //   color: Color(0x40000000),
-                  //   blurRadius: boxShadowRadius * 1.0,
-                  //   offset: Offset(1, 0),
-                  // ),
-                  // BoxShadow(
-                  //   color: Color(0x40000000),
-                  //   blurRadius: boxShadowRadius * 1.0,
-                  //   offset: Offset(-1, 0),
-                  // ),
-                ],
               ),
             ),
           ),

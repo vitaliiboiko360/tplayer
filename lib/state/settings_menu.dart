@@ -16,4 +16,12 @@ class SettingsMenuCubit extends Cubit<SettingsMenuState> {
   void toggleOpen() {
     emit(state.copyWith(isOpened: !state.isOpened));
   }
+
+  void setClosed() {
+    emit(state.copyWith(isOpened: false));
+  }
+
+  void setOpened() {
+    emit(state.copyWith(isOpened: true));
+  }
 }
