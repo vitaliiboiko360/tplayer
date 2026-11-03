@@ -1,16 +1,20 @@
+import 'package:defer_pointer/defer_pointer.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/page_oneline/player_controls/player_controls.dart';
 import 'package:tplayer/page_oneline/player_controls/settings_menu.dart';
 import 'package:tplayer/page_oneline/round_background/round_background.dart';
+import 'package:tplayer/page_oneline/text_block/text_block.dart';
 import 'package:tplayer/state/settings_menu.dart';
 
 const boxShadowRadius = 5;
 
 class SettingsMenu extends StatefulWidget {
-  const SettingsMenu({super.key});
+  SettingsMenu(DeferredPointerHandlerLink this.link, {super.key});
 
+  DeferredPointerHandlerLink link;
   @override
   State<SettingsMenu> createState() => _SettingsMenuState();
 }
@@ -62,78 +66,215 @@ class _SettingsMenuState extends State<SettingsMenu>
       left: 0,
       width: TextBlockWidth,
       height: 220,
-      child: Container(
-        width: TextBlockWidth,
-        height: 220,
-        clipBehavior: .antiAlias,
-        decoration: BoxDecoration(),
-        child: SlideTransition(
-          position: _offsetAnimation!,
-          child: Padding(
-            padding: .directional(start: 5, end: 5, top: 10, bottom: 10),
-            child: RoundBackground(
-              child: Container(
+      child: DeferPointer(
+        link: widget.link,
+        child: Container(
+          width: TextBlockWidth,
+          height: 220,
+          clipBehavior: .antiAlias,
+          decoration: BoxDecoration(),
+          child: SlideTransition(
+            position: _offsetAnimation!,
+            child: Padding(
+              padding: .directional(start: 5, end: 5, top: 10, bottom: 10),
+              child: RoundBackground(
+                child: Container(
+                  width: widthOfMenu,
+                  height: 180,
+                  clipBehavior: .none,
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFfffdf7),
+                    borderRadius: .all(.circular(radiusForBlock)),
+                    border: .all(
+                      color: Color.fromARGB(255, 185, 185, 185),
+                      width: 1.0,
+                    ),
+                  ),
+                  child: Padding(
+                    padding: .all(1),
+                    child: Container(
+                      clipBehavior: .none,
+                      decoration: BoxDecoration(
+                        borderRadius: .all(.circular(radiusForBlock - 2)),
+                        border: .all(color: Color(0x40000000), width: 1.0),
+                      ),
+                      child: _MenuContent(),
+                    ),
+                  ),
+                ),
                 width: widthOfMenu,
                 height: 180,
-                clipBehavior: .none,
-                decoration: BoxDecoration(
-                  color: const Color(0xFFfffdf7),
-                  borderRadius: .all(.circular(radiusForBlock)),
-                  border: .all(
-                    color: Color.fromARGB(255, 185, 185, 185),
-                    width: 1.0,
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x40000000),
+                    blurRadius: boxShadowRadius * 1.0,
+                    offset: Offset(0, boxShadowRadius / 2),
                   ),
-                ),
-                child: Padding(
-                  padding: .all(5),
-                  child: Container(
-                    clipBehavior: .none,
-                    decoration: BoxDecoration(
-                      borderRadius: .all(.circular(radiusForBlock)),
-                      border: .all(
-                        color: Color.fromARGB(255, 85, 228, 3),
-                        width: 1.0,
-                      ),
-                    ),
-                    child: SizedBox(
-                      width: 10,
-                      height: 10,
-                      child: Align(
-                        child: Text(
-                          'Menulongwordstringlongwordstringlongwordstringlongwordstring',
-                        ),
-                      ),
-                    ),
+                  BoxShadow(
+                    color: Color(0x40000000),
+                    blurRadius: boxShadowRadius * 1.0,
+                    offset: Offset(0, -(boxShadowRadius * 2.0)),
                   ),
-                ),
+                  // BoxShadow(
+                  //   color: Color(0x40000000),
+                  //   blurRadius: boxShadowRadius * 1.0,
+                  //   offset: Offset(1, 0),
+                  // ),
+                  // BoxShadow(
+                  //   color: Color(0x40000000),
+                  //   blurRadius: boxShadowRadius * 1.0,
+                  //   offset: Offset(-1, 0),
+                  // ),
+                ],
               ),
-              width: widthOfMenu,
-              height: 180,
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x40000000),
-                  blurRadius: boxShadowRadius * 1.0,
-                  offset: Offset(0, boxShadowRadius / 2),
-                ),
-                BoxShadow(
-                  color: Color(0x40000000),
-                  blurRadius: boxShadowRadius * 1.0,
-                  offset: Offset(0, -(boxShadowRadius * 2.0)),
-                ),
-                // BoxShadow(
-                //   color: Color(0x40000000),
-                //   blurRadius: boxShadowRadius * 1.0,
-                //   offset: Offset(1, 0),
-                // ),
-                // BoxShadow(
-                //   color: Color(0x40000000),
-                //   blurRadius: boxShadowRadius * 1.0,
-                //   offset: Offset(-1, 0),
-                // ),
-              ],
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _MenuContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: .directional(start: 10, end: 10, top: 10, bottom: 10),
+      child: Column(children: [_MenuHeader(), _TextSizeButtonGroup()]),
+    );
+  }
+}
+
+class _MenuHeader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: .directional(start: 10, bottom: 4),
+      child: Align(
+        alignment: .centerStart,
+        child: Text(
+          'Settings',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight(700)),
+        ),
+      ),
+    );
+  }
+}
+
+class _TextSizeButtonGroup extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        _Button(text: 'Small', onPressed: () {}),
+      ], //[_Button('Small'), _Button('Normal'), _Button('Large')],
+    );
+  }
+}
+
+const mainBackground = Color(0xFFfffdf7);
+
+const double radiusBorderButton = 8;
+
+class _Button extends StatefulWidget {
+  _Button({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    // ignore: unused_element_parameter
+    this.color = mainBackground,
+    // ignore: unused_element_parameter
+    this.shadowColor = const Color(0x2E000000),
+    // ignore: unused_element_parameter
+    this.boxShadow = const [
+      BoxShadow(
+        color: Color(0x40000000),
+        blurRadius: radiusBorderButton,
+        offset: Offset(0, radiusBorderButton / 2),
+      ),
+    ],
+  });
+
+  final String text;
+  final VoidCallback onPressed;
+
+  final Color color;
+  final Color shadowColor;
+  final List<BoxShadow> boxShadow;
+  TextStyle style = TextStyle(fontSize: 16, fontWeight: FontWeight(500));
+
+  @override
+  State<_Button> createState() => _ButtonState();
+}
+
+class _ButtonState extends State<_Button> {
+  bool _isPressed = false;
+
+  @override
+  Widget build(BuildContext context) {
+    final Size textSize = getTextSize(widget.text, widget.style);
+    final Size _buttonSize = Size(
+      textSize.width.ceilToDouble() + 20,
+      textSize.height.ceilToDouble() * 1.6,
+    );
+    final depth = _buttonSize.height * 0.1;
+    // ignore: unused_local_variable
+    final travel = _isPressed ? depth * 0.7 : 0.0;
+
+    print('text size is w:= ${_buttonSize.width} h:= ${_buttonSize.height}');
+    //textSize = Size(70, 30);
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTapDown: (_) => setState(() => _isPressed = true),
+      onTapCancel: () => setState(() => _isPressed = false),
+      onTapUp: (_) {
+        setState(() => _isPressed = false);
+        HapticFeedback.lightImpact();
+        widget.onPressed();
+      },
+      child: Stack(
+        clipBehavior: .none,
+        children: [
+          SizedBox(width: _buttonSize.width, height: _buttonSize.height),
+          // bottom
+          Positioned(
+            top: depth,
+            left: 0,
+            right: 0,
+            child: Container(
+              width: _buttonSize.width,
+              height: _buttonSize.height,
+              clipBehavior: .none,
+              decoration: BoxDecoration(
+                color: widget.shadowColor,
+                shape: BoxShape.rectangle,
+                borderRadius: .all(.circular(radiusBorderButton)),
+                boxShadow: widget.boxShadow,
+              ),
+            ),
+          ),
+          // top face, slides down when pressed
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: Container(
+              width: _buttonSize.width,
+              height: _buttonSize.height,
+              clipBehavior: .none,
+              decoration: BoxDecoration(
+                color: widget.color,
+                shape: BoxShape.rectangle,
+                border: BoxBorder.all(color: Color(0x2E000000), width: 1.0),
+                borderRadius: .all(.circular(radiusBorderButton)),
+              ),
+              child: Align(
+                alignment: .center,
+                child: Text(widget.text, style: widget.style),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

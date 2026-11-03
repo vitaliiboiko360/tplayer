@@ -220,7 +220,7 @@ class TextBlockState extends State<TextBlock> with TickerProviderStateMixin {
 const firstWordLineIndentation = '\u00A0\u00A0\u00A0';
 const sumOfLeftRightPadding = 25;
 
-Size _textSize(String text, TextStyle style) {
+Size getTextSize(String text, TextStyle style) {
   final TextPainter textPainter = TextPainter(
     text: TextSpan(text: text, style: style),
     maxLines: 1,
@@ -230,7 +230,7 @@ Size _textSize(String text, TextStyle style) {
 }
 
 int _textSizeWidth(String text, TextStyle style) =>
-    _textSize(text, style).width.ceil();
+    getTextSize(text, style).width.ceil();
 
 Widget hLine(Animation<double> widthAnimated) =>
     Row(children: [CustomPaint(painter: HLinePainter(widthAnimated))]);

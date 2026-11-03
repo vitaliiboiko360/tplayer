@@ -17,6 +17,7 @@ const playbackSpeedTapRegionObjectGroupId =
 const playerContolsHeight = 150;
 
 class PlayerControls extends StatelessWidget {
+  final _deferredPointerLink = DeferredPointerHandlerLink();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -29,6 +30,7 @@ class PlayerControls extends StatelessWidget {
         ),
       ],
       child: DeferredPointerHandler(
+        link: _deferredPointerLink,
         child: SizedBox(
           width: TextBlockWidth,
           height: playerContolsHeight.toDouble(),
@@ -58,7 +60,7 @@ class PlayerControls extends StatelessWidget {
                   SizedBox(height: 10),
                 ],
               ),
-              SettingsMenu(),
+              SettingsMenu(_deferredPointerLink),
             ],
           ),
         ),
