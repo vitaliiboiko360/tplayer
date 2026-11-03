@@ -165,8 +165,13 @@ class _TextSizeButtonGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
+      spacing: 20,
       children: [
+        Spacer(flex: 1),
         _Button(text: 'Small', onPressed: () {}),
+        _Button(text: 'Normal', onPressed: () {}),
+        _Button(text: 'Large', onPressed: () {}),
+        Spacer(flex: 1),
       ], //[_Button('Small'), _Button('Normal'), _Button('Large')],
     );
   }
@@ -199,9 +204,15 @@ class _Button extends StatefulWidget {
   final VoidCallback onPressed;
 
   final Color color;
+  final Color colorInverted = Color.fromARGB(255, 80, 80, 80);
   final Color shadowColor;
   final List<BoxShadow> boxShadow;
   TextStyle style = TextStyle(fontSize: 16, fontWeight: FontWeight(500));
+  TextStyle styleInverted = TextStyle(
+    color: Colors.white,
+    fontSize: 16,
+    fontWeight: FontWeight(500),
+  );
 
   @override
   State<_Button> createState() => _ButtonState();
@@ -218,17 +229,15 @@ class _ButtonState extends State<_Button> {
       textSize.height.ceilToDouble() * 1.6,
     );
     final depth = _buttonSize.height * 0.1;
-    // ignore: unused_local_variable
-    final travel = _isPressed ? depth * 0.7 : 0.0;
 
-    print('text size is w:= ${_buttonSize.width} h:= ${_buttonSize.height}');
-    //textSize = Size(70, 30);
+    // print('text size is w:= ${_buttonSize.width} h:= ${_buttonSize.height}');
     return GestureDetector(
       behavior: HitTestBehavior.opaque,
-      onTapDown: (_) => setState(() => _isPressed = true),
-      onTapCancel: () => setState(() => _isPressed = false),
+      onTapDown: (_) => setState(() => _isPressed = !_isPressed),
+      onTapCancel: () => {},
       onTapUp: (_) {
-        setState(() => _isPressed = false);
+        // setState(() => _isPressed = !_isPressed);
+        if (!_isPressed) return;
         HapticFeedback.lightImpact();
         widget.onPressed();
       },
@@ -263,14 +272,17 @@ class _ButtonState extends State<_Button> {
               height: _buttonSize.height,
               clipBehavior: .none,
               decoration: BoxDecoration(
-                color: widget.color,
+                color: _isPressed ? widget.colorInverted : widget.color,
                 shape: BoxShape.rectangle,
                 border: BoxBorder.all(color: Color(0x2E000000), width: 1.0),
                 borderRadius: .all(.circular(radiusBorderButton)),
               ),
               child: Align(
                 alignment: .center,
-                child: Text(widget.text, style: widget.style),
+                child: Text(
+                  widget.text,
+                  style: _isPressed ? widget.styleInverted : widget.style,
+                ),
               ),
             ),
           ),

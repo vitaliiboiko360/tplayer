@@ -10,7 +10,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    debugPaintSizeEnabled = true;
+    debugPaintSizeEnabled = false;
     return MaterialApp.router(
       routerConfig: router,
       debugShowCheckedModeBanner: false,
