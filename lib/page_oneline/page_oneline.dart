@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:tplayer/page_oneline/round_background/round_background.dart';
 import 'package:tplayer/page_oneline/player_controls/player_controls.dart';
 import 'package:tplayer/page_oneline/text_block/text_block.dart';
+import 'package:tplayer/page_oneline/ui_elements/arrow_button.dart';
 import 'package:tplayer/page_oneline/ui_elements/button_back.dart';
 
 const double PageOnelineHeight = 670;
 const double TextBlockWidth = 350;
+const double PageOnelineWidth = 430;
 
 class PageOneLine extends StatefulWidget {
   const PageOneLine({super.key});
@@ -53,16 +55,34 @@ class PageOneLineLayoutParent extends StatelessWidget {
     return CustomSingleChildLayout(
       delegate: PageOneLineLayoutChild(screenWidth, screenHeight),
       child: SizedBox(
-        width: TextBlockWidth,
+        width: PageOnelineWidth,
         height: PageOnelineHeight,
         child: DecoratedBox(
           decoration: BoxDecoration(
-            border: Border.all(
-              color: const Color.fromARGB(255, 105, 251, 98),
-              width: 1.0,
-            ),
+            // border: Border.all(
+            //   color: const Color.fromARGB(255, 105, 251, 98),
+            //   width: 1.0,
+            // ),
           ),
-          child: Column(children: [TextBlock(), PlayerControls()]),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  ArrowButton(
+                    icon: Icons.chevron_left_rounded,
+                    onPressed: () {},
+                    isDisabled: true,
+                  ),
+                  TextBlock(),
+                  ArrowButton(
+                    icon: Icons.chevron_right_rounded,
+                    onPressed: () {},
+                  ),
+                ],
+              ),
+              PlayerControls(),
+            ],
+          ),
         ),
       ),
       // child: RoundBackground(
