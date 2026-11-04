@@ -17,6 +17,7 @@ class App extends StatelessWidget {
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color.fromARGB(255, 168, 168, 168),
+          surface: Colors.transparent,
         ),
         textTheme: const TextTheme(
           bodyMedium: TextStyle(
