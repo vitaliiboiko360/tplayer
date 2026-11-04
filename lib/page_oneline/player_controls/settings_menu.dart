@@ -19,6 +19,9 @@ class SettingsMenu extends StatefulWidget {
   State<SettingsMenu> createState() => _SettingsMenuState();
 }
 
+const settingsMenuTapRegionObjectGroupId =
+    'settings-menu-tap-region-object-group-id';
+
 class _SettingsMenuState extends State<SettingsMenu>
     with SingleTickerProviderStateMixin {
   AnimationController? _controller;
@@ -76,8 +79,13 @@ class _SettingsMenuState extends State<SettingsMenu>
           child: SlideTransition(
             position: _offsetAnimation!,
             child: TapRegion(
+              groupId: settingsMenuTapRegionObjectGroupId,
               onTapOutside: (PointerDownEvent pde) {
-                BlocProvider.of<SettingsMenuCubit>(context).setClosed();
+                if (BlocProvider.of<SettingsMenuCubit>(context)
+                    .state
+                    .isOpened) {
+                  BlocProvider.of<SettingsMenuCubit>(context).toggle();
+                }
               },
               child: Padding(
                 padding: .directional(start: 5, end: 5, top: 10, bottom: 10),

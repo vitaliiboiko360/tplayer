@@ -344,7 +344,7 @@ class ShowDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     VoidCallback onTap = () {
-      BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
+      BlocProvider.of<SettingsMenuCubit>(context).toggle();
     };
 
     return Align(

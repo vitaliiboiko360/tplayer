@@ -13,7 +13,7 @@ class SettingsMenuState {
 class SettingsMenuCubit extends Cubit<SettingsMenuState> {
   SettingsMenuCubit() : super(SettingsMenuState(false));
 
-  void toggleOpen() {
+  void toggle() {
     emit(state.copyWith(isOpened: !state.isOpened));
   }
 

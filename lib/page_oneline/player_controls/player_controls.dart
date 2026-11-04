@@ -72,7 +72,12 @@ class PlayerControls extends StatelessWidget {
 class SettingsButtonWithOnPressed extends StatelessWidget {
   Widget build(BuildContext context) {
     void _onPressed() {
-      BlocProvider.of<SettingsMenuCubit>(context).toggleOpen();
+      BlocProvider.of<SettingsMenuCubit>(context).toggle();
+      print(
+        'on pressed isOpened = ${BlocProvider.of<SettingsMenuCubit>(context).state.isOpened}',
+      );
+      if (BlocProvider.of<SettingsMenuCubit>(context).state.isOpened ==
+          false) {}
     }
 
     return SettingsButton(

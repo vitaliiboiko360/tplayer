@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tplayer/page_oneline/player_controls/settings_menu.dart';
 import 'package:tplayer/state/settings_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
 
@@ -20,14 +21,17 @@ class _SettingsButtonState extends State<SettingsButton> {
 
   @override
   Widget build(BuildContext context) {
-    return SettingsButtonInner(
-      isPlaying: playing,
-      onPressed: () => setState(() {
-        playing = !playing;
-        if (widget.onPressed != null) {
-          widget.onPressed!();
-        }
-      }),
+    return TapRegion(
+      groupId: settingsMenuTapRegionObjectGroupId,
+      child: SettingsButtonInner(
+        isPlaying: playing,
+        onPressed: () => setState(() {
+          playing = !playing;
+          if (widget.onPressed != null) {
+            widget.onPressed!();
+          }
+        }),
+      ),
     );
   }
 }
