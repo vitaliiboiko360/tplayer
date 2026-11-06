@@ -20,7 +20,7 @@ class _TextPageState extends State<TextPage> {
         title: Text(widget.title),
         actions: [
           ElevatedButton(
-            onPressed: () => context.go('/details'),
+            onPressed: () => context.go('/story'),
             child: const Text('Go to the Details screen'),
           ),
         ],
