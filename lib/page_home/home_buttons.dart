@@ -75,7 +75,7 @@ class OneLineButton extends StatelessWidget {
                   children: [
                     Icon(Icons.star, size: 10),
                     Text(
-                      'Recomended',
+                      'Recomended for Most',
                       style: TextStyle(
                         color: Color.fromARGB(255, 66, 80, 83),
                         fontSize: 13,
