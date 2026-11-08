@@ -21,6 +21,7 @@ sealed class Result<T> {
   const factory Result.error(Exception error) = Error._;
 }
 
+// < OK >
 final class Ok<T> extends Result<T> {
   const Ok._(this.value);
 
@@ -31,6 +32,7 @@ final class Ok<T> extends Result<T> {
   String toString() => 'Result<$T>.ok($value)';
 }
 
+// < Error >
 final class Error<T> extends Result<T> {
   const Error._(this.error);
 

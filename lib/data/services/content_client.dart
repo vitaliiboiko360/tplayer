@@ -36,7 +36,7 @@ class ContentClient {
     }
   }
 
-  Future<Result<String>> getJsonAsString(String url) async {
+  Future<Result<String>> getJsonAsRawString(String url) async {
     final client = _clientFactory();
     try {
       final request = await client.get(_host, _port, url);
@@ -46,7 +46,9 @@ class ContentClient {
         final stringData = await response.transform(utf8.decoder).join();
         return Result.ok(stringData);
       } else {
-        return const Result.error(HttpException("Invalid response"));
+        return Result.error(
+          HttpException("Invalid response", uri: Uri.parse(url)),
+        );
       }
     } on Exception catch (error) {
       return Result.error(error);
@@ -56,6 +58,20 @@ class ContentClient {
   }
 
   Future<Result<List<TextTitle>>> getListAllTextTitles() async {
+    const String url = '/cdn/text.json';
+    Result<String> rawJson = await getJsonAsRawString(url);
+    switch (rawJson) {
+      case Ok():
+        final json = jsonDecode(rawJson.value) as List<dynamic>;
+        return Result.ok(
+          json.map((element) => TextTitle.fromJson(element)).toList(),
+        );
+      case Error():
+        return Result.error(rawJson.error);
+    }
+  }
+
+  Future<Result<List<TextTitle>>> getListAllTextTitles2() async {
     final client = _clientFactory();
     try {
       final request = await client.get(_host, _port, '/cdn/texts.json');
