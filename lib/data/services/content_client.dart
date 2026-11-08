@@ -36,6 +36,25 @@ class ContentClient {
     }
   }
 
+  Future<Result<String>> getJsonAsString(String url) async {
+    final client = _clientFactory();
+    try {
+      final request = await client.get(_host, _port, url);
+      await _authHeader(request.headers);
+      final response = await request.close();
+      if (response.statusCode == HttpStatus.ok) {
+        final stringData = await response.transform(utf8.decoder).join();
+        return Result.ok(stringData);
+      } else {
+        return const Result.error(HttpException("Invalid response"));
+      }
+    } on Exception catch (error) {
+      return Result.error(error);
+    } finally {
+      client.close();
+    }
+  }
+
   Future<Result<List<TextTitle>>> getListAllTextTitles() async {
     final client = _clientFactory();
     try {
