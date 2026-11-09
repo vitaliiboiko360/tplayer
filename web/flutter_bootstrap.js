@@ -108,25 +108,31 @@ flutterLoader.appendChild(indeterminateLocal);
 
 document.body.appendChild(flutterLoader);
 
+window.addEventListener('load', function (ev) {
+  console.log('on load callback called ++ ++ ++');
+          if (flutterLoader) {
+          flutterLoader.remove();
+        }
+        if (style) {
+          style.remove();
+        }
+        document
+          .querySelectorAll('head style')
+          .forEach((styleTag) => styleTag.remove());
+});
+
 _flutter.loader.load({
-  config: {
-    // Use the local CanvasKit bundle instead of the CDN to reduce test flakiness.
-    canvasKitBaseUrl: '/canvaskit/',
-    onEntrypointLoaded: async function (engineInitializer) {
+config: {
+  // Use the local CanvasKit bundle instead of the CDN to reduce test flakiness.
+  canvasKitBaseUrl: '/canvaskit/',
+  onEntrypointLoaded: async function (engineInitializer) {
       const appRunner = await engineInitializer.initializeEngine();
 
       // Hide or remove your custom loader element once the engine is ready
-      if (flutterLoader) {
-        flutterLoader.remove();
-      }
-      if (style) {
-        style.remove();
-      }
-      document
-        .querySelectorAll('head style')
-        .forEach((styleTag) => styleTag.remove());
 
+      console.log('EVENT HANDLER: onEntrypointLoaded <<<<<<<<<<<<>>>>>>>>>>>> ')
       await appRunner.runApp();
     },
   },
 });
+
