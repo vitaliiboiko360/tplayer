@@ -1,5 +1,6 @@
 #!/bin/bash
 
+flutter clean
 flutter build web --release
 rm -fr $HOME/ndwdir/webtest/*
 cd $HOME/ndwdir/webtest/
