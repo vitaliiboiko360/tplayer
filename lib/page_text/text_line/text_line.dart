@@ -1,67 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
-
-class TextPage extends StatefulWidget {
-  const TextPage({super.key});
-
-  final String title = 'Text Player';
-
-  @override
-  State<TextPage> createState() => _TextPageState();
-}
-
-class _TextPageState extends State<TextPage> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        centerTitle: true,
-        title: Text(widget.title),
-        actions: [
-          ElevatedButton(
-            onPressed: () => context.go('/story'),
-            child: const Text('Go to the Details screen'),
-          ),
-        ],
-      ),
-      body: TextBlock(),
-    );
-  }
-}
-
-class TextBlock extends StatelessWidget {
-  const TextBlock({super.key});
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(
-        width: 400,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text('You have pushed the button this many times:'),
-            SelectionArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 3,
-                children: <Widget>[
-                  Text('Selectable text'),
-                  SelectionContainer.disabled(
-                    child: Text('Non-selectable text'),
-                  ),
-                  Text('Selectable text'),
-                  ...lines.map((line) => TextLine(line: line)),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
+import 'package:tplayer/page_text/page_text.dart';
+import 'package:tplayer/page_text/text_line/text_line.dart';
 
 class TextLine extends StatelessWidget {
   TextLine({super.key, required this.line});
@@ -107,13 +46,6 @@ class TextLine extends StatelessWidget {
   }
 }
 
-const lines = [
-  "Deja que te cuente una historia sobre un pollito.",
-  "Su nombre es Pollito Tito.",
-  "Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.",
-];
-
-// ignore: must_be_immutable
 class Word extends StatefulWidget {
   Word({super.key, required this.word});
   final String word;

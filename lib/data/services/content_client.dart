@@ -2,7 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:tplayer/data/domain_models/text_line.dart';
 import 'package:tplayer/data/domain_models/text_title.dart';
+import 'package:tplayer/data/test_data.dart';
 
 import '../../utils/result.dart';
 
@@ -91,5 +94,14 @@ class ContentClient {
     } finally {
       client.close();
     }
+  }
+
+  Future<Result<List<TextLine>>> getListTextLines() async {
+    final json = jsonDecode(losTresSerditos);
+    return Result.ok(
+      json
+          .mapIndexed((index, element) => TextLine.fromJson(element, index))
+          .toList(),
+    );
   }
 }

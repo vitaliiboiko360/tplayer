@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tplayer/app/details_screen.dart';
 import 'package:tplayer/page_home/home.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
-import 'package:tplayer/page_text/text.dart';
+import 'package:tplayer/page_text/page_text.dart';
 
 final GoRouter router = GoRouter(
   errorBuilder: (BuildContext context, GoRouterState state) {
@@ -52,7 +52,7 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'story',
           builder: (BuildContext context, GoRouterState state) {
-            return TextPage();
+            return const PageText();
           },
         ),
       ],
