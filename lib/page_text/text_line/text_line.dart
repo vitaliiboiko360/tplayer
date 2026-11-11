@@ -5,15 +5,15 @@ import 'package:tplayer/page_text/text_line/text_line.dart';
 class TextLine extends StatelessWidget {
   TextLine({super.key, required this.line});
   final String line;
-  List<Word> word = [];
+  List<Word> words = [];
 
   onClick() {
-    word[0].start();
-    for (var i = 0; i < word.length; i++) {
-      if (i + 1 < word.length) {
-        word[i].onComplete(() => word[i + 1].start());
+    words[0].start();
+    for (var i = 0; i < words.length; i++) {
+      if (i + 1 < words.length) {
+        words[i].onComplete(() => words[i + 1].start());
       } else {
-        word[i].onComplete(() {
+        words[i].onComplete(() {
           resetAnimation();
         });
       }
@@ -21,14 +21,14 @@ class TextLine extends StatelessWidget {
   }
 
   resetAnimation() {
-    for (var i = 0; i < word.length; i++) {
-      word[i].wordState.controller.reset();
+    for (var i = 0; i < words.length; i++) {
+      words[i].wordState.controller.reset();
     }
   }
 
   @override
   Widget build(Object context) {
-    word = [];
+    words = [];
     return GestureDetector(
       onTap: onClick,
       child: Wrap(
@@ -37,7 +37,7 @@ class TextLine extends StatelessWidget {
         children: [
           ...line.split(' ').map((w) {
             var widget = Word(word: '$w ');
-            word.add(widget);
+            words.add(widget);
             return widget;
           }),
         ],
