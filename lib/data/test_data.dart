@@ -1,3 +1,11 @@
+const String losTresSerditosInfo = '''
+{
+  "audioFile":"public/mp3/threepigs.mp3",
+  "title":null,
+  "numberOfLines":null
+}
+''';
+
 const String losTresSerditos = '''
 [
   {

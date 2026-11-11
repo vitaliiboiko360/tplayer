@@ -1,9 +1,11 @@
+import 'package:tplayer/data/domain_models/text_line.dart';
 import 'package:tplayer/data/domain_models/text_title.dart';
 import 'package:tplayer/data/services/content_client.dart';
 import 'package:tplayer/utils/result.dart';
 
 abstract class ContentRepository {
   Future<Result<List<TextTitle>>> getListAllTextTitles();
+  Future<Result<List<TextLine>>> getListTextLines();
 }
 
 class ContentRepositoryHttp implements ContentRepository {
@@ -25,5 +27,10 @@ class ContentRepositoryHttp implements ContentRepository {
     } else {
       return Result.ok(_cachedAllTextTitles!);
     }
+  }
+
+  @override
+  Future<Result<List<TextLine>>> getListTextLines() async {
+    return await _contentClient.getListTextLines();
   }
 }
