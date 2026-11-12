@@ -48,8 +48,11 @@ class TextLine extends StatelessWidget {
 
 class Word extends StatefulWidget {
   Word({super.key, required this.word});
+
   final String word;
+
   WordState wordState = WordState();
+
   void start() {
     wordState.controller.animateTo(1);
   }

@@ -16,11 +16,14 @@ const DEFAULT_HOST = '192.168.0.21';
 /// Adds the `Authentication` header to a header configuration.
 typedef AuthHeaderProvider = String? Function();
 
-class ContentClient {
-  ContentClient({String? host, int? port, HttpClient Function()? clientFactory})
-    : _host = host ?? DEFAULT_HOST,
-      _port = port ?? DEFAULT_PORT,
-      _clientFactory = clientFactory ?? HttpClient.new;
+class ContentClientService {
+  ContentClientService({
+    String? host,
+    int? port,
+    HttpClient Function()? clientFactory,
+  }) : _host = host ?? DEFAULT_HOST,
+       _port = port ?? DEFAULT_PORT,
+       _clientFactory = clientFactory ?? HttpClient.new;
 
   final String _host;
   final int _port;
@@ -96,11 +99,13 @@ class ContentClient {
     }
   }
 
-  Future<Result<List<TextLine>>> getListTextLines() async {
+  Future<Result<List<TextLineDataModel>>> getListTextLines() async {
     final json = jsonDecode(losTresSerditos);
     return Result.ok(
       json
-          .mapIndexed((index, element) => TextLine.fromJson(element, index))
+          .mapIndexed(
+            (index, element) => TextLineDataModel.fromJson(element, index),
+          )
           .toList(),
     );
   }

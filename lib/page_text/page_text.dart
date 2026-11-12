@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:tplayer/data/domain_models/text_line.dart';
+import 'package:tplayer/data/repositories/content_repository.dart';
 import 'package:tplayer/page_text/text_line/text_line.dart';
+import 'package:tplayer/utils/result.dart';
+import 'package:provider/provider.dart';
 
 class PageText extends StatefulWidget {
   const PageText({super.key});
@@ -64,12 +68,7 @@ class TextBlock extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 spacing: 3,
                 children: <Widget>[
-                  Text('Selectable text'),
-                  SelectionContainer.disabled(
-                    child: Text('Non-selectable text'),
-                  ),
-                  Text('Selectable text'),
-                  ...lines.map((line) => TextLine(line: line)),
+                  TextBlockLines(context.read<PageTextViewModel>()),
                 ],
               ),
             ),
@@ -80,8 +79,56 @@ class TextBlock extends StatelessWidget {
   }
 }
 
-const lines = [
-  "Deja que te cuente una historia sobre un pollito.",
-  "Su nombre es Pollito Tito.",
-  "Él vive en un gallinero pequeño y normal en un barrio pequeño y normal.",
-];
+class PageTextViewModel {
+  PageTextViewModel({required ContentRepository contentRepository})
+    : _contentRepository = contentRepository;
+
+  final ContentRepository _contentRepository;
+
+  Future<Result<List<TextLineDataModel>>> getListTextLines() =>
+      _contentRepository.getListTextLines();
+}
+
+class TextBlockLines extends StatefulWidget {
+  TextBlockLines(this._pageTextViewModel);
+  PageTextViewModel _pageTextViewModel;
+  @override
+  State<TextBlockLines> createState() => _TextBlockLinesState();
+}
+
+typedef ListTextLineData = Result<List<TextLineDataModel>>;
+
+class _TextBlockLinesState extends State<TextBlockLines> {
+  late final Future<ListTextLineData> _dataFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _dataFuture = widget._pageTextViewModel.getListTextLines();
+  }
+
+  @override
+  build(BuildContext context) {
+    return FutureBuilder<ListTextLineData>(
+      future: _dataFuture,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const CircularProgressIndicator();
+        }
+        final data = snapshot.data!;
+        switch (data) {
+          case Ok():
+            return Column(
+              children: [
+                (data as Ok).value.map(
+                  (TextLineDataModel e) => TextLine(line: e.text),
+                ),
+              ],
+            );
+          case Error():
+            return Column(children: [Text((data as Error).toString())]);
+        }
+      },
+    );
+  }
+}

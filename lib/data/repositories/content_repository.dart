@@ -5,14 +5,14 @@ import 'package:tplayer/utils/result.dart';
 
 abstract class ContentRepository {
   Future<Result<List<TextTitle>>> getListAllTextTitles();
-  Future<Result<List<TextLine>>> getListTextLines();
+  Future<Result<List<TextLineDataModel>>> getListTextLines();
 }
 
-class ContentRepositoryHttp implements ContentRepository {
-  ContentRepositoryHttp({required ContentClient contentClient})
+class ContentHttpRepository implements ContentRepository {
+  ContentHttpRepository({required ContentClientService contentClient})
     : _contentClient = contentClient;
 
-  final ContentClient _contentClient;
+  final ContentClientService _contentClient;
 
   List<TextTitle>? _cachedAllTextTitles;
 
@@ -30,7 +30,7 @@ class ContentRepositoryHttp implements ContentRepository {
   }
 
   @override
-  Future<Result<List<TextLine>>> getListTextLines() async {
+  Future<Result<List<TextLineDataModel>>> getListTextLines() async {
     return await _contentClient.getListTextLines();
   }
 }

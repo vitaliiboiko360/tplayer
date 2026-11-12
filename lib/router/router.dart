@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:provider/provider.dart';
 import 'package:tplayer/app/details_screen.dart';
 import 'package:tplayer/page_home/home.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
@@ -52,7 +53,15 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'story',
           builder: (BuildContext context, GoRouterState state) {
-            return const PageText();
+            return MultiProvider(
+              providers: [
+                Provider(
+                  create: (context) =>
+                      PageTextViewModel(contentRepository: context.read()),
+                ),
+              ],
+              child: const PageText(),
+            );
           },
         ),
       ],
