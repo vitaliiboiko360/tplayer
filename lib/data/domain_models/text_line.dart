@@ -14,7 +14,7 @@ abstract class TextLineDataModel with _$TextLineDataModel {
     @Default(null) int? audioEnd,
   }) = _TextLineDataModel;
 
-  factory TextLineDataModel.fromJson(Map<String, Object?> json, int? index) {
+  factory TextLineDataModel.fromJson(Map<String, dynamic> json, int? index) {
     return TextLineDataModel(
       text: json['text'] as String,
       order: index,
