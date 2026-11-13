@@ -6,7 +6,7 @@ const String losTresSerditosInfo = '''
 }
 ''';
 
-const String losTresSerditos = '''
+const String losTresSerditos = r'''
 [
   {
     "text": "Érase una vez que había una mamá cerda que tenía tres cerdito.",
