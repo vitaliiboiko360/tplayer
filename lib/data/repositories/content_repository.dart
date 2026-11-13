@@ -31,6 +31,7 @@ class ContentHttpRepository implements ContentRepository {
 
   @override
   Future<Result<List<TextLineDataModel>>> getListTextLines() async {
+    print('content repostiry called');
     return await _contentClient.getListTextLines();
   }
 }

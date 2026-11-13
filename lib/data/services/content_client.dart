@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:tplayer/data/domain_models/text_line.dart';
 import 'package:tplayer/data/domain_models/text_title.dart';
@@ -68,9 +69,9 @@ class ContentClientService {
     Result<String> rawJson = await getJsonAsRawString(url);
     switch (rawJson) {
       case Ok():
-        final json = jsonDecode(rawJson.value) as List<dynamic>;
+        final jsonOutput = jsonDecode(rawJson.value) as List<dynamic>;
         return Result.ok(
-          json.map((element) => TextTitle.fromJson(element)).toList(),
+          jsonOutput.map((element) => TextTitle.fromJson(element)).toList(),
         );
       case Error():
         return Result.error(rawJson.error);
@@ -100,13 +101,20 @@ class ContentClientService {
   }
 
   Future<Result<List<TextLineDataModel>>> getListTextLines() async {
-    final json = jsonDecode(losTresSerditos);
-    return Result.ok(
-      json
-          .mapIndexed(
-            (index, element) => TextLineDataModel.fromJson(element, index),
-          )
-          .toList(),
-    );
+    final List<dynamic> jsonOutput;
+    String test = '[{"text":"test","start":0,"end":10}]';
+    try {
+      jsonOutput = jsonDecode(losTresSerditos);
+      int index = 0;
+      return Result.ok(
+        jsonOutput
+            .map((element) => TextLineDataModel.fromJson(element, index++))
+            .toList(),
+      );
+    } on Exception catch (e, stackTrace) {
+      print('fail $e');
+      print(stackTrace.toString());
+      return Result.error(e);
+    }
   }
 }

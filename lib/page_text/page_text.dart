@@ -57,28 +57,7 @@ class TextBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: SizedBox(
-        width: 400,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: <Widget>[
-            SelectionArea(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                spacing: 3,
-                children: <Widget>[
-                  // Expanded(
-                  //   child: TextBlockLines(context.read<PageTextViewModel>()),
-                  // ),
-                  Text('test from column in text block'),
-                  TextBlockLines(context.read<PageTextViewModel>()),
-                ],
-              ),
-            ),
-          ],
-        ),
-      ),
+      child: SizedBox(width: 400, child: TextBlockColumn(<Widget>[])),
     );
   }
 }
@@ -94,7 +73,8 @@ class PageTextViewModel {
 }
 
 class TextBlockLines extends StatefulWidget {
-  TextBlockLines(this._pageTextViewModel);
+  TextBlockLines(this._pageTextViewModel, this._parentWidget);
+  Widget _parentWidget;
   PageTextViewModel _pageTextViewModel;
   @override
   State<TextBlockLines> createState() => _TextBlockLinesState();
@@ -124,17 +104,43 @@ class _TextBlockLinesState extends State<TextBlockLines> {
             case Ok():
               return Column(
                 children: [
-                  (data as Ok).value.map(
+                  ...(data as Ok).value.map(
                     (TextLineDataModel e) => TextLine(line: e.text),
                   ),
                 ],
               );
             case Error():
-              return Column(children: [Text('error')]);
+              return Column(children: [Text(data.error.toString())]);
           }
+        }
+        if (snapshot.hasError) {
+          return Column(children: [Text(snapshot.error.toString())]);
         }
         return const CircularProgressIndicator();
       },
+    );
+  }
+}
+
+class TextBlockColumn extends StatelessWidget {
+  TextBlockColumn(this._widgets);
+  final List<Widget> _widgets;
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        SelectionArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            spacing: 3,
+            children: <Widget>[
+              TextBlockLines(context.read<PageTextViewModel>()),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }
