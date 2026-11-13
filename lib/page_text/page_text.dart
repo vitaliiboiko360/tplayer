@@ -60,7 +60,7 @@ class TextBlock extends StatelessWidget {
       child: SizedBox(
         width: 400,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             SelectionArea(
               child: Column(
@@ -68,6 +68,10 @@ class TextBlock extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 spacing: 3,
                 children: <Widget>[
+                  // Expanded(
+                  //   child: TextBlockLines(context.read<PageTextViewModel>()),
+                  // ),
+                  Text('test from column in text block'),
                   TextBlockLines(context.read<PageTextViewModel>()),
                 ],
               ),
@@ -103,8 +107,8 @@ class _TextBlockLinesState extends State<TextBlockLines> {
 
   @override
   void initState() {
-    super.initState();
     _dataFuture = widget._pageTextViewModel.getListTextLines();
+    super.initState();
   }
 
   @override
@@ -112,22 +116,24 @@ class _TextBlockLinesState extends State<TextBlockLines> {
     return FutureBuilder<ListTextLineData>(
       future: _dataFuture,
       builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const CircularProgressIndicator();
+        if (snapshot.hasData) {
+          final data = snapshot.data;
+          switch (data) {
+            case null:
+              return Column(children: [Text('empty')]);
+            case Ok():
+              return Column(
+                children: [
+                  (data as Ok).value.map(
+                    (TextLineDataModel e) => TextLine(line: e.text),
+                  ),
+                ],
+              );
+            case Error():
+              return Column(children: [Text('error')]);
+          }
         }
-        final data = snapshot.data!;
-        switch (data) {
-          case Ok():
-            return Column(
-              children: [
-                (data as Ok).value.map(
-                  (TextLineDataModel e) => TextLine(line: e.text),
-                ),
-              ],
-            );
-          case Error():
-            return Column(children: [Text((data as Error).toString())]);
-        }
+        return const CircularProgressIndicator();
       },
     );
   }
