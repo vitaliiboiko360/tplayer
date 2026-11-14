@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tplayer/data/domain_models/text_line.dart';
-import 'package:tplayer/data/repositories/content_repository.dart';
 import 'package:tplayer/page_text/text_line/text_line.dart';
-import 'package:tplayer/utils/result.dart';
-import 'package:provider/provider.dart';
+import 'package:tplayer/state/page_text_list_textlines.dart';
 
 class PageText extends StatefulWidget {
   const PageText({super.key});
@@ -56,91 +55,20 @@ class TextBlock extends StatelessWidget {
   const TextBlock({super.key});
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: SizedBox(width: 400, child: TextBlockColumn(<Widget>[])),
-    );
+    return Center(child: SizedBox(width: 400, child: ColumnTextLines()));
   }
 }
 
-class PageTextViewModel {
-  PageTextViewModel({required ContentRepository contentRepository})
-    : _contentRepository = contentRepository;
-
-  final ContentRepository _contentRepository;
-
-  Future<Result<List<TextLineDataModel>>> getListTextLines() =>
-      _contentRepository.getListTextLines();
-}
-
-class TextBlockLines extends StatefulWidget {
-  TextBlockLines(this._pageTextViewModel, this._parentWidget);
-  Widget _parentWidget;
-  PageTextViewModel _pageTextViewModel;
-  @override
-  State<TextBlockLines> createState() => _TextBlockLinesState();
-}
-
-typedef ListTextLineData = Result<List<TextLineDataModel>>;
-
-class _TextBlockLinesState extends State<TextBlockLines> {
-  late final Future<ListTextLineData> _dataFuture;
-
-  @override
-  void initState() {
-    _dataFuture = widget._pageTextViewModel.getListTextLines();
-    super.initState();
-  }
-
-  @override
-  build(BuildContext context) {
-    return FutureBuilder<ListTextLineData>(
-      future: _dataFuture,
-      builder: (context, snapshot) {
-        if (snapshot.hasData) {
-          final data = snapshot.data;
-          switch (data) {
-            case null:
-              return Column(children: [Text('empty')]);
-            case Ok():
-              return Column(
-                children: [
-                  ...(data as Ok).value.map(
-                    (TextLineDataModel e) => TextLine(line: e.text),
-                  ),
-                ],
-              );
-            case Error():
-              return Column(children: [Text(data.error.toString())]);
-          }
-        }
-        if (snapshot.hasError) {
-          return Column(children: [Text(snapshot.error.toString())]);
-        }
-        return const CircularProgressIndicator();
-      },
-    );
-  }
-}
-
-class TextBlockColumn extends StatelessWidget {
-  TextBlockColumn(this._widgets);
-  final List<Widget> _widgets;
+class ColumnTextLines extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: <Widget>[
-        SelectionArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            spacing: 3,
-            children: <Widget>[
-              TextBlockLines(context.read<PageTextViewModel>()),
-            ],
-          ),
-        ),
-      ],
+    context.read<TextPageLinesViewModel>().add(GetTextPageLines());
+    return BlocBuilder<TextPageLinesViewModel, List<TextLineDataModel>>(
+      builder: (context, listTextLines) {
+        return Column(
+          children: [...listTextLines.map((e) => TextLine(line: e.text))],
+        );
+      },
     );
   }
 }

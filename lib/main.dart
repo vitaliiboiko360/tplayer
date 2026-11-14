@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/app/app.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 
@@ -23,17 +23,5 @@ void main() {
     return true; // Prevents app crash
   };
 
-  runApp(
-    MultiProvider(
-      providers: [
-        Provider(create: (context) => ContentClientService()),
-        Provider(
-          create: (context) =>
-              ContentHttpRepository(contentClient: context.read())
-                  as ContentRepository,
-        ),
-      ],
-      child: const App(),
-    ),
-  );
+  runApp(const App());
 }

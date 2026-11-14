@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:provider/provider.dart';
 import 'package:tplayer/app/details_screen.dart';
+import 'package:tplayer/data/repositories/content_repository.dart';
+import 'package:tplayer/data/services/content_client.dart';
 import 'package:tplayer/page_home/home.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/page_text/page_text.dart';
+import 'package:tplayer/state/page_text_list_textlines.dart';
 
 final GoRouter router = GoRouter(
   errorBuilder: (BuildContext context, GoRouterState state) {
@@ -53,11 +56,20 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'story',
           builder: (BuildContext context, GoRouterState state) {
-            return MultiProvider(
+            return MultiBlocProvider(
               providers: [
-                Provider(
-                  create: (context) =>
-                      PageTextViewModel(contentRepository: context.read()),
+                BlocProvider<TextPageLinesViewModel>(
+                  create: (BuildContext context) {
+                    final ContentClientService contentClientService =
+                        ContentClientService();
+                    final ContentRepository contentRepository =
+                        ContentHttpRepository(
+                          contentClient: contentClientService,
+                        );
+                    return TextPageLinesViewModel.PageTextLinesViewModel(
+                      contentRepository,
+                    );
+                  },
                 ),
               ],
               child: const PageText(),
