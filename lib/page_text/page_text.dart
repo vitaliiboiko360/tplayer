@@ -66,6 +66,7 @@ class ColumnTextLines extends StatelessWidget {
     return BlocBuilder<TextPageLinesViewModel, List<TextLineDataModel>>(
       builder: (context, listTextLines) {
         return Column(
+          crossAxisAlignment: .start,
           children: [...listTextLines.map((e) => TextLine(line: e.text))],
         );
       },
