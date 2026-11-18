@@ -73,7 +73,7 @@ class Word extends StatefulWidget {
 
 class WordState extends State<Word> with TickerProviderStateMixin {
   late final AnimationController controller = AnimationController(
-    duration: Duration(milliseconds: (60 * widget.word.length)),
+    duration: Duration(milliseconds: (20 * widget.word.length)),
     vsync: this,
   );
   late final Animation<double> animation =
@@ -124,7 +124,10 @@ class Line extends CustomPainter {
       colors: <Color>[Color(0xFFFFFF00), Color(0xFF0099FF)],
       stops: <double>[0.4, 1.0],
     );
-    canvas.drawRect(rect, Paint()..shader = gradient.createShader(rect));
+    canvas.drawRect(
+      rect,
+      Paint()..color = Colors.blue,
+    ); //..shader = gradient.createShader(rect));
   }
 
   @override
