@@ -23,50 +23,114 @@ class ColumnTextLines extends StatelessWidget {
     context.read<TextPageLinesViewModel>().add(GetTextPageLines());
     return BlocBuilder<TextPageLinesViewModel, List<TextLineDataModel>>(
       builder: (context, listTextLines) {
-        return Column(
-          crossAxisAlignment: .start,
-          children: listTextLines
-              .mapIndexed((index, element) {
-                final numberOfSentences = element.text
-                    .split(RegExp(r'(?<!\.)\.(?!\.)'))
-                    .length;
-                final sentences = element.text
-                    .split(RegExp(r'(?<!\.)\.(?!\.)'))
-                    .mapIndexed((indexInner, elementInner) {
-                      if (elementInner.isEmpty) {
-                        return SizedBox.shrink();
-                      }
-                      return Column(
-                        crossAxisAlignment: .start,
-                        children: [
-                          TextLine(
-                            line:
-                                elementInner +
-                                ((indexInner + 1 < numberOfSentences)
-                                    ? '.'
-                                    : ''),
-                          ),
-                          if (index + 1 < listTextLines.length &&
-                              indexInner + 1 < numberOfSentences)
-                            DashedDivider(
-                              color: Colors.grey.shade400,
+        List<Widget> items = listTextLines
+            .mapIndexed((index, element) {
+              final numberOfSentences = element.text
+                  .split(RegExp(r'(?<!\.)\.(?!\.)'))
+                  .length;
+              final sentences = element.text
+                  .split(RegExp(r'(?<!\.)\.(?!\.)'))
+                  .mapIndexed((indexInner, elementInner) {
+                    if (elementInner.isEmpty) {
+                      return SizedBox.shrink();
+                    }
+                    return TextLine(
+                      line:
+                          elementInner +
+                          ((indexInner + 1 < numberOfSentences) ? '.' : ''),
+                    );
+                  })
+                  .toList();
+              return sentences;
+            })
+            .flattened
+            .toList();
 
-                              // thickness: 1.0, // Actual height of the visible line
-                              height: 1.0, // Total vertical space (includes top/bottom padding)
-                              // indent: 16.0, // Left spacing
-                              // endIndent: 16.0, // Right spacing
-                              // radius: BorderRadius.circular(4.0), // Rounded line caps
-                            ),
-                        ],
-                      );
-                    })
-                    .toList();
-                return sentences;
-              })
-              .flattened
-              .toList(),
-        );
+        return ScrollLines(items: items);
+
+        // return Column(
+        //   crossAxisAlignment: .start,
+        //   children: listTextLines
+        //       .mapIndexed((index, element) {
+        //         final numberOfSentences = element.text
+        //             .split(RegExp(r'(?<!\.)\.(?!\.)'))
+        //             .length;
+        //         final sentences = element.text
+        //             .split(RegExp(r'(?<!\.)\.(?!\.)'))
+        //             .mapIndexed((indexInner, elementInner) {
+        //               if (elementInner.isEmpty) {
+        //                 return SizedBox.shrink();
+        //               }
+        //               return Column(
+        //                 crossAxisAlignment: .start,
+        //                 children: [
+        //                   TextLine(
+        //                     line:
+        //                         elementInner +
+        //                         ((indexInner + 1 < numberOfSentences)
+        //                             ? '.'
+        //                             : ''),
+        //                   ),
+        //                   if (index + 1 < listTextLines.length &&
+        //                       indexInner + 1 < numberOfSentences)
+        //                     DashedDivider(
+        //                       color: Colors.grey.shade400,
+
+        //                       // thickness: 1.0, // Actual height of the visible line
+        //                       height: 1.0, // Total vertical space (includes top/bottom padding)
+        //                       // indent: 16.0, // Left spacing
+        //                       // endIndent: 16.0, // Right spacing
+        //                       // radius: BorderRadius.circular(4.0), // Rounded line caps
+        //                     ),
+        //                 ],
+        //               );
+        //             })
+        //             .toList();
+        //         return sentences;
+        //       })
+        //       .flattened
+        //       .toList(),
+        // );
       },
+    );
+  }
+}
+
+class ScrollLines extends StatefulWidget {
+  ScrollLines({super.key, required this.items});
+
+  List<Widget> items;
+
+  @override
+  State<ScrollLines> createState() => _ScrollLinesState();
+}
+
+class _ScrollLinesState extends State<ScrollLines> {
+  late final ScrollController _controller;
+
+  @override
+  void initState() {
+    _controller = ScrollController();
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      controller: _controller,
+      slivers: [
+        SliverList.separated(
+          itemBuilder: (BuildContext context, int index) {
+            if (index >= widget.items.length) {
+              return null;
+            }
+            return widget.items[index];
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return DashedDivider();
+          },
+        ),
+      ],
     );
   }
 }
