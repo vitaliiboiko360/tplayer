@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+
+import 'package:collection/collection.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/data/domain_models/text_line.dart';
 import 'package:tplayer/page_text/page_text.dart';
@@ -22,7 +25,89 @@ class ColumnTextLines extends StatelessWidget {
       builder: (context, listTextLines) {
         return Column(
           crossAxisAlignment: .start,
-          children: [...listTextLines.map((e) => TextLine(line: e.text))],
+          children: listTextLines
+              .mapIndexed((index, element) {
+                final numberOfSentences = element.text
+                    .split(RegExp(r'(?<!\.)\.(?!\.)'))
+                    .length;
+                final sentences = element.text
+                    .split(RegExp(r'(?<!\.)\.(?!\.)'))
+                    .mapIndexed((indexInner, elementInner) {
+                      if (elementInner.isEmpty) {
+                        return SizedBox.shrink();
+                      }
+                      return Column(
+                        crossAxisAlignment: .start,
+                        children: [
+                          TextLine(
+                            line:
+                                elementInner +
+                                ((indexInner + 1 < numberOfSentences)
+                                    ? '.'
+                                    : ''),
+                          ),
+                          if (index + 1 < listTextLines.length &&
+                              indexInner + 1 < numberOfSentences)
+                            DashedDivider(
+                              color: Colors.grey.shade400,
+
+                              // thickness: 1.0, // Actual height of the visible line
+                              height: 1.0, // Total vertical space (includes top/bottom padding)
+                              // indent: 16.0, // Left spacing
+                              // endIndent: 16.0, // Right spacing
+                              // radius: BorderRadius.circular(4.0), // Rounded line caps
+                            ),
+                        ],
+                      );
+                    })
+                    .toList();
+                return sentences;
+              })
+              .flattened
+              .toList(),
+        );
+      },
+    );
+  }
+}
+
+class DashedDivider extends StatelessWidget {
+  final double height;
+  final double dashWidth;
+  final double dashGap;
+  final Color color;
+
+  const DashedDivider({
+    super.key,
+    this.height = 1,
+    this.dashWidth = 4,
+    this.dashGap = 3,
+    this.color = Colors.grey,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final boxWidth = constraints.constrainWidth();
+        final dashCount = (boxWidth / (dashWidth + dashGap)).floor();
+
+        return Padding(
+          padding: .directional(start: 10, end: 10),
+          child: Flex(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            direction: Axis.horizontal,
+            children: List.generate(dashCount, (_) {
+              return ClipRRect(
+                borderRadius: .all(.circular(height / 2)),
+                child: SizedBox(
+                  width: dashWidth,
+                  height: height,
+                  child: DecoratedBox(decoration: BoxDecoration(color: color)),
+                ),
+              );
+            }),
+          ),
         );
       },
     );
