@@ -22,6 +22,8 @@ class _PageTextState extends State<PageText> {
       appBar: AppBar(
         // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         centerTitle: true,
+        forceMaterialTransparency: true,
+        toolbarHeight: 60,
         title: Row(
           mainAxisAlignment: .center,
           spacing: 10,

@@ -23,6 +23,8 @@ class ColumnTextLines extends StatelessWidget {
     context.read<TextPageLinesViewModel>().add(GetTextPageLines());
     return BlocBuilder<TextPageLinesViewModel, List<TextLineDataModel>>(
       builder: (context, listTextLines) {
+        List<GlobalKey> itemsKeys = List<GlobalKey>.empty(growable: true);
+        int scrollIndex = 1;
         List<Widget> items = listTextLines
             .mapIndexed((index, element) {
               final numberOfSentences = element.text
@@ -34,8 +36,12 @@ class ColumnTextLines extends StatelessWidget {
                     if (elementInner.isEmpty) {
                       return SizedBox.shrink();
                     }
+                    GlobalKey itemKey = GlobalKey();
+                    itemsKeys.add(itemKey);
                     return TextLine(
+                      key: itemKey,
                       line:
+                          '${scrollIndex++}: ' +
                           elementInner +
                           ((indexInner + 1 < numberOfSentences) ? '.' : ''),
                     );
@@ -45,8 +51,7 @@ class ColumnTextLines extends StatelessWidget {
             })
             .flattened
             .toList();
-
-        return ScrollLines(items: items);
+        return ScrollLines(items: items, itemsKeys: itemsKeys);
 
         // return Column(
         //   crossAxisAlignment: .start,
@@ -97,9 +102,10 @@ class ColumnTextLines extends StatelessWidget {
 }
 
 class ScrollLines extends StatefulWidget {
-  ScrollLines({super.key, required this.items});
+  ScrollLines({super.key, required this.items, required this.itemsKeys});
 
   List<Widget> items;
+  List<GlobalKey> itemsKeys;
 
   @override
   State<ScrollLines> createState() => _ScrollLinesState();
@@ -107,31 +113,131 @@ class ScrollLines extends StatefulWidget {
 
 class _ScrollLinesState extends State<ScrollLines> {
   late final ScrollController _controller;
+  ScrollNotification? _lastNotify;
 
   @override
   void initState() {
     _controller = ScrollController();
+    _controller.addListener(_onScroll);
     super.initState();
+  }
+
+  int _onScrollCallCounter = 1;
+
+  void _onScroll() {
+    // print('${_controller.position.pixels}');
+    //if (_controller.position.isScrollingNotifier.value) return;
+    double screenY = 1;
+    final toolbarHeight = 60;
+    int count = 5;
+    var flagFirst = false;
+    var lastItemPixels = 0.0;
+    var pixelvalues = (top: 0.0, bot: 0.0);
+    double totalLen = 0;
+    int topIndex = 0;
+    int botIndex = 0;
+
+    for (int i = 0; i < widget.itemsKeys.length; i++) {
+      final context = widget.itemsKeys[i].currentContext;
+      if (context == null) continue;
+
+      final box = context.findRenderObject() as RenderBox;
+
+      print(
+        '\n---< ${i + 1} >---\ntop == ${box.localToGlobal(.zero).dy}\t bot == ${box.localToGlobal(box.size.bottomRight(.zero)).dy} \t l = ${(box.localToGlobal(.zero).dy - box.localToGlobal(box.size.bottomRight(.zero)).dy).abs()}\n',
+      );
+
+      totalLen +=
+          (box.localToGlobal(.zero).dy -
+                  box.localToGlobal(box.size.bottomRight(.zero)).dy)
+              .abs();
+
+      // if (!flagFirst) {
+      //   pixelvalues = (top: box.localToGlobal(.zero).dy, bot: pixelvalues.bot);
+      //   topIndex = i + 1;
+      //   flagFirst = true;
+      // } else {
+      //   pixelvalues = (
+      //     top: pixelvalues.top,
+      //     bot: box.localToGlobal(box.size.bottomRight(.zero)).dy,
+      //   );
+      //   botIndex = i + 1;
+      // }
+
+      if (i + 1 == widget.itemsKeys.length) {}
+
+      // screenY = box.localToGlobal(box.size.bottomRight(.zero)).dy;
+      // if (screenY < toolbarHeight) continue;
+      // print('offset: ${_controller.offset}');
+      // print('first visible item at ${i}  :');
+      // print('screenY = ${screenY}');
+      // if (count-- < 0) break;
+    }
+    print('*************${totalLen}***************\n');
+    print(
+      'viewport dims = ${_controller.position.viewportDimension}\npixels = ${_controller.position.pixels}\n\n',
+    );
+    // print('\n---< ${_onScrollCallCounter++} >---\ntop == ${pixelvalues.top}');
+    // print('top index = $topIndex');
+    // print('bot == ${pixelvalues.bot}');
+    // print('bot index = $botIndex\n');
+    // print(screenY);
+    // print('_controller.position.pixels ${_controller.position.pixels}');
+    // print('new offset = ${_controller.offset + (toolbarHeight - screenY)}');
+    // _controller.position.animateTo(
+    //   _controller.offset + (toolbarHeight - screenY),
+    //   duration: Duration(microseconds: 100),
+    //   curve: Curves.easeOut,
+    // );
+    _controller.animateTo(
+      _controller.offset + (toolbarHeight - screenY) - 250,
+      duration: Duration(microseconds: 100),
+      curve: Curves.easeOut,
+    );
+  }
+
+  bool _onScrollNotify(ScrollNotification notify) {
+    return false;
+    if (_lastNotify.runtimeType != notify.runtimeType) {
+      if (_lastNotify?.metrics.pixels == notify.metrics.pixels) {
+        print('last equal new');
+        return false;
+      }
+      setState(() {
+        _lastNotify = notify;
+        print('===notify pixels ${notify.metrics.pixels}');
+      });
+    }
+    return false;
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _controller,
-      slivers: [
-        SliverList.separated(
-          itemBuilder: (BuildContext context, int index) {
-            if (index >= widget.items.length) {
-              return null;
-            }
-            return widget.items[index];
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return DashedDivider();
-          },
-        ),
-      ],
+    return NotificationListener<ScrollNotification>(
+      onNotification: _onScrollNotify,
+      child: CustomScrollView(
+        controller: _controller,
+        slivers: [
+          SliverList.separated(
+            itemBuilder: (BuildContext context, int index) {
+              if (index >= widget.items.length) {
+                return null;
+              }
+              return widget.items[index];
+            },
+            separatorBuilder: (BuildContext context, int index) {
+              return DashedDivider();
+            },
+          ),
+        ],
+      ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.removeListener(_onScroll);
+    super.dispose();
   }
 }
 
