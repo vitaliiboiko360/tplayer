@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:collection/collection.dart';
@@ -34,7 +36,7 @@ class ColumnTextLines extends StatelessWidget {
                   .split(RegExp(r'(?<!\.)\.(?!\.)'))
                   .mapIndexed((indexInner, elementInner) {
                     if (elementInner.isEmpty) {
-                      return SizedBox.shrink();
+                      return null;
                     }
                     GlobalKey itemKey = GlobalKey();
                     itemsKeys.add(itemKey);
@@ -46,6 +48,8 @@ class ColumnTextLines extends StatelessWidget {
                           ((indexInner + 1 < numberOfSentences) ? '.' : ''),
                     );
                   })
+                  .where((e) => e != null)
+                  .cast<Widget>()
                   .toList();
               return sentences;
             })
@@ -123,19 +127,25 @@ class _ScrollLinesState extends State<ScrollLines> {
   }
 
   int _onScrollCallCounter = 1;
+  int _prevPixels = 0;
+  int _prevIndex = 0;
+  int _separatorHeight = 11;
+  final _toolbarHeight = 60;
+  int _scrollStep = 3;
+
+  double _to2(double inputDouble) => (inputDouble * 100).truncate() / 100;
+  void p(dynamic s) => print(s);
 
   void _onScroll() {
-    // print('${_controller.position.pixels}');
-    //if (_controller.position.isScrollingNotifier.value) return;
-    double screenY = 1;
-    final toolbarHeight = 60;
-    int count = 5;
-    var flagFirst = false;
-    var lastItemPixels = 0.0;
-    var pixelvalues = (top: 0.0, bot: 0.0);
+    var byDevPixRatio = (double input) =>
+        input * MediaQuery.devicePixelRatioOf(context);
+
     double totalLen = 0;
-    int topIndex = 0;
-    int botIndex = 0;
+    double pixels = _controller.position.pixels;
+    double requestedDistance = (_prevPixels - pixels).abs();
+
+    bool isDown = (_prevPixels - pixels) > 0 ? true : false;
+    final topBotoms = List<(int, int, int)>.empty(growable: true);
 
     for (int i = 0; i < widget.itemsKeys.length; i++) {
       final context = widget.itemsKeys[i].currentContext;
@@ -143,61 +153,55 @@ class _ScrollLinesState extends State<ScrollLines> {
 
       final box = context.findRenderObject() as RenderBox;
 
-      print(
-        '\n---< ${i + 1} >---\ntop == ${box.localToGlobal(.zero).dy}\t bot == ${box.localToGlobal(box.size.bottomRight(.zero)).dy} \t l = ${(box.localToGlobal(.zero).dy - box.localToGlobal(box.size.bottomRight(.zero)).dy).abs()}\n',
-      );
-
       totalLen +=
           (box.localToGlobal(.zero).dy -
                   box.localToGlobal(box.size.bottomRight(.zero)).dy)
               .abs();
 
-      // if (!flagFirst) {
-      //   pixelvalues = (top: box.localToGlobal(.zero).dy, bot: pixelvalues.bot);
-      //   topIndex = i + 1;
-      //   flagFirst = true;
-      // } else {
-      //   pixelvalues = (
-      //     top: pixelvalues.top,
-      //     bot: box.localToGlobal(box.size.bottomRight(.zero)).dy,
-      //   );
-      //   botIndex = i + 1;
-      // }
-
-      if (i + 1 == widget.itemsKeys.length) {}
-
-      // screenY = box.localToGlobal(box.size.bottomRight(.zero)).dy;
-      // if (screenY < toolbarHeight) continue;
-      // print('offset: ${_controller.offset}');
-      // print('first visible item at ${i}  :');
-      // print('screenY = ${screenY}');
-      // if (count-- < 0) break;
+      topBotoms.add((
+        box.localToGlobal(.zero).dy.toInt(),
+        box.localToGlobal(box.size.bottomRight(.zero)).dy.toInt(),
+        i + 1,
+      ));
     }
-    print('*************${totalLen}***************\n');
-    print(
-      'viewport dims = ${_controller.position.viewportDimension}\npixels = ${_controller.position.pixels}\n\n',
-    );
-    // print('\n---< ${_onScrollCallCounter++} >---\ntop == ${pixelvalues.top}');
-    // print('top index = $topIndex');
-    // print('bot == ${pixelvalues.bot}');
-    // print('bot index = $botIndex\n');
-    // print(screenY);
-    // print('_controller.position.pixels ${_controller.position.pixels}');
-    // print('new offset = ${_controller.offset + (toolbarHeight - screenY)}');
-    // _controller.position.animateTo(
-    //   _controller.offset + (toolbarHeight - screenY),
-    //   duration: Duration(microseconds: 100),
-    //   curve: Curves.easeOut,
-    // );
+
+    var nextIndex = 0;
+    if (isDown) {
+      nextIndex = min(_prevIndex + _scrollStep, widget.items.length - 1);
+    } else {
+      nextIndex = max(0, _prevIndex - _scrollStep);
+    }
+
+    double offsetTo = topBotoms[nextIndex].$1.toDouble();
+
     _controller.animateTo(
-      _controller.offset + (toolbarHeight - screenY) - 250,
+      offsetTo,
       duration: Duration(microseconds: 100),
       curve: Curves.easeOut,
     );
+
+    print(
+      '\n---\n ${topBotoms.map((e) => '${e.$3} = ${e.$1} ${e.$2}').join(' | ')}',
+    );
+    print('*totalLen * ${totalLen}*\n');
+    print(' = atEdge = ${_controller.position.atEdge}');
+    print(' = viewportDimension =  ${_controller.position.viewportDimension}');
+    print(' = pixels = ${_controller.position.pixels}');
+    print(' = minScrollExtent = ${_controller.position.minScrollExtent}');
+    print(' = maxScrollExtent = ${_controller.position.maxScrollExtent}');
+    p('');
   }
 
   bool _onScrollNotify(ScrollNotification notify) {
     return false;
+    p('-----------------------------------------------');
+    print('notifier');
+    p('atEdge ${notify.metrics.atEdge}');
+    p('viewportDimension ${notify.metrics.viewportDimension}');
+    p('pixels ${notify.metrics.pixels}');
+    p('minScrollExtent ${notify.metrics.minScrollExtent}');
+    p('maxScrollExtent ${notify.metrics.maxScrollExtent}');
+    p('-----------------------------------------------');
     if (_lastNotify.runtimeType != notify.runtimeType) {
       if (_lastNotify?.metrics.pixels == notify.metrics.pixels) {
         print('last equal new');
@@ -215,21 +219,44 @@ class _ScrollLinesState extends State<ScrollLines> {
   Widget build(BuildContext context) {
     return NotificationListener<ScrollNotification>(
       onNotification: _onScrollNotify,
-      child: CustomScrollView(
+      child: SingleChildScrollView(
         controller: _controller,
-        slivers: [
-          SliverList.separated(
-            itemBuilder: (BuildContext context, int index) {
-              if (index >= widget.items.length) {
-                return null;
-              }
-              return widget.items[index];
-            },
-            separatorBuilder: (BuildContext context, int index) {
-              return DashedDivider();
-            },
-          ),
-        ],
+        child: Column(
+          crossAxisAlignment: .start,
+          children: [
+            ...List.generate(
+              widget.items.length,
+              (index) => Column(
+                crossAxisAlignment: .start,
+                children: [
+                  widget.items[index],
+                  if (index < widget.items.length - 1) DashedDivider(),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build2(BuildContext context) {
+    return NotificationListener<ScrollNotification>(
+      onNotification: _onScrollNotify,
+      child: ListView.separated(
+        itemCount: widget.items.length,
+        controller: _controller,
+        physics: NeverScrollableScrollPhysics(),
+        itemBuilder: (BuildContext context, int index) {
+          if (index >= widget.items.length) {
+            return null;
+          }
+          return widget.items[index];
+        },
+        separatorBuilder: (BuildContext context, int index) {
+          return DashedDivider();
+        },
       ),
     );
   }
@@ -263,7 +290,7 @@ class DashedDivider extends StatelessWidget {
         final dashCount = (boxWidth / (dashWidth + dashGap)).floor();
 
         return Padding(
-          padding: .directional(start: 10, end: 10),
+          padding: .directional(start: 15, end: 15, top: 5, bottom: 5),
           child: Flex(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             direction: Axis.horizontal,

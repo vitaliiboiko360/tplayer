@@ -53,10 +53,12 @@ class _PageTextState extends State<PageText> {
       floatingActionButton: Align(
         alignment: .bottomRight,
         child: Text(
-          '${MediaQuery.sizeOf(context).width} x ${MediaQuery.sizeOf(context).height} ~~ ${(MediaQuery.sizeOf(context).aspectRatio * 100).truncate() / 100}',
+          '${to2(MediaQuery.sizeOf(context).width)} x ${to2(MediaQuery.sizeOf(context).height)} |${to2(MediaQuery.devicePixelRatioOf(context))}| ~~ ${to2(MediaQuery.sizeOf(context).aspectRatio)}',
           style: TextStyle(fontSize: 20),
         ),
       ),
     );
   }
 }
+
+Function to2 = (double inputNumber) => (inputNumber * 100).truncate() / 100;
