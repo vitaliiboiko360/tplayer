@@ -123,15 +123,38 @@ class _ScrollLinesState extends State<ScrollLines> {
   void initState() {
     _controller = ScrollController();
     _controller.addListener(_onScroll);
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final topBotoms = List<(int, int, int)>.empty(growable: true);
+      for (int i = 0; i < widget.itemsKeys.length; i++) {
+        final context = widget.itemsKeys[i].currentContext;
+        if (context == null) continue;
+
+        final box = context.findRenderObject() as RenderBox;
+
+        // totalLen +=
+        //     (box.localToGlobal(.zero).dy -
+        //             box.localToGlobal(box.size.bottomRight(.zero)).dy)
+        //         .abs();
+
+        topBotoms.add((
+          box.localToGlobal(.zero).dy.toInt(),
+          box.localToGlobal(box.size.bottomRight(.zero)).dy.toInt(),
+          i + 1,
+        ));
+      }
+      print(
+        '\***\n ${topBotoms.map((e) => '${e.$3} = ${e.$1} ${e.$2}').join(' | ')} \n***\n',
+      );
+    });
     super.initState();
   }
 
   int _onScrollCallCounter = 1;
-  int _prevPixels = 0;
+  double _prevPixels = 0;
   int _prevIndex = 0;
   int _separatorHeight = 11;
   final _toolbarHeight = 60;
-  int _scrollStep = 3;
+  final int _scrollStep = 3;
 
   double _to2(double inputDouble) => (inputDouble * 100).truncate() / 100;
   void p(dynamic s) => print(s);
@@ -167,12 +190,14 @@ class _ScrollLinesState extends State<ScrollLines> {
 
     var nextIndex = 0;
     if (isDown) {
-      nextIndex = min(_prevIndex + _scrollStep, widget.items.length - 1);
-    } else {
       nextIndex = max(0, _prevIndex - _scrollStep);
+    } else {
+      nextIndex = min(_prevIndex + _scrollStep, widget.items.length - 1);
     }
-
+    p('isDown is = ${isDown}');
     double offsetTo = topBotoms[nextIndex].$1.toDouble();
+    // +
+    // byDevPixRatio(_toolbarHeight.toDouble());
 
     _controller.animateTo(
       offsetTo,
@@ -183,13 +208,22 @@ class _ScrollLinesState extends State<ScrollLines> {
     print(
       '\n---\n ${topBotoms.map((e) => '${e.$3} = ${e.$1} ${e.$2}').join(' | ')}',
     );
-    print('*totalLen * ${totalLen}*\n');
-    print(' = atEdge = ${_controller.position.atEdge}');
-    print(' = viewportDimension =  ${_controller.position.viewportDimension}');
-    print(' = pixels = ${_controller.position.pixels}');
-    print(' = minScrollExtent = ${_controller.position.minScrollExtent}');
-    print(' = maxScrollExtent = ${_controller.position.maxScrollExtent}');
-    p('');
+    p('_prevIndex was ${_prevIndex}');
+    setState(() {
+      _prevIndex = nextIndex;
+      _prevPixels = pixels;
+      p('setting prevIndex to');
+    });
+    p('nextIndex is ${nextIndex}');
+
+    p('offsetTo ${offsetTo}');
+    // print('*totalLen * ${totalLen}*\n');
+    // print(' = atEdge = ${_controller.position.atEdge}');
+    // print(' = viewportDimension =  ${_controller.position.viewportDimension}');
+    // print(' = pixels = ${_controller.position.pixels}');
+    // print(' = minScrollExtent = ${_controller.position.minScrollExtent}');
+    // print(' = maxScrollExtent = ${_controller.position.maxScrollExtent}');
+    // p('');
   }
 
   bool _onScrollNotify(ScrollNotification notify) {
@@ -220,6 +254,7 @@ class _ScrollLinesState extends State<ScrollLines> {
     return NotificationListener<ScrollNotification>(
       onNotification: _onScrollNotify,
       child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _controller,
         child: Column(
           crossAxisAlignment: .start,
