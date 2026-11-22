@@ -49,7 +49,7 @@ class _PageTextState extends State<PageText> {
           ],
         ),
       ),
-      body: TextBlock(),
+      body: SafeArea(child: TextBlock()),
       floatingActionButton: Align(
         alignment: .bottomRight,
         child: Text(

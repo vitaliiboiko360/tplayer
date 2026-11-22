@@ -167,8 +167,10 @@ class _ScrollLinesState extends State<ScrollLines> {
     double pixels = _controller.position.pixels;
     double requestedDistance = (_prevPixels - pixels).abs();
 
-    bool isDown = (_prevPixels - pixels) > 0 ? true : false;
+    bool isUp = (_prevPixels - pixels) > 0 ? true : false;
     final topBotoms = List<(int, int, int)>.empty(growable: true);
+
+    _controller.position.correctPixels(0);
 
     for (int i = 0; i < widget.itemsKeys.length; i++) {
       final context = widget.itemsKeys[i].currentContext;
@@ -189,21 +191,24 @@ class _ScrollLinesState extends State<ScrollLines> {
     }
 
     var nextIndex = 0;
-    if (isDown) {
+    if (isUp) {
       nextIndex = max(0, _prevIndex - _scrollStep);
     } else {
       nextIndex = min(_prevIndex + _scrollStep, widget.items.length - 1);
     }
-    p('isDown is = ${isDown}');
-    double offsetTo = topBotoms[nextIndex].$1.toDouble();
+    p('isUp is = ${isUp}');
+    double offsetTo =
+        topBotoms[nextIndex].$1.toDouble() -
+        byDevPixRatio(_toolbarHeight.toDouble());
+    _controller.position.correctPixels(offsetTo);
     // +
     // byDevPixRatio(_toolbarHeight.toDouble());
 
-    _controller.animateTo(
-      offsetTo,
-      duration: Duration(microseconds: 100),
-      curve: Curves.easeOut,
-    );
+    // _controller.animateTo(
+    //   offsetTo,
+    //   duration: Duration(microseconds: 100),
+    //   curve: Curves.easeOut,
+    // );
 
     print(
       '\n---\n ${topBotoms.map((e) => '${e.$3} = ${e.$1} ${e.$2}').join(' | ')}',
@@ -211,7 +216,7 @@ class _ScrollLinesState extends State<ScrollLines> {
     p('_prevIndex was ${_prevIndex}');
     setState(() {
       _prevIndex = nextIndex;
-      _prevPixels = pixels;
+      _prevPixels = offsetTo;
       p('setting prevIndex to');
     });
     p('nextIndex is ${nextIndex}');
@@ -254,7 +259,6 @@ class _ScrollLinesState extends State<ScrollLines> {
     return NotificationListener<ScrollNotification>(
       onNotification: _onScrollNotify,
       child: SingleChildScrollView(
-        physics: const NeverScrollableScrollPhysics(),
         controller: _controller,
         child: Column(
           crossAxisAlignment: .start,
@@ -267,6 +271,17 @@ class _ScrollLinesState extends State<ScrollLines> {
                   widget.items[index],
                   if (index < widget.items.length - 1) DashedDivider(),
                 ],
+              ),
+            )..add(
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  maxHeight: MediaQuery.sizeOf(context).height * 0.5,
+                ),
+                child: Expanded(
+                  child: Container(
+                    color: const Color.fromARGB(255, 230, 235, 240),
+                  ),
+                ),
               ),
             ),
           ],
@@ -300,6 +315,13 @@ class _ScrollLinesState extends State<ScrollLines> {
   void dispose() {
     _controller.removeListener(_onScroll);
     super.dispose();
+  }
+}
+
+class ReciveButIgnoreUsersScrolling extends ScrollPhysics {
+  @override
+  ScrollPhysics applyTo(ScrollPhysics? ancestor) {
+    return this;
   }
 }
 
