@@ -101,8 +101,6 @@ class _ScrollLinesState extends State<ScrollLines> {
   void p(dynamic s) => print(s);
 
   void _onScroll() {
-    var byDevPixRatio = (double input) =>
-        input * MediaQuery.devicePixelRatioOf(context);
     double pixels = _controller.position.pixels;
     bool isUp = (_prevPixels - pixels) > 0 ? true : false;
     final topBotoms = List<(int, int, int)>.empty(growable: true);
@@ -129,8 +127,8 @@ class _ScrollLinesState extends State<ScrollLines> {
     }
 
     double offsetTo =
-        topBotoms[nextIndex].$1.toDouble() -
-        byDevPixRatio(_toolbarHeight.toDouble());
+        topBotoms[nextIndex].$1.toDouble() - _toolbarHeight.toDouble();
+
     _controller.position.correctPixels(offsetTo);
 
     setState(() {
