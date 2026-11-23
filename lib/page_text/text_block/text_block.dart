@@ -6,8 +6,6 @@ import 'package:collection/collection.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/data/domain_models/text_line.dart';
-import 'package:tplayer/page_text/page_text.dart';
-import 'package:tplayer/page_text/text_block/text_block.dart';
 import 'package:tplayer/page_text/text_line/text_line.dart';
 import 'package:tplayer/state/page_text_list_textlines.dart';
 
@@ -56,50 +54,6 @@ class ColumnTextLines extends StatelessWidget {
             .flattened
             .toList();
         return ScrollLines(items: items, itemsKeys: itemsKeys);
-
-        // return Column(
-        //   crossAxisAlignment: .start,
-        //   children: listTextLines
-        //       .mapIndexed((index, element) {
-        //         final numberOfSentences = element.text
-        //             .split(RegExp(r'(?<!\.)\.(?!\.)'))
-        //             .length;
-        //         final sentences = element.text
-        //             .split(RegExp(r'(?<!\.)\.(?!\.)'))
-        //             .mapIndexed((indexInner, elementInner) {
-        //               if (elementInner.isEmpty) {
-        //                 return SizedBox.shrink();
-        //               }
-        //               return Column(
-        //                 crossAxisAlignment: .start,
-        //                 children: [
-        //                   TextLine(
-        //                     line:
-        //                         elementInner +
-        //                         ((indexInner + 1 < numberOfSentences)
-        //                             ? '.'
-        //                             : ''),
-        //                   ),
-        //                   if (index + 1 < listTextLines.length &&
-        //                       indexInner + 1 < numberOfSentences)
-        //                     DashedDivider(
-        //                       color: Colors.grey.shade400,
-
-        //                       // thickness: 1.0, // Actual height of the visible line
-        //                       height: 1.0, // Total vertical space (includes top/bottom padding)
-        //                       // indent: 16.0, // Left spacing
-        //                       // endIndent: 16.0, // Right spacing
-        //                       // radius: BorderRadius.circular(4.0), // Rounded line caps
-        //                     ),
-        //                 ],
-        //               );
-        //             })
-        //             .toList();
-        //         return sentences;
-        //       })
-        //       .flattened
-        //       .toList(),
-        // );
       },
     );
   }
@@ -117,7 +71,6 @@ class ScrollLines extends StatefulWidget {
 
 class _ScrollLinesState extends State<ScrollLines> {
   late final ScrollController _controller;
-  ScrollNotification? _lastNotify;
 
   @override
   void initState() {
@@ -130,43 +83,27 @@ class _ScrollLinesState extends State<ScrollLines> {
         if (context == null) continue;
 
         final box = context.findRenderObject() as RenderBox;
-
-        // totalLen +=
-        //     (box.localToGlobal(.zero).dy -
-        //             box.localToGlobal(box.size.bottomRight(.zero)).dy)
-        //         .abs();
-
         topBotoms.add((
           box.localToGlobal(.zero).dy.toInt(),
           box.localToGlobal(box.size.bottomRight(.zero)).dy.toInt(),
           i + 1,
         ));
       }
-      print(
-        '\***\n ${topBotoms.map((e) => '${e.$3} = ${e.$1} ${e.$2}').join(' | ')} \n***\n',
-      );
     });
     super.initState();
   }
 
-  int _onScrollCallCounter = 1;
   double _prevPixels = 0;
   int _prevIndex = 0;
-  int _separatorHeight = 11;
   final _toolbarHeight = 60;
   final int _scrollStep = 3;
 
-  double _to2(double inputDouble) => (inputDouble * 100).truncate() / 100;
   void p(dynamic s) => print(s);
 
   void _onScroll() {
     var byDevPixRatio = (double input) =>
         input * MediaQuery.devicePixelRatioOf(context);
-
-    double totalLen = 0;
     double pixels = _controller.position.pixels;
-    double requestedDistance = (_prevPixels - pixels).abs();
-
     bool isUp = (_prevPixels - pixels) > 0 ? true : false;
     final topBotoms = List<(int, int, int)>.empty(growable: true);
 
@@ -177,12 +114,6 @@ class _ScrollLinesState extends State<ScrollLines> {
       if (context == null) continue;
 
       final box = context.findRenderObject() as RenderBox;
-
-      totalLen +=
-          (box.localToGlobal(.zero).dy -
-                  box.localToGlobal(box.size.bottomRight(.zero)).dy)
-              .abs();
-
       topBotoms.add((
         box.localToGlobal(.zero).dy.toInt(),
         box.localToGlobal(box.size.bottomRight(.zero)).dy.toInt(),
@@ -196,61 +127,19 @@ class _ScrollLinesState extends State<ScrollLines> {
     } else {
       nextIndex = min(_prevIndex + _scrollStep, widget.items.length - 1);
     }
-    p('isUp is = ${isUp}');
+
     double offsetTo =
         topBotoms[nextIndex].$1.toDouble() -
         byDevPixRatio(_toolbarHeight.toDouble());
     _controller.position.correctPixels(offsetTo);
-    // +
-    // byDevPixRatio(_toolbarHeight.toDouble());
 
-    // _controller.animateTo(
-    //   offsetTo,
-    //   duration: Duration(microseconds: 100),
-    //   curve: Curves.easeOut,
-    // );
-
-    print(
-      '\n---\n ${topBotoms.map((e) => '${e.$3} = ${e.$1} ${e.$2}').join(' | ')}',
-    );
-    p('_prevIndex was ${_prevIndex}');
     setState(() {
       _prevIndex = nextIndex;
       _prevPixels = offsetTo;
-      p('setting prevIndex to');
     });
-    p('nextIndex is ${nextIndex}');
-
-    p('offsetTo ${offsetTo}');
-    // print('*totalLen * ${totalLen}*\n');
-    // print(' = atEdge = ${_controller.position.atEdge}');
-    // print(' = viewportDimension =  ${_controller.position.viewportDimension}');
-    // print(' = pixels = ${_controller.position.pixels}');
-    // print(' = minScrollExtent = ${_controller.position.minScrollExtent}');
-    // print(' = maxScrollExtent = ${_controller.position.maxScrollExtent}');
-    // p('');
   }
 
   bool _onScrollNotify(ScrollNotification notify) {
-    return false;
-    p('-----------------------------------------------');
-    print('notifier');
-    p('atEdge ${notify.metrics.atEdge}');
-    p('viewportDimension ${notify.metrics.viewportDimension}');
-    p('pixels ${notify.metrics.pixels}');
-    p('minScrollExtent ${notify.metrics.minScrollExtent}');
-    p('maxScrollExtent ${notify.metrics.maxScrollExtent}');
-    p('-----------------------------------------------');
-    if (_lastNotify.runtimeType != notify.runtimeType) {
-      if (_lastNotify?.metrics.pixels == notify.metrics.pixels) {
-        print('last equal new');
-        return false;
-      }
-      setState(() {
-        _lastNotify = notify;
-        print('===notify pixels ${notify.metrics.pixels}');
-      });
-    }
     return false;
   }
 
@@ -286,27 +175,6 @@ class _ScrollLinesState extends State<ScrollLines> {
             ),
           ],
         ),
-      ),
-    );
-  }
-
-  @override
-  Widget build2(BuildContext context) {
-    return NotificationListener<ScrollNotification>(
-      onNotification: _onScrollNotify,
-      child: ListView.separated(
-        itemCount: widget.items.length,
-        controller: _controller,
-        physics: NeverScrollableScrollPhysics(),
-        itemBuilder: (BuildContext context, int index) {
-          if (index >= widget.items.length) {
-            return null;
-          }
-          return widget.items[index];
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return DashedDivider();
-        },
       ),
     );
   }
