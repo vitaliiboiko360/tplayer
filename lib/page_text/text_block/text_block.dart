@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:collection/collection.dart';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:tplayer/audio/audio.dart';
 import 'package:tplayer/data/domain_models/text_line.dart';
 import 'package:tplayer/page_text/text_line/text_line.dart';
 import 'package:tplayer/state/page_text_list_textlines.dart';
@@ -14,6 +15,21 @@ class TextBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(child: SizedBox(width: 400, child: ColumnTextLines()));
+  }
+}
+
+class TextBlockWithAudio extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => AudioCubit(),
+      child: Column(
+        children: [
+          Audio('http://192.168.0.23:8081/public/mp3/threepigs.mp3'),
+          TextBlock(),
+        ],
+      ),
+    );
   }
 }
 
