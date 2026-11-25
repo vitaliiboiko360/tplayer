@@ -110,15 +110,17 @@ document.body.appendChild(flutterLoader);
 
 window.addEventListener('load', function (ev) {
   console.log('on load callback called ++ ++ ++');
-          if (flutterLoader) {
-          flutterLoader.remove();
-        }
-        if (style) {
-          style.remove();
-        }
-        document
-          .querySelectorAll('head style')
-          .forEach((styleTag) => styleTag.remove());
+  let flutterLoader = this.document.querySelector('div.flutter-loader1');
+  if (flutterLoader) {
+    flutterLoader.remove();
+  }
+  let style = this.document.querySelector('style');
+  if (style) {
+    style.textContent = '';
+  }
+  // document
+  //   .querySelectorAll('head style')
+  //   .forEach((styleTag) => styleTag.remove());
 });
 
 _flutter.loader.load({
