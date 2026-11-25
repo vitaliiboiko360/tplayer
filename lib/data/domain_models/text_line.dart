@@ -10,16 +10,16 @@ abstract class TextLineDataModel with _$TextLineDataModel {
     required String text,
     @Default(null) int? order,
     @Default(null) int? id,
-    @Default(null) int? audioStart,
-    @Default(null) int? audioEnd,
+    @Default(0.0) double audioStart,
+    @Default(0.0) double audioEnd,
   }) = _TextLineDataModel;
 
   factory TextLineDataModel.fromJson(Map<String, dynamic> json, int? index) {
     return TextLineDataModel(
       text: json['text'] as String,
       order: index,
-      audioStart: json['start'] as int,
-      audioEnd: json['end'] as int,
+      audioStart: json['start'] as double,
+      audioEnd: json['end'] as double,
     );
   }
 }

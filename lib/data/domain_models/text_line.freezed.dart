@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TextLineDataModel {
 
- String get text; int? get order; int? get id; int? get audioStart; int? get audioEnd;
+ String get text; int? get order; int? get id; double get audioStart; double get audioEnd;
 /// Create a copy of TextLineDataModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -51,7 +51,7 @@ abstract mixin class $TextLineDataModelCopyWith<$Res>  {
   factory $TextLineDataModelCopyWith(TextLineDataModel value, $Res Function(TextLineDataModel) _then) = _$TextLineDataModelCopyWithImpl;
 @useResult
 $Res call({
- String text, int? order, int? id, int? audioStart, int? audioEnd
+ String text, int? order, int? id, double audioStart, double audioEnd
 });
 
 
@@ -68,14 +68,14 @@ class _$TextLineDataModelCopyWithImpl<$Res>
 
 /// Create a copy of TextLineDataModel
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? order = freezed,Object? id = freezed,Object? audioStart = freezed,Object? audioEnd = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? text = null,Object? order = freezed,Object? id = freezed,Object? audioStart = null,Object? audioEnd = null,}) {
   return _then(TextLineDataModel(
 text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,audioStart: freezed == audioStart ? _self.audioStart : audioStart // ignore: cast_nullable_to_non_nullable
-as int?,audioEnd: freezed == audioEnd ? _self.audioEnd : audioEnd // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,audioStart: null == audioStart ? _self.audioStart : audioStart // ignore: cast_nullable_to_non_nullable
+as double,audioEnd: null == audioEnd ? _self.audioEnd : audioEnd // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
@@ -160,7 +160,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String text,  int? order,  int? id,  int? audioStart,  int? audioEnd)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String text,  int? order,  int? id,  double audioStart,  double audioEnd)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TextLineDataModel() when $default != null:
 return $default(_that.text,_that.order,_that.id,_that.audioStart,_that.audioEnd);case _:
@@ -181,7 +181,7 @@ return $default(_that.text,_that.order,_that.id,_that.audioStart,_that.audioEnd)
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String text,  int? order,  int? id,  int? audioStart,  int? audioEnd)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String text,  int? order,  int? id,  double audioStart,  double audioEnd)  $default,) {final _that = this;
 switch (_that) {
 case _TextLineDataModel():
 return $default(_that.text,_that.order,_that.id,_that.audioStart,_that.audioEnd);case _:
@@ -201,7 +201,7 @@ return $default(_that.text,_that.order,_that.id,_that.audioStart,_that.audioEnd)
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String text,  int? order,  int? id,  int? audioStart,  int? audioEnd)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String text,  int? order,  int? id,  double audioStart,  double audioEnd)?  $default,) {final _that = this;
 switch (_that) {
 case _TextLineDataModel() when $default != null:
 return $default(_that.text,_that.order,_that.id,_that.audioStart,_that.audioEnd);case _:
@@ -216,14 +216,14 @@ return $default(_that.text,_that.order,_that.id,_that.audioStart,_that.audioEnd)
 
 
 class _TextLineDataModel implements TextLineDataModel {
-  const _TextLineDataModel({required this.text, this.order = null, this.id = null, this.audioStart = null, this.audioEnd = null});
+  const _TextLineDataModel({required this.text, this.order = null, this.id = null, this.audioStart = 0.0, this.audioEnd = 0.0});
   
 
 @override final  String text;
 @override@JsonKey() final  int? order;
 @override@JsonKey() final  int? id;
-@override@JsonKey() final  int? audioStart;
-@override@JsonKey() final  int? audioEnd;
+@override@JsonKey() final  double audioStart;
+@override@JsonKey() final  double audioEnd;
 
 /// Create a copy of TextLineDataModel
 /// with the given fields replaced by the non-null parameter values.
@@ -257,7 +257,7 @@ abstract mixin class _$TextLineDataModelCopyWith<$Res> implements $TextLineDataM
   factory _$TextLineDataModelCopyWith(_TextLineDataModel value, $Res Function(_TextLineDataModel) _then) = __$TextLineDataModelCopyWithImpl;
 @override @useResult
 $Res call({
- String text, int? order, int? id, int? audioStart, int? audioEnd
+ String text, int? order, int? id, double audioStart, double audioEnd
 });
 
 
@@ -274,14 +274,14 @@ class __$TextLineDataModelCopyWithImpl<$Res>
 
 /// Create a copy of TextLineDataModel
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? order = freezed,Object? id = freezed,Object? audioStart = freezed,Object? audioEnd = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? text = null,Object? order = freezed,Object? id = freezed,Object? audioStart = null,Object? audioEnd = null,}) {
   return _then(_TextLineDataModel(
 text: null == text ? _self.text : text // ignore: cast_nullable_to_non_nullable
 as String,order: freezed == order ? _self.order : order // ignore: cast_nullable_to_non_nullable
 as int?,id: freezed == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int?,audioStart: freezed == audioStart ? _self.audioStart : audioStart // ignore: cast_nullable_to_non_nullable
-as int?,audioEnd: freezed == audioEnd ? _self.audioEnd : audioEnd // ignore: cast_nullable_to_non_nullable
-as int?,
+as int?,audioStart: null == audioStart ? _self.audioStart : audioStart // ignore: cast_nullable_to_non_nullable
+as double,audioEnd: null == audioEnd ? _self.audioEnd : audioEnd // ignore: cast_nullable_to_non_nullable
+as double,
   ));
 }
 
