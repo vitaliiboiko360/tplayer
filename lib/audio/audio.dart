@@ -44,7 +44,7 @@ class AudioState extends State<Audio> with WidgetsBindingObserver {
   StreamSubscription<Duration>? _endTimePositionListener;
 
   int _getDecimalDigitsOrZero(double inputNumber) {
-    List<String> numParts = inputNumber.toString().split('.');
+    List<String> numParts = inputNumber.toStringAsFixed(3).split('.');
     if (numParts.length < 2) return 0;
     return int.tryParse(numParts[1]) ?? 0;
   }
