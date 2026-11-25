@@ -23,13 +23,12 @@ class TextBlockWithAudio extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AudioCubit(),
-      child: TextBlock(),
-      // Wrap(
-      //   children: [
-      //     // Audio('http://192.168.0.23:8081/public/mp3/threepigs.mp3'),
-      //     TextBlock(),
-      //   ],
-      // ),
+      child: Stack(
+        children: [
+          Audio('http://192.168.0.23:8081/public/mp3/threepigs.mp3'),
+          TextBlock(),
+        ],
+      ),
     );
   }
 }
