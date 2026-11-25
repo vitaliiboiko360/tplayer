@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:flutter/material.dart';
@@ -21,8 +23,14 @@ class AudioState extends State<Audio> with WidgetsBindingObserver {
     });
 
     try {
-      await _player.setAudioSource(AudioSource.uri(Uri.parse(widget.uri)));
+      await _player.setAudioSource(
+        AudioSource.uri(Uri.parse(widget.uri)),
+        initialIndex: 0,
+        initialPosition: Duration.zero,
+      );
     } on PlayerException catch (e) {
+      print(e);
+    } on IndexError catch (e) {
       print(e);
     }
   }
@@ -33,6 +41,14 @@ class AudioState extends State<Audio> with WidgetsBindingObserver {
     super.initState();
   }
 
+  StreamSubscription<Duration>? _endTimePositionListener;
+
+  int _getDecimalDigitsOrZero(double inputNumber) {
+    List<String> numParts = inputNumber.toString().split('.');
+    if (numParts.length < 2) return 0;
+    return int.tryParse(numParts[1]) ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
     final startTime = BlocProvider.of<AudioCubit>(context).state.startTime;
@@ -41,9 +57,21 @@ class AudioState extends State<Audio> with WidgetsBindingObserver {
     _player.seek(
       Duration(
         seconds: startTime.truncate(),
-        milliseconds: int.tryParse(startTime.toString().split('.')[1]) ?? 0,
+        milliseconds: _getDecimalDigitsOrZero(startTime),
       ),
     );
+    _endTimePositionListener?.cancel();
+    _endTimePositionListener = _player.positionStream.listen((
+      Duration currentPosition,
+    ) {
+      if (currentPosition >=
+          Duration(
+            seconds: endTime.truncate(),
+            milliseconds: _getDecimalDigitsOrZero(endTime),
+          )) {
+        _player.pause();
+      }
+    });
 
     if (BlocProvider.of<AudioCubit>(context).state.isPlaying) {
       _player.play();
