@@ -61,6 +61,16 @@ class ColumnTextLines extends StatelessWidget {
                           '${scrollIndex}: ' +
                           elementInner +
                           ((indexInner + 1 < numberOfSentences) ? '.' : ''),
+                      onClickAudioTime: () {
+                        AudioCubit audioCubit = BlocProvider.of<AudioCubit>(
+                          context,
+                        );
+                        audioCubit.setTime(
+                          element.audioStart,
+                          element.audioEnd,
+                        );
+                        audioCubit.play();
+                      },
                     );
                   })
                   .where((e) => e != null)

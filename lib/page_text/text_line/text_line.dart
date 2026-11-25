@@ -3,8 +3,9 @@ import 'package:tplayer/page_text/page_text.dart';
 import 'package:tplayer/page_text/text_line/text_line.dart';
 
 class TextLine extends StatelessWidget {
-  TextLine({super.key, required this.line});
+  TextLine({super.key, required this.line, this.onClickAudioTime});
   final String line;
+  Function? onClickAudioTime;
   List<Word> words = [];
 
   onClick() {
@@ -18,6 +19,7 @@ class TextLine extends StatelessWidget {
         });
       }
     }
+    if (onClickAudioTime != null) onClickAudioTime!();
   }
 
   resetAnimation() {
