@@ -23,12 +23,13 @@ class TextBlockWithAudio extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (context) => AudioCubit(),
-      child: Column(
-        children: [
-          Audio('http://192.168.0.23:8081/public/mp3/threepigs.mp3'),
-          TextBlock(),
-        ],
-      ),
+      child: TextBlock(),
+      // Wrap(
+      //   children: [
+      //     // Audio('http://192.168.0.23:8081/public/mp3/threepigs.mp3'),
+      //     TextBlock(),
+      //   ],
+      // ),
     );
   }
 }
@@ -40,9 +41,10 @@ class ColumnTextLines extends StatelessWidget {
     return BlocBuilder<TextPageLinesViewModel, List<TextLineDataModel>>(
       builder: (context, listTextLines) {
         List<GlobalKey> itemsKeys = List<GlobalKey>.empty(growable: true);
-        int scrollIndex = 1;
+        int scrollIndex = 0;
         List<Widget> items = listTextLines
             .mapIndexed((index, element) {
+              scrollIndex++;
               final numberOfSentences = element.text
                   .split(RegExp(r'(?<!\.)\.(?!\.)'))
                   .length;
@@ -57,7 +59,7 @@ class ColumnTextLines extends StatelessWidget {
                     return TextLine(
                       key: itemKey,
                       line:
-                          '${scrollIndex++}: ' +
+                          '${scrollIndex}: ' +
                           elementInner +
                           ((indexInner + 1 < numberOfSentences) ? '.' : ''),
                     );
@@ -178,12 +180,11 @@ class _ScrollLinesState extends State<ScrollLines> {
             )..add(
               ConstrainedBox(
                 constraints: BoxConstraints(
+                  minHeight: 0,
                   maxHeight: MediaQuery.sizeOf(context).height * 0.5,
                 ),
-                child: Expanded(
-                  child: Container(
-                    color: const Color.fromARGB(255, 230, 235, 240),
-                  ),
+                child: Container(
+                  color: const Color.fromARGB(255, 230, 235, 240),
                 ),
               ),
             ),
