@@ -30,8 +30,6 @@ class AudioState extends State<Audio> with WidgetsBindingObserver {
       );
     } on PlayerException catch (e) {
       print(e);
-    } on IndexError catch (e) {
-      print(e);
     }
   }
 
@@ -51,8 +49,9 @@ class AudioState extends State<Audio> with WidgetsBindingObserver {
 
   @override
   Widget build(BuildContext context) {
-    final startTime = BlocProvider.of<AudioCubit>(context).state.startTime;
-    final endTime = BlocProvider.of<AudioCubit>(context).state.endTime;
+    final audioCubit = BlocProvider.of<AudioCubit>(context, listen: true);
+    final startTime = audioCubit.state.startTime;
+    final endTime = audioCubit.state.endTime;
 
     _player.seek(
       Duration(
@@ -72,12 +71,12 @@ class AudioState extends State<Audio> with WidgetsBindingObserver {
         _player.pause();
       }
     });
-
-    if (BlocProvider.of<AudioCubit>(context).state.isPlaying) {
+    if (audioCubit.state.isPlaying) {
       _player.play();
     } else {
       _player.pause();
     }
+    print(audioCubit.toString());
 
     return SizedBox.shrink();
   }
@@ -106,4 +105,9 @@ class AudioCubit extends Cubit<AudioCubitState> {
   void setEndTime(double endTime) => emit(state.copyWith(endTime: endTime));
   void setTime(double startTime, double endTime) =>
       emit(state.copyWith(startTime: startTime, endTime: endTime));
+
+  @override
+  String toString() {
+    return 'isPlaying ${state.isPlaying} startTime ${state.startTime} endTime ${state.endTime}';
+  }
 }
