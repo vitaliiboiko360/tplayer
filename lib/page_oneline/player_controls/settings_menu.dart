@@ -7,7 +7,7 @@ import 'package:tplayer/page_oneline/player_controls/player_controls.dart';
 import 'package:tplayer/page_oneline/player_controls/settings_menu.dart';
 import 'package:tplayer/page_oneline/round_background/round_background.dart';
 import 'package:tplayer/page_oneline/text_block/text_block.dart';
-import 'package:tplayer/state/settings_menu.dart';
+import 'package:tplayer/state_bloc/settings_menu.dart';
 
 const boxShadowRadius = 5;
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/page_oneline/player_controls/settings_menu.dart';
-import 'package:tplayer/state/settings_menu.dart';
+import 'package:tplayer/state_bloc/settings_menu.dart';
 import 'package:tplayer/ui/button_animated.dart';
 
 const double settingsButtonDefaultHeight = 50;

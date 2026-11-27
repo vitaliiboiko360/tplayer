@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:tplayer/data/domain_models/text_line.dart';
 import 'package:tplayer/page_text/text_block/text_block.dart';
 import 'package:tplayer/page_text/text_line/text_line.dart';
-import 'package:tplayer/state/page_text_list_textlines.dart';
+import 'package:tplayer/state_bloc/page_text_list_textlines.dart';
 
 class PageText extends StatefulWidget {
   const PageText({super.key});

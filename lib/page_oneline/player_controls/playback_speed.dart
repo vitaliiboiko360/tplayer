@@ -2,7 +2,7 @@ import 'package:defer_pointer/defer_pointer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/page_oneline/player_controls/player_controls.dart';
-import 'package:tplayer/state/playback_speed_slider.dart';
+import 'package:tplayer/state_bloc/playback_speed_slider.dart';
 import 'package:tplayer/ui/button_animated.dart';
 import 'package:flutter/services.dart';
 

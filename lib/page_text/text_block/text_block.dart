@@ -8,7 +8,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:tplayer/audio/audio.dart';
 import 'package:tplayer/data/domain_models/text_line.dart';
 import 'package:tplayer/page_text/text_line/text_line.dart';
-import 'package:tplayer/state/page_text_list_textlines.dart';
+import 'package:tplayer/state_bloc/page_text_list_textlines.dart';
 
 class TextBlock extends StatelessWidget {
   const TextBlock({super.key});

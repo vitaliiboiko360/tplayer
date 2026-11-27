@@ -7,7 +7,9 @@ import 'package:tplayer/data/services/content_client.dart';
 import 'package:tplayer/page_home/home.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/page_text/page_text.dart';
-import 'package:tplayer/state/page_text_list_textlines.dart';
+import 'package:tplayer/page_text_catalog/catalog/catalog.dart';
+import 'package:tplayer/page_text_catalog/page_text_catalog.dart';
+import 'package:tplayer/state_bloc/page_text_list_textlines.dart';
 
 final GoRouter router = GoRouter(
   errorBuilder: (BuildContext context, GoRouterState state) {
