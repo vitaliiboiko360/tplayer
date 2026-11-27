@@ -123,10 +123,14 @@ class ContentClientService {
     final Map<String, dynamic> jsonOutput;
     try {
       jsonOutput = jsonDecode(listOfStories);
+      print('after jsonDecode before return');
       return Result.ok(
-        jsonOutput['texts'].map((e) => TextTitleDataModel.fromJson(e)).toList(),
+        (jsonOutput['texts'] as List<dynamic>)
+            .map((e) => TextTitleDataModel.fromJson(e))
+            .toList(),
       );
     } on Exception catch (e) {
+      print('fail $e');
       return Result.error(e);
     }
   }

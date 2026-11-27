@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'text_title.freezed.dart';
 
-part 'text_title.g.dart';
+// part 'text_title.g.dart';
 
 @freezed
 abstract class TextTitleDataModel with _$TextTitleDataModel {
@@ -13,6 +13,7 @@ abstract class TextTitleDataModel with _$TextTitleDataModel {
     @Default(null) DateTime? dateAdded,
   }) = _TextTitleDataModel;
 
-  factory TextTitleDataModel.fromJson(Map<String, Object?> json) =>
-      _$TextTitleDataModelFromJson(json);
+  factory TextTitleDataModel.fromJson(Map<String, dynamic> json) {
+    return TextTitleDataModel(title: json['title'] as String);
+  }
 }

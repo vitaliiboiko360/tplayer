@@ -12,7 +12,6 @@ part of 'text_title.dart';
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // dart format off
 T _$identity<T>(T value) => value;
-
 /// @nodoc
 mixin _$TextTitleDataModel {
 
@@ -23,8 +22,6 @@ mixin _$TextTitleDataModel {
 @pragma('vm:prefer-inline')
 $TextTitleDataModelCopyWith<TextTitleDataModel> get copyWith => _$TextTitleDataModelCopyWithImpl<TextTitleDataModel>(this as TextTitleDataModel, _$identity);
 
-  /// Serializes this TextTitleDataModel to a JSON map.
-  Map<String, dynamic> toJson();
 
 
 @override
@@ -33,7 +30,7 @@ bool operator ==(Object other) {
   return identical(this, other) || (other.runtimeType == runtimeType&&other is TextTitleDataModel&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode {
   final _this = this as TextTitleDataModel;
@@ -215,11 +212,11 @@ return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
 }
 
 /// @nodoc
-@JsonSerializable()
+
 
 class _TextTitleDataModel implements TextTitleDataModel {
   const _TextTitleDataModel({required this.title, this.description = '', this.id = 0, this.dateAdded = null});
-  factory _TextTitleDataModel.fromJson(Map<String, dynamic> json) => _$TextTitleDataModelFromJson(json);
+  
 
 @override final  String title;
 @override@JsonKey() final  String description;
@@ -232,17 +229,14 @@ class _TextTitleDataModel implements TextTitleDataModel {
 @pragma('vm:prefer-inline')
 _$TextTitleDataModelCopyWith<_TextTitleDataModel> get copyWith => __$TextTitleDataModelCopyWithImpl<_TextTitleDataModel>(this, _$identity);
 
-@override
-Map<String, dynamic> toJson() {
-  return _$TextTitleDataModelToJson(this, );
-}
+
 
 @override
 bool operator ==(Object other) {
     return identical(this, other) || (other.runtimeType == runtimeType&&other is _TextTitleDataModel&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded));
 }
 
-@JsonKey(includeFromJson: false, includeToJson: false)
+
 @override
 int get hashCode {
     return Object.hash(runtimeType,title,description,id,dateAdded);
