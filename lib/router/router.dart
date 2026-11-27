@@ -56,6 +56,12 @@ final GoRouter router = GoRouter(
           },
         ),
         GoRoute(
+          path: 'stories',
+          builder: (BuildContext context, GoRouterState state) {
+            return PageTextCatalog();
+          },
+        ),
+        GoRoute(
           path: 'story',
           builder: (BuildContext context, GoRouterState state) {
             return MultiBlocProvider(
