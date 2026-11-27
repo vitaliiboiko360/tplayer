@@ -29,7 +29,7 @@ class _PageTextCatalogState extends State<PageTextCatalog> {
       //     ],
       //   ),
       // ),
-      body: SafeArea(child: Catalog()),
+      body: Center(child: Catalog()),
       floatingActionButton: Stack(
         children: [
           Align(

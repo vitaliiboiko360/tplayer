@@ -5,13 +5,13 @@ import 'package:tplayer/utils/result.dart';
 
 sealed class TextCatalogEvent {}
 
-final class GetTextTitles extends TextCatalogEvent {}
+final class GetTextTitlesEvent extends TextCatalogEvent {}
 
 class PageTextCatalogListTextsModel
-    extends Bloc<GetTextTitles, List<TextTitleDataModel>> {
+    extends Bloc<GetTextTitlesEvent, List<TextTitleDataModel>> {
   PageTextCatalogListTextsModel(this._contentRepository)
     : super(<TextTitleDataModel>[]) {
-    on<GetTextTitles>((event, emit) async {
+    on<GetTextTitlesEvent>((event, emit) async {
       final Result<List<TextTitleDataModel>> result = await _contentRepository
           .getListAllTextTitleDataModels();
       switch (result) {

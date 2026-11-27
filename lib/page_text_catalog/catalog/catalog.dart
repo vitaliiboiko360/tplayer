@@ -12,11 +12,13 @@ class CatalogState extends State<Catalog> {
   @override
   Widget build(BuildContext context) {
     BlocProvider.of<PageTextCatalogListTextsModel>(context)
-        .add(GetTextTitles());
+        .add(GetTextTitlesEvent());
     return BlocBuilder<PageTextCatalogListTextsModel, List<TextTitleDataModel>>(
-      builder: (BuildContext context, listTextTitles) {
+      builder: (BuildContext context, listTextTitleDataModels) {
         return ListView(
-          children: listTextTitles.map((e) => TextTitle(e.title)).toList(),
+          children: listTextTitleDataModels
+              .map((e) => TextTitle(e.title))
+              .toList(),
         );
       },
     );
