@@ -6,16 +6,17 @@ part of 'text_title.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-_TextTitle _$TextTitleFromJson(Map<String, dynamic> json) => _TextTitle(
-  title: json['title'] as String,
-  description: json['description'] as String? ?? '',
-  id: (json['id'] as num?)?.toInt() ?? 0,
-  dateAdded: json['dateAdded'] == null
-      ? null
-      : DateTime.parse(json['dateAdded'] as String),
-);
+_TextTitleDataModel _$TextTitleDataModelFromJson(Map<String, dynamic> json) =>
+    _TextTitleDataModel(
+      title: json['title'] as String,
+      description: json['description'] as String? ?? '',
+      id: (json['id'] as num?)?.toInt() ?? 0,
+      dateAdded: json['dateAdded'] == null
+          ? null
+          : DateTime.parse(json['dateAdded'] as String),
+    );
 
-Map<String, dynamic> _$TextTitleToJson(_TextTitle instance) =>
+Map<String, dynamic> _$TextTitleDataModelToJson(_TextTitleDataModel instance) =>
     <String, dynamic>{
       'title': instance.title,
       'description': instance.description,

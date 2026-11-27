@@ -64,21 +64,23 @@ class ContentClientService {
     }
   }
 
-  Future<Result<List<TextTitle>>> getListAllTextTitles() async {
+  Future<Result<List<TextTitleDataModel>>> getListAllTextTitles() async {
     const String url = '/cdn/text.json';
     Result<String> rawJson = await getJsonAsRawString(url);
     switch (rawJson) {
       case Ok():
         final jsonOutput = jsonDecode(rawJson.value) as List<dynamic>;
         return Result.ok(
-          jsonOutput.map((element) => TextTitle.fromJson(element)).toList(),
+          jsonOutput
+              .map((element) => TextTitleDataModel.fromJson(element))
+              .toList(),
         );
       case Error():
         return Result.error(rawJson.error);
     }
   }
 
-  Future<Result<List<TextTitle>>> getListAllTextTitles2() async {
+  Future<Result<List<TextTitleDataModel>>> getListAllTextTitles2() async {
     final client = _clientFactory();
     try {
       final request = await client.get(_host, _port, '/cdn/texts.json');
@@ -88,7 +90,7 @@ class ContentClientService {
         final stringData = await response.transform(utf8.decoder).join();
         final json = jsonDecode(stringData) as List<dynamic>;
         return Result.ok(
-          json.map((element) => TextTitle.fromJson(element)).toList(),
+          json.map((element) => TextTitleDataModel.fromJson(element)).toList(),
         );
       } else {
         return const Result.error(HttpException("Invalid response"));
@@ -117,12 +119,12 @@ class ContentClientService {
     }
   }
 
-  Future<Result<List<TextTitle>>> getListTextStories() async {
+  Future<Result<List<TextTitleDataModel>>> getListTextStories() async {
     final Map<String, dynamic> jsonOutput;
     try {
       jsonOutput = jsonDecode(listOfStories);
       return Result.ok(
-        jsonOutput['texts'].map((e) => TextTitle.fromJson(e)).toList(),
+        jsonOutput['texts'].map((e) => TextTitleDataModel.fromJson(e)).toList(),
       );
     } on Exception catch (e) {
       return Result.error(e);

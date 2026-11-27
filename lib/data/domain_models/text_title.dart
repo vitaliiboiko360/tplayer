@@ -5,14 +5,14 @@ part 'text_title.freezed.dart';
 part 'text_title.g.dart';
 
 @freezed
-abstract class TextTitle with _$TextTitle {
-  const factory TextTitle({
+abstract class TextTitleDataModel with _$TextTitleDataModel {
+  const factory TextTitleDataModel({
     required String title,
     @Default('') String description,
     @Default(0) int id,
     @Default(null) DateTime? dateAdded,
-  }) = _TextTitle;
+  }) = _TextTitleDataModel;
 
-  factory TextTitle.fromJson(Map<String, Object?> json) =>
-      _$TextTitleFromJson(json);
+  factory TextTitleDataModel.fromJson(Map<String, Object?> json) =>
+      _$TextTitleDataModelFromJson(json);
 }

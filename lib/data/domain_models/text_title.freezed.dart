@@ -14,44 +14,44 @@ part of 'text_title.dart';
 T _$identity<T>(T value) => value;
 
 /// @nodoc
-mixin _$TextTitle {
+mixin _$TextTitleDataModel {
 
  String get title; String get description; int get id; DateTime? get dateAdded;
-/// Create a copy of TextTitle
+/// Create a copy of TextTitleDataModel
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-$TextTitleCopyWith<TextTitle> get copyWith => _$TextTitleCopyWithImpl<TextTitle>(this as TextTitle, _$identity);
+$TextTitleDataModelCopyWith<TextTitleDataModel> get copyWith => _$TextTitleDataModelCopyWithImpl<TextTitleDataModel>(this as TextTitleDataModel, _$identity);
 
-  /// Serializes this TextTitle to a JSON map.
+  /// Serializes this TextTitleDataModel to a JSON map.
   Map<String, dynamic> toJson();
 
 
 @override
 bool operator ==(Object other) {
-  final _this = this as TextTitle;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TextTitle&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded));
+  final _this = this as TextTitleDataModel;
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TextTitleDataModel&&(identical(other.title, _this.title) || other.title == _this.title)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.dateAdded, _this.dateAdded) || other.dateAdded == _this.dateAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
 @override
 int get hashCode {
-  final _this = this as TextTitle;
+  final _this = this as TextTitleDataModel;
   return Object.hash(runtimeType,_this.title,_this.description,_this.id,_this.dateAdded);
 }
 
 @override
 String toString() {
-  final _this = this as TextTitle;
-  return 'TextTitle(title: ${_this.title}, description: ${_this.description}, id: ${_this.id}, dateAdded: ${_this.dateAdded})';
+  final _this = this as TextTitleDataModel;
+  return 'TextTitleDataModel(title: ${_this.title}, description: ${_this.description}, id: ${_this.id}, dateAdded: ${_this.dateAdded})';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class $TextTitleCopyWith<$Res>  {
-  factory $TextTitleCopyWith(TextTitle value, $Res Function(TextTitle) _then) = _$TextTitleCopyWithImpl;
+abstract mixin class $TextTitleDataModelCopyWith<$Res>  {
+  factory $TextTitleDataModelCopyWith(TextTitleDataModel value, $Res Function(TextTitleDataModel) _then) = _$TextTitleDataModelCopyWithImpl;
 @useResult
 $Res call({
  String title, String description, int id, DateTime? dateAdded
@@ -62,17 +62,17 @@ $Res call({
 
 }
 /// @nodoc
-class _$TextTitleCopyWithImpl<$Res>
-    implements $TextTitleCopyWith<$Res> {
-  _$TextTitleCopyWithImpl(this._self, this._then);
+class _$TextTitleDataModelCopyWithImpl<$Res>
+    implements $TextTitleDataModelCopyWith<$Res> {
+  _$TextTitleDataModelCopyWithImpl(this._self, this._then);
 
-  final TextTitle _self;
-  final $Res Function(TextTitle) _then;
+  final TextTitleDataModel _self;
+  final $Res Function(TextTitleDataModel) _then;
 
-/// Create a copy of TextTitle
+/// Create a copy of TextTitleDataModel
 /// with the given fields replaced by the non-null parameter values.
 @pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? id = null,Object? dateAdded = freezed,}) {
-  return _then(TextTitle(
+  return _then(TextTitleDataModel(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
@@ -84,8 +84,8 @@ as DateTime?,
 }
 
 
-/// Adds pattern-matching-related methods to [TextTitle].
-extension TextTitlePatterns on TextTitle {
+/// Adds pattern-matching-related methods to [TextTitleDataModel].
+extension TextTitleDataModelPatterns on TextTitleDataModel {
 /// A variant of `map` that fallback to returning `orElse`.
 ///
 /// It is equivalent to doing:
@@ -98,10 +98,10 @@ extension TextTitlePatterns on TextTitle {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TextTitle value)?  $default,{required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>(TResult Function( _TextTitleDataModel value)?  $default,{required TResult orElse(),}){
 final _that = this;
 switch (_that) {
-case _TextTitle() when $default != null:
+case _TextTitleDataModel() when $default != null:
 return $default(_that);case _:
   return orElse();
 
@@ -120,10 +120,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TextTitle value)  $default,){
+@optionalTypeArgs TResult map<TResult extends Object?>(TResult Function( _TextTitleDataModel value)  $default,){
 final _that = this;
 switch (_that) {
-case _TextTitle():
+case _TextTitleDataModel():
 return $default(_that);case _:
   throw StateError('Unexpected subclass');
 
@@ -141,10 +141,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TextTitle value)?  $default,){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>(TResult? Function( _TextTitleDataModel value)?  $default,){
 final _that = this;
 switch (_that) {
-case _TextTitle() when $default != null:
+case _TextTitleDataModel() when $default != null:
 return $default(_that);case _:
   return null;
 
@@ -164,7 +164,7 @@ return $default(_that);case _:
 
 @optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  int id,  DateTime? dateAdded)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
-case _TextTitle() when $default != null:
+case _TextTitleDataModel() when $default != null:
 return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
   return orElse();
 
@@ -185,7 +185,7 @@ return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
 
 @optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  int id,  DateTime? dateAdded)  $default,) {final _that = this;
 switch (_that) {
-case _TextTitle():
+case _TextTitleDataModel():
 return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
   throw StateError('Unexpected subclass');
 
@@ -205,7 +205,7 @@ return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
 
 @optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  int id,  DateTime? dateAdded)?  $default,) {final _that = this;
 switch (_that) {
-case _TextTitle() when $default != null:
+case _TextTitleDataModel() when $default != null:
 return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
   return null;
 
@@ -217,29 +217,29 @@ return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
 /// @nodoc
 @JsonSerializable()
 
-class _TextTitle implements TextTitle {
-  const _TextTitle({required this.title, this.description = '', this.id = 0, this.dateAdded = null});
-  factory _TextTitle.fromJson(Map<String, dynamic> json) => _$TextTitleFromJson(json);
+class _TextTitleDataModel implements TextTitleDataModel {
+  const _TextTitleDataModel({required this.title, this.description = '', this.id = 0, this.dateAdded = null});
+  factory _TextTitleDataModel.fromJson(Map<String, dynamic> json) => _$TextTitleDataModelFromJson(json);
 
 @override final  String title;
 @override@JsonKey() final  String description;
 @override@JsonKey() final  int id;
 @override@JsonKey() final  DateTime? dateAdded;
 
-/// Create a copy of TextTitle
+/// Create a copy of TextTitleDataModel
 /// with the given fields replaced by the non-null parameter values.
 @override @JsonKey(includeFromJson: false, includeToJson: false)
 @pragma('vm:prefer-inline')
-_$TextTitleCopyWith<_TextTitle> get copyWith => __$TextTitleCopyWithImpl<_TextTitle>(this, _$identity);
+_$TextTitleDataModelCopyWith<_TextTitleDataModel> get copyWith => __$TextTitleDataModelCopyWithImpl<_TextTitleDataModel>(this, _$identity);
 
 @override
 Map<String, dynamic> toJson() {
-  return _$TextTitleToJson(this, );
+  return _$TextTitleDataModelToJson(this, );
 }
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TextTitle&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _TextTitleDataModel&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description)&&(identical(other.id, id) || other.id == id)&&(identical(other.dateAdded, dateAdded) || other.dateAdded == dateAdded));
 }
 
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -250,15 +250,15 @@ int get hashCode {
 
 @override
 String toString() {
-    return 'TextTitle(title: $title, description: $description, id: $id, dateAdded: $dateAdded)';
+    return 'TextTitleDataModel(title: $title, description: $description, id: $id, dateAdded: $dateAdded)';
 }
 
 
 }
 
 /// @nodoc
-abstract mixin class _$TextTitleCopyWith<$Res> implements $TextTitleCopyWith<$Res> {
-  factory _$TextTitleCopyWith(_TextTitle value, $Res Function(_TextTitle) _then) = __$TextTitleCopyWithImpl;
+abstract mixin class _$TextTitleDataModelCopyWith<$Res> implements $TextTitleDataModelCopyWith<$Res> {
+  factory _$TextTitleDataModelCopyWith(_TextTitleDataModel value, $Res Function(_TextTitleDataModel) _then) = __$TextTitleDataModelCopyWithImpl;
 @override @useResult
 $Res call({
  String title, String description, int id, DateTime? dateAdded
@@ -269,17 +269,17 @@ $Res call({
 
 }
 /// @nodoc
-class __$TextTitleCopyWithImpl<$Res>
-    implements _$TextTitleCopyWith<$Res> {
-  __$TextTitleCopyWithImpl(this._self, this._then);
+class __$TextTitleDataModelCopyWithImpl<$Res>
+    implements _$TextTitleDataModelCopyWith<$Res> {
+  __$TextTitleDataModelCopyWithImpl(this._self, this._then);
 
-  final _TextTitle _self;
-  final $Res Function(_TextTitle) _then;
+  final _TextTitleDataModel _self;
+  final $Res Function(_TextTitleDataModel) _then;
 
-/// Create a copy of TextTitle
+/// Create a copy of TextTitleDataModel
 /// with the given fields replaced by the non-null parameter values.
 @override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? id = null,Object? dateAdded = freezed,}) {
-  return _then(_TextTitle(
+  return _then(_TextTitleDataModel(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
