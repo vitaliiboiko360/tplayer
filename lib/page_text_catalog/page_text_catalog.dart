@@ -15,21 +15,22 @@ class _PageTextCatalogState extends State<PageTextCatalog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // appBar: AppBar(
-      //   // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-      //   centerTitle: true,
-      //   forceMaterialTransparency: true,
-      //   toolbarHeight: 60,
-      //   title: Row(
-      //     mainAxisAlignment: .center,
-      //     spacing: 10,
-      //     children: [
-      //       Text('Name of the story'),
-      //       Padding(padding: .directional(start: 50), child: SizedBox.shrink()),
-      //     ],
-      //   ),
-      // ),
-      body: Center(child: Catalog()),
+      appBar: AppBar(
+        // backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        centerTitle: true,
+        forceMaterialTransparency: true,
+        toolbarHeight: 60,
+        automaticallyImplyLeading: false,
+        title: Row(
+          mainAxisAlignment: .center,
+          spacing: 10,
+          children: [
+            Text('Story Lessons'),
+            // Padding(padding: .directional(start: 0), child: SizedBox.shrink()),
+          ],
+        ),
+      ),
+      body: Catalog(),
       floatingActionButton: Stack(
         children: [
           Align(

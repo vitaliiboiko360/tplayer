@@ -17,7 +17,7 @@ class CatalogState extends State<Catalog> {
       builder: (BuildContext context, listTextTitleDataModels) {
         return ListView(
           children: listTextTitleDataModels
-              .map((e) => TextTitle(e.title))
+              .map((e) => Center(child: TextTitle(e.title)))
               .toList(),
         );
       },
