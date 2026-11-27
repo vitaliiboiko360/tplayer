@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:tplayer/app/details_screen.dart';
 import 'package:tplayer/data/repositories/content_repository.dart';
-import 'package:tplayer/data/services/content_client.dart';
 import 'package:tplayer/page_home/home.dart';
 import 'package:tplayer/page_oneline/page_oneline.dart';
 import 'package:tplayer/page_text/page_text.dart';
-import 'package:tplayer/page_text_catalog/catalog/catalog.dart';
 import 'package:tplayer/page_text_catalog/page_text_catalog.dart';
+import 'package:tplayer/state_bloc/page_text_catalog_list_texts.dart';
 import 'package:tplayer/state_bloc/page_text_list_textlines.dart';
 
 final GoRouter router = GoRouter(
@@ -58,29 +57,26 @@ final GoRouter router = GoRouter(
         GoRoute(
           path: 'stories',
           builder: (BuildContext context, GoRouterState state) {
-            return PageTextCatalog();
+            return BlocProvider(
+              create: (BuildContext context) {
+                return PageTextCatalogListTextsModel(
+                  RepositoryProvider.of<ContentHttpRepository>(context),
+                );
+              },
+              child: PageTextCatalog(),
+            );
           },
         ),
         GoRoute(
           path: 'story',
           builder: (BuildContext context, GoRouterState state) {
-            return MultiBlocProvider(
-              providers: [
-                BlocProvider<TextPageLinesViewModel>(
-                  create: (BuildContext context) {
-                    final ContentClientService contentClientService =
-                        ContentClientService();
-                    final ContentRepository contentRepository =
-                        ContentHttpRepository(
-                          contentClient: contentClientService,
-                        );
-                    return TextPageLinesViewModel.PageTextLinesViewModel(
-                      contentRepository,
-                    );
-                  },
-                ),
-              ],
-              child: const PageText(),
+            return BlocProvider(
+              create: (BuildContext context) {
+                return PageTextListTextLinesViewModel(
+                  RepositoryProvider.of<ContentHttpRepository>(context),
+                );
+              },
+              child: PageText(),
             );
           },
         ),

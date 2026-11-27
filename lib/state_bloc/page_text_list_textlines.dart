@@ -7,9 +7,9 @@ sealed class TextPageLinesEvent {}
 
 final class GetTextPageLines extends TextPageLinesEvent {}
 
-class TextPageLinesViewModel
+class PageTextListTextLinesViewModel
     extends Bloc<TextPageLinesEvent, List<TextLineDataModel>> {
-  TextPageLinesViewModel.PageTextLinesViewModel(this._contentRepository)
+  PageTextListTextLinesViewModel(this._contentRepository)
     : super(<TextLineDataModel>[]) {
     on<GetTextPageLines>((event, emit) async {
       final Result<List<TextLineDataModel>> result = await _contentRepository

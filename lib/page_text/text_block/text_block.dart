@@ -36,8 +36,8 @@ class TextBlockWithAudio extends StatelessWidget {
 class ColumnTextLines extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    context.read<TextPageLinesViewModel>().add(GetTextPageLines());
-    return BlocBuilder<TextPageLinesViewModel, List<TextLineDataModel>>(
+    context.read<PageTextListTextLinesViewModel>().add(GetTextPageLines());
+    return BlocBuilder<PageTextListTextLinesViewModel, List<TextLineDataModel>>(
       builder: (context, listTextLines) {
         List<GlobalKey> itemsKeys = List<GlobalKey>.empty(growable: true);
         int scrollIndex = 0;
