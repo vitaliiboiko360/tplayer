@@ -8,9 +8,9 @@ part 'text_title.g.dart';
 abstract class TextTitle with _$TextTitle {
   const factory TextTitle({
     required String title,
-    required String description,
-    required int id,
-    required DateTime dateAdded,
+    @Default('') String description,
+    @Default(0) int id,
+    @Default(null) DateTime? dateAdded,
   }) = _TextTitle;
 
   factory TextTitle.fromJson(Map<String, Object?> json) =>

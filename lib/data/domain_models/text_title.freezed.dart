@@ -16,7 +16,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TextTitle {
 
- String get title; String get description; int get id; DateTime get dateAdded;
+ String get title; String get description; int get id; DateTime? get dateAdded;
 /// Create a copy of TextTitle
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -54,7 +54,7 @@ abstract mixin class $TextTitleCopyWith<$Res>  {
   factory $TextTitleCopyWith(TextTitle value, $Res Function(TextTitle) _then) = _$TextTitleCopyWithImpl;
 @useResult
 $Res call({
- String title, String description, int id, DateTime dateAdded
+ String title, String description, int id, DateTime? dateAdded
 });
 
 
@@ -71,13 +71,13 @@ class _$TextTitleCopyWithImpl<$Res>
 
 /// Create a copy of TextTitle
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? id = null,Object? dateAdded = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? title = null,Object? description = null,Object? id = null,Object? dateAdded = freezed,}) {
   return _then(TextTitle(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as int,dateAdded: freezed == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 
@@ -162,7 +162,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  int id,  DateTime dateAdded)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String title,  String description,  int id,  DateTime? dateAdded)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TextTitle() when $default != null:
 return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
@@ -183,7 +183,7 @@ return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  int id,  DateTime dateAdded)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String title,  String description,  int id,  DateTime? dateAdded)  $default,) {final _that = this;
 switch (_that) {
 case _TextTitle():
 return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
@@ -203,7 +203,7 @@ return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  int id,  DateTime dateAdded)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String title,  String description,  int id,  DateTime? dateAdded)?  $default,) {final _that = this;
 switch (_that) {
 case _TextTitle() when $default != null:
 return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
@@ -218,13 +218,13 @@ return $default(_that.title,_that.description,_that.id,_that.dateAdded);case _:
 @JsonSerializable()
 
 class _TextTitle implements TextTitle {
-  const _TextTitle({required this.title, required this.description, required this.id, required this.dateAdded});
+  const _TextTitle({required this.title, this.description = '', this.id = 0, this.dateAdded = null});
   factory _TextTitle.fromJson(Map<String, dynamic> json) => _$TextTitleFromJson(json);
 
 @override final  String title;
-@override final  String description;
-@override final  int id;
-@override final  DateTime dateAdded;
+@override@JsonKey() final  String description;
+@override@JsonKey() final  int id;
+@override@JsonKey() final  DateTime? dateAdded;
 
 /// Create a copy of TextTitle
 /// with the given fields replaced by the non-null parameter values.
@@ -261,7 +261,7 @@ abstract mixin class _$TextTitleCopyWith<$Res> implements $TextTitleCopyWith<$Re
   factory _$TextTitleCopyWith(_TextTitle value, $Res Function(_TextTitle) _then) = __$TextTitleCopyWithImpl;
 @override @useResult
 $Res call({
- String title, String description, int id, DateTime dateAdded
+ String title, String description, int id, DateTime? dateAdded
 });
 
 
@@ -278,13 +278,13 @@ class __$TextTitleCopyWithImpl<$Res>
 
 /// Create a copy of TextTitle
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? id = null,Object? dateAdded = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = null,Object? id = null,Object? dateAdded = freezed,}) {
   return _then(_TextTitle(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
 as String,id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
-as int,dateAdded: null == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
-as DateTime,
+as int,dateAdded: freezed == dateAdded ? _self.dateAdded : dateAdded // ignore: cast_nullable_to_non_nullable
+as DateTime?,
   ));
 }
 

@@ -8,9 +8,11 @@ part of 'text_title.dart';
 
 _TextTitle _$TextTitleFromJson(Map<String, dynamic> json) => _TextTitle(
   title: json['title'] as String,
-  description: json['description'] as String,
-  id: (json['id'] as num).toInt(),
-  dateAdded: DateTime.parse(json['dateAdded'] as String),
+  description: json['description'] as String? ?? '',
+  id: (json['id'] as num?)?.toInt() ?? 0,
+  dateAdded: json['dateAdded'] == null
+      ? null
+      : DateTime.parse(json['dateAdded'] as String),
 );
 
 Map<String, dynamic> _$TextTitleToJson(_TextTitle instance) =>
@@ -18,5 +20,5 @@ Map<String, dynamic> _$TextTitleToJson(_TextTitle instance) =>
       'title': instance.title,
       'description': instance.description,
       'id': instance.id,
-      'dateAdded': instance.dateAdded.toIso8601String(),
+      'dateAdded': instance.dateAdded?.toIso8601String(),
     };
