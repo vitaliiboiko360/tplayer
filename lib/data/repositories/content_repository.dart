@@ -5,6 +5,7 @@ import 'package:tplayer/utils/result.dart';
 
 abstract class ContentRepository {
   Future<Result<List<TextTitle>>> getListAllTextTitles();
+  Future<Result<List<TextTitle>>> getListAllTextTitles2();
   Future<Result<List<TextLineDataModel>>> getListTextLines();
 }
 
@@ -18,6 +19,19 @@ class ContentHttpRepository implements ContentRepository {
 
   @override
   Future<Result<List<TextTitle>>> getListAllTextTitles() async {
+    if (_cachedAllTextTitles == null) {
+      final result = await _contentClient.getListTextStories();
+      if (result is Ok<List<TextTitle>>) {
+        _cachedAllTextTitles = result.value;
+      }
+      return result;
+    } else {
+      return Result.ok(_cachedAllTextTitles!);
+    }
+  }
+
+  @override
+  Future<Result<List<TextTitle>>> getListAllTextTitles2() async {
     if (_cachedAllTextTitles == null) {
       final result = await _contentClient.getListAllTextTitles();
       if (result is Ok<List<TextTitle>>) {

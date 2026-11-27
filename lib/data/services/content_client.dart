@@ -102,7 +102,6 @@ class ContentClientService {
 
   Future<Result<List<TextLineDataModel>>> getListTextLines() async {
     final List<dynamic> jsonOutput;
-    String test = '[{"text":"test","start":0,"end":10}]';
     try {
       jsonOutput = jsonDecode(losTresSerditos);
       int index = 0;
@@ -114,6 +113,18 @@ class ContentClientService {
     } on Exception catch (e, stackTrace) {
       print('fail $e');
       print(stackTrace.toString());
+      return Result.error(e);
+    }
+  }
+
+  Future<Result<List<TextTitle>>> getListTextStories() async {
+    final Map<String, dynamic> jsonOutput;
+    try {
+      jsonOutput = jsonDecode(listOfStories);
+      return Result.ok(
+        jsonOutput['texts'].map((e) => TextTitle.fromJson(e)).toList(),
+      );
+    } on Exception catch (e) {
       return Result.error(e);
     }
   }
